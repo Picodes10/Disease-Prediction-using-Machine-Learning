@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Stroke Risk Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        form {
+            margin: auto;
+            width: 50%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input {
+            width: calc(100% - 16px);
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2 class='container-heading'><span class="heading_font">Stroke Risk Prediction</span></h2>
+    </div>
+
+    <div class="container-fluid">
+        <div class="col-lg-12">
+            <form action="{{ url_for('result') }}" method="post">
+                <br>
+                <br>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <label for="gender">Gender</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8">
+                            <input type="text" class="form-control" id="gender" name="gender" placeholder="Gender">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <label for="age">Age</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8">
+                            <input type="text" class="form-control" id="age" name="age" placeholder="Enter your Age">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <label for="hypertension">Hypertension</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8">
+                            <input type="text" class="form-control" id="hypertension" name="hypertension" placeholder="1 for Yes, 0 for No">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <label for="heart_disease">Heart Disease</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8">
+                            <input type="text" class="form-control" id="heart_disease" name="heart_disease" placeholder="1 for Yes, 0 for No">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <label for="ever_married">Ever Married</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8">
+                            <input type="text" class="form-control" id="ever_married" name="ever_married" placeholder="1 for Yes, 0 for No">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <label for="work_type">Work Type</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8">
+                            <input type="text" class="form-control" id="work_type" name="work_type" placeholder="0 for Govn Job, 1 for Never_worked, 2 for Private, 3 for Self-employed, 4 for Children">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <label for="Residence_type">Residence Type</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8">
+                            <input type="text" class="form-control" id="Residence_type" name="Residence_type" placeholder="For Urban 1, for Rural 0">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <label for="avg_glucose_level">Avg Glucose Level</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8">
+                            <input type="text" class="form-control" id="avg_glucose_level" name="avg_glucose_level" placeholder="Avg Glucose Level">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <label for="bmi">BMI</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8">
+                            <input type="text" class="form-control" id="bmi" name="bmi" placeholder="BMI">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <label for="smoking_status">Smoking Status</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8">
+                            <input type="text" class="form-control" id="smoking_status" name="smoking_status" placeholder="0 for Unknown, 1 for Formerly Smoked, 2 for Never Smoked, 3 for Smokes">
+                        </div>
+                    </div>
+                    <br>
+                    <center>
+                        <button type="submit" class="btn btn-dark" value="submit">Submit</button>
+                    </center>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
