@@ -1,16 +1,18 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, Blueprint
 import joblib
 import os
 import  numpy as np
 import pickle
 
+stroke_bp = Blueprint('stroke', __name__, template_folder='templates')
+
 app= Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template("home.html")
+    return render_template("risk.html")
 
-@app.route("/result",methods=['POST','GET'])
+@app.route("/result",methods=['POST'])
 def result():
     gender=int(request.form['gender'])
     age=int(request.form['age'])

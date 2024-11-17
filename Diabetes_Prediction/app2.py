@@ -1,18 +1,20 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, Blueprint
 import pickle
 import numpy as np
+
+diabetes_bp = Blueprint('diabetes', __name__, template_folder='templates')
 
 # Initialize Flask app
 app = Flask(__name__)
 
 # Load the pre-trained model
-with open('model2.pkl', 'rb') as file:
+with open(r'C:\Users\DELL\Disease-Prediction-using-Machine-Learning\Diabetes_Prediction\model2.pkl', 'rb') as file:
     model = pickle.load(file)
 
 # Define routes
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('diabetes.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():

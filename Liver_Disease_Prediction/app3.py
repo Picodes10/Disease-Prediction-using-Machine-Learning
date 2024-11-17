@@ -1,14 +1,15 @@
-from flask import Flask, render_template, request
-import numpy as np
+from flask import Flask, request, render_template, Blueprint
 import pickle
+import numpy as np
 
+liver_bp = Blueprint('liver', __name__, template_folder='templates')
 
 app = Flask(__name__)
-model = pickle.load(open('Liver2.pkl', 'rb'))
+model = pickle.load(open(r'C:\Users\DELL\Disease-Prediction-using-Machine-Learning\Liver_Disease_Prediction\Liver2.pkl', 'rb'))
 
-@app.route('/',methods=['GET'])
+@app.route('/')
 def Home():
-    return render_template('index.html')
+    return render_template('liver_disease.html')
 
 @app.route("/predict", methods=['POST'])
 def predict():

@@ -1,15 +1,19 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, request, render_template, Blueprint
 import joblib
+import pickle
+import numpy as np
+
+parkinson_bp = Blueprint('parkinson', __name__, template_folder='templates')
 
 app = Flask(__name__)
 
 # Load the trained model
-model = joblib.load('model1.pkl')
+model = joblib.load(r'C:\Users\DELL\Disease-Prediction-using-Machine-Learning\Parkinson_Disease\model1.pkl')
 
 # Home route
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('parkinsson.html')
 
 # Prediction route
 @app.route('/predict', methods=['POST'])

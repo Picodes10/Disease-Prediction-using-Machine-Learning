@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liver Prediction Model</title>
     <style>
         body {
@@ -47,7 +48,7 @@
     </div>
 
     <div class="ml-container">
-        <form action="{{ url_for('predict') }}" method="POST">
+        <form action="/predict" method="POST">
             <h3>Age</h3>
             <input id="first" name="Age" placeholder="in Year" required="required">
             
@@ -75,9 +76,7 @@
             <h3>Albumin and Globulin Ratio</h3>
             <input id="ninth" name="Albumin_and_Globulin_Ratio" placeholder="Albumin and Globulin Ratio" required="required">
     
-            <br>
             <button id="sub" type="submit ">Submit</button>
-            <br>
         </form>
     </div>
 </body>

@@ -1,16 +1,18 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, Blueprint
 import pickle
 import numpy as np
+
+heart_bp = Blueprint('heart', __name__, template_folder='templates')
 
 app = Flask(__name__)
 
 # Load the trained model
-model = pickle.load(open("model.pkl", "rb"))
+model = pickle.load(open(r'C:\Users\DELL\Disease-Prediction-using-Machine-Learning\Heart_Disease_Prediction\model.pkl', "rb"))
 
 # Define the home route
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("heart.html")
 
 # Define the prediction route
 @app.route("/predict", methods=["POST"])
