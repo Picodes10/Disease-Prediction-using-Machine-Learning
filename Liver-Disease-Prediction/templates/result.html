@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liver Disease Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #007BFF;
+        }
+        .result {
+            font-size: 1.5em;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .back-btn {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <form action="{{ url_for('predict')}}" method="post">
+            <h2 class='container-heading'><span class="heading_font">Liver Disease Prediction</span></h2>
+
+        <br><br><br><br><br><br><br>
+
+        <!-- Result -->
+		<div class="results">
+			{% if prediction==2 %}
+				<h1><span class='danger'>You have LIVER DISEASE.</span></h1>
+				<img class="gif" src="{{ url_for('static', filename='dr.gif')}}" alt="LIVER Image">
+			{% elif prediction==1 %}
+				<h1><span class='safe'>You DON'T have LIVER DISEASE.</span></h1>
+				<img class="gif1" src="{{ url_for('static', filename='yes.webp')}}" alt="Not LIVER Image">
+			{% endif %}
+		</div>
+        </form>
+
+    </div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</style>
+
+
+</body>
+
+</html>

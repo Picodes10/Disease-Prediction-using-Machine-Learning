@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        form {
+            margin: auto;
+            width: 50%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input {
+            width: calc(100% - 16px);
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Heart Disease Prediction</h1>
+    <form action="/predict" method="POST">
+        <label for="age">Age:</label>
+        <input type="number" step="any" id="age" name="age" required>
+        
+        <label for="sex">Sex (1=Male, 0=Female):</label>
+        <input type="number" step="1" id="sex" name="sex" required>
+        
+        <label for="cp">Chest Pain Type (0-3):</label>
+        <input type="number" step="1" id="cp" name="cp" required>
+        
+        <label for="trestbps">Resting Blood Pressure:</label>
+        <input type="number" step="any" id="trestbps" name="trestbps" required>
+        
+        <label for="chol">Cholesterol Level:</label>
+        <input type="number" step="any" id="chol" name="chol" required>
+        
+        <label for="fbs">Fasting Blood Sugar (1=True, 0=False):</label>
+        <input type="number" step="1" id="fbs" name="fbs" required>
+        
+        <label for="restecg">Resting ECG Results (0-2):</label>
+        <input type="number" step="1" id="restecg" name="restecg" required>
+        
+        <label for="thalach">Maximum Heart Rate Achieved:</label>
+        <input type="number" step="any" id="thalach" name="thalach" required>
+        
+        <label for="exang">Exercise Induced Angina (1=Yes, 0=No):</label>
+        <input type="number" step="1" id="exang" name="exang" required>
+        
+        <label for="oldpeak">ST Depression Induced by Exercise:</label>
+        <input type="number" step="any" id="oldpeak" name="oldpeak" required>
+        
+        <label for="slope">Slope of the Peak Exercise ST Segment (0-2):</label>
+        <input type="number" step="1" id="slope" name="slope" required>
+        
+        <label for="ca">Number of Major Vessels (0-3):</label>
+        <input type="number" step="1" id="ca" name="ca" required>
+        
+        <label for="thal">Thalassemia (0-3):</label>
+        <input type="number" step="1" id="thal" name="thal" required>
+        
+        <button type="submit">Predict</button>
+    </form>
+</body>
+</html>
