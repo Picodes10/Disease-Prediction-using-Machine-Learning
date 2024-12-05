@@ -1,0 +1,36 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+}
+h1 {
+    text-align: center;
+    color: #333;
+}
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+input, button {
+    padding: 10px;
+    font-size: 14px;
+}
+button {
+    grid-column: span 2;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+.result {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+}

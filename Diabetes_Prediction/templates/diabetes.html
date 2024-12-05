@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diabetes Prediction</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('diabetes.static', filename='style.css') }}">
 </head>
 <body>
     <h1>Diabetes Prediction</h1>
-    <form action="/predict" method="post">
+    <form action="diabetes/predict" method="post">
         <label for="Pregnancies">Pregnancies:</label>
         <input type="number" id="Pregnancies" name="Pregnancies" required><br><br>
         
