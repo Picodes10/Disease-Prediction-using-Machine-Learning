@@ -1,0 +1,80 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px 0;
+    border-radius: 8px;
+}
+
+header h1 {
+    font-size: 2.5em;
+}
+
+.container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.container h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #4CAF50;
+}
+
+.container p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+/* Disease options styling */
+.disease-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.disease-option {
+    flex: 1 1 calc(33% - 20px);
+    background-color: #fff;
+    padding: 15px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.disease-option a {
+    text-decoration: none;
+    color: #4CAF50;
+    font-size: 1.2em;
+    font-weight: bold;
+    display: block;
+}
+
+.disease-option:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.disease-option a:hover {
+    color: #333;
+}
