@@ -4,45 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heart Disease Prediction</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-        form {
-            margin: auto;
-            width: 50%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-        }
-        label {
-            display: block;
-            margin-top: 10px;
-        }
-        input {
-            width: calc(100% - 16px);
-            padding: 8px;
-            margin-top: 5px;
-            margin-bottom: 10px;
-        }
-        button {
-            padding: 10px 15px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('heart.static', filename='style.css') }}">
 </head>
 <body>
     <h1>Heart Disease Prediction</h1>
-    <form action="/predict" method="POST">
+    <form action="heart-disease/predict" method="POST">
         <label for="age">Age:</label>
         <input type="number" step="any" id="age" name="age" required>
         

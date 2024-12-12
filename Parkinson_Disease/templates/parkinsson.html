@@ -4,48 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parkinson's Disease Prediction</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        form {
-            max-width: 600px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        input, button {
-            padding: 10px;
-            font-size: 14px;
-        }
-        button {
-            grid-column: span 2;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .result {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 18px;
-            color: #555;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('parkinson.static', filename='style.css') }}">
+
 </head>
 <body>
     <h1>Parkinson's Disease Prediction</h1>
-    <form method="POST" action="/predict">
+    <form method="POST" action="parkinson/predict">
         <!-- Input fields -->
         <input type="text" name="MDVP:Fo(Hz)" placeholder="MDVP:Fo(Hz)" required>
         <input type="text" name="MDVP:Fhi(Hz)" placeholder="MDVP:Fhi(Hz)" required>
