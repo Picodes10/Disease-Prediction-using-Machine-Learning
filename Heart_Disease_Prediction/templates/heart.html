@@ -4,51 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heart Disease Prediction</title>
-    <link rel="stylesheet" href="{{ url_for('heart.static', filename='style.css') }}">
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        form { display: inline-block; text-align: left; }
+        input { margin: 5px; padding: 8px; width: 100%; }
+        button { margin-top: 10px; padding: 10px; cursor: pointer; width: 100%; }
+        .container { max-width: 400px; margin: auto; }
+    </style>
 </head>
 <body>
-    <h1>Heart Disease Prediction</h1>
-    <form action="heart-disease/predict" method="POST">
-        <label for="age">Age:</label>
-        <input type="number" step="any" id="age" name="age" required>
-        
-        <label for="sex">Sex (1=Male, 0=Female):</label>
-        <input type="number" step="1" id="sex" name="sex" required>
-        
-        <label for="cp">Chest Pain Type (0-3):</label>
-        <input type="number" step="1" id="cp" name="cp" required>
-        
-        <label for="trestbps">Resting Blood Pressure:</label>
-        <input type="number" step="any" id="trestbps" name="trestbps" required>
-        
-        <label for="chol">Cholesterol Level:</label>
-        <input type="number" step="any" id="chol" name="chol" required>
-        
-        <label for="fbs">Fasting Blood Sugar (1=True, 0=False):</label>
-        <input type="number" step="1" id="fbs" name="fbs" required>
-        
-        <label for="restecg">Resting ECG Results (0-2):</label>
-        <input type="number" step="1" id="restecg" name="restecg" required>
-        
-        <label for="thalach">Maximum Heart Rate Achieved:</label>
-        <input type="number" step="any" id="thalach" name="thalach" required>
-        
-        <label for="exang">Exercise Induced Angina (1=Yes, 0=No):</label>
-        <input type="number" step="1" id="exang" name="exang" required>
-        
-        <label for="oldpeak">ST Depression Induced by Exercise:</label>
-        <input type="number" step="any" id="oldpeak" name="oldpeak" required>
-        
-        <label for="slope">Slope of the Peak Exercise ST Segment (0-2):</label>
-        <input type="number" step="1" id="slope" name="slope" required>
-        
-        <label for="ca">Number of Major Vessels (0-3):</label>
-        <input type="number" step="1" id="ca" name="ca" required>
-        
-        <label for="thal">Thalassemia (0-3):</label>
-        <input type="number" step="1" id="thal" name="thal" required>
-        
-        <button type="submit">Predict</button>
-    </form>
+    <div class="container">
+        <h2>Heart Disease Prediction</h2>
+        <form method="post">
+            <label>Age:</label>
+            <input type="number" step="any" name="age" required><br>
+            
+            <label>Sex (0 = Female, 1 = Male):</label>
+            <input type="number" step="any" name="sex" required><br>
+            
+            <label>Chest Pain Type (0-3):</label>
+            <input type="number" step="any" name="cp" required><br>
+            
+            <label>Resting Blood Pressure:</label>
+            <input type="number" step="any" name="trestbps" required><br>
+            
+            <label>Cholesterol:</label>
+            <input type="number" step="any" name="chol" required><br>
+            
+            <label>Fasting Blood Sugar (1 = True, 0 = False):</label>
+            <input type="number" step="any" name="fbs" required><br>
+            
+            <label>Resting ECG (0-2):</label>
+            <input type="number" step="any" name="restecg" required><br>
+            
+            <label>Maximum Heart Rate Achieved:</label>
+            <input type="number" step="any" name="thalach" required><br>
+            
+            <label>Exercise-Induced Angina (1 = Yes, 0 = No):</label>
+            <input type="number" step="any" name="exang" required><br>
+            
+            <label>ST Depression Induced by Exercise:</label>
+            <input type="number" step="any" name="oldpeak" required><br>
+            
+            <label>Slope of Peak Exercise ST Segment (0-2):</label>
+            <input type="number" step="any" name="slope" required><br>
+            
+            <label>Number of Major Vessels Colored by Fluoroscopy (0-3):</label>
+            <input type="number" step="any" name="ca" required><br>
+            
+            <label>Thalassemia Type (0-3):</label>
+            <input type="number" step="any" name="thal" required><br>
+            
+            <button type="submit">Predict</button>
+        </form>
+        {% if prediction %}
+            <h3>Prediction: {{ prediction }}</h3>
+        {% endif %}
+    </div>
 </body>
 </html>

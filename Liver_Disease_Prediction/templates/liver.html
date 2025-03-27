@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liver Disease Prediction</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        form { display: inline-block; text-align: left; }
+        input { margin: 5px; padding: 8px; width: 100%; }
+        button { margin-top: 10px; padding: 10px; cursor: pointer; width: 100%; }
+        .container { max-width: 400px; margin: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Liver Disease Prediction</h2>
+        <form method="post">
+            <label>Age:</label>
+            <input type="number" step="any" name="age" required><br>
+            
+            <label>Gender (0 = Female, 1 = Male):</label>
+            <input type="number" step="any" name="gender" required><br>
+            
+            <label>Total Bilirubin:</label>
+            <input type="number" step="any" name="total_bilirubin" required><br>
+            
+            <label>Direct Bilirubin:</label>
+            <input type="number" step="any" name="direct_bilirubin" required><br>
+            
+            <label>Alkaline Phosphotase:</label>
+            <input type="number" step="any" name="alkaline_phosphotase" required><br>
+            
+            <label>Alamine Aminotransferase:</label>
+            <input type="number" step="any" name="alamine_aminotransferase" required><br>
+            
+            <label>Aspartate Aminotransferase:</label>
+            <input type="number" step="any" name="aspartate_aminotransferase" required><br>
+            
+            <label>Total Proteins:</label>
+            <input type="number" step="any" name="total_proteins" required><br>
+            
+            <label>Albumin:</label>
+            <input type="number" step="any" name="albumin" required><br>
+            
+            <label>Albumin-Globulin Ratio:</label>
+            <input type="number" step="any" name="albumin_globulin_ratio" required><br>
+            
+            <button type="submit">Predict</button>
+        </form>
+        {% if prediction %}
+            <h3>Prediction: {{ prediction }}</h3>
+        {% endif %}
+    </div>
+</body>
+</html>

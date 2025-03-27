@@ -1,123 +1,56 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Stroke Risk Prediction</title>
-    <link rel="stylesheet" href="{{ url_for('stroke.static', filename='style.css') }}">
-
-   
-</head>
-
-<body>
-    <div class="container">
-        <h2 class='container-heading'><span class="heading_font">Stroke Risk Prediction</span></h2>
-    </div>
-
-    <div class="container-fluid">
-        <div class="col-lg-12">
-            <form action="stroke-risk/predict" method="POST">
-                <br>
-                <br>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4">
-                            <label for="gender">Gender</label>
-                        </div>
-                        <div class="col-lg-8 col-md-8">
-                            <input type="text" class="form-control" id="gender" name="gender" placeholder="Gender">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4">
-                            <label for="age">Age</label>
-                        </div>
-                        <div class="col-lg-8 col-md-8">
-                            <input type="text" class="form-control" id="age" name="age" placeholder="Enter your Age">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4">
-                            <label for="hypertension">Hypertension</label>
-                        </div>
-                        <div class="col-lg-8 col-md-8">
-                            <input type="text" class="form-control" id="hypertension" name="hypertension" placeholder="1 for Yes, 0 for No">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4">
-                            <label for="heart_disease">Heart Disease</label>
-                        </div>
-                        <div class="col-lg-8 col-md-8">
-                            <input type="text" class="form-control" id="heart_disease" name="heart_disease" placeholder="1 for Yes, 0 for No">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4">
-                            <label for="ever_married">Ever Married</label>
-                        </div>
-                        <div class="col-lg-8 col-md-8">
-                            <input type="text" class="form-control" id="ever_married" name="ever_married" placeholder="1 for Yes, 0 for No">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4">
-                            <label for="work_type">Work Type</label>
-                        </div>
-                        <div class="col-lg-8 col-md-8">
-                            <input type="text" class="form-control" id="work_type" name="work_type" placeholder="0 for Govn Job, 1 for Never_worked, 2 for Private, 3 for Self-employed, 4 for Children">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4">
-                            <label for="Residence_type">Residence Type</label>
-                        </div>
-                        <div class="col-lg-8 col-md-8">
-                            <input type="text" class="form-control" id="Residence_type" name="Residence_type" placeholder="For Urban 1, for Rural 0">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4">
-                            <label for="avg_glucose_level">Avg Glucose Level</label>
-                        </div>
-                        <div class="col-lg-8 col-md-8">
-                            <input type="text" class="form-control" id="avg_glucose_level" name="avg_glucose_level" placeholder="Avg Glucose Level">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4">
-                            <label for="bmi">BMI</label>
-                        </div>
-                        <div class="col-lg-8 col-md-8">
-                            <input type="text" class="form-control" id="bmi" name="bmi" placeholder="BMI">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4">
-                            <label for="smoking_status">Smoking Status</label>
-                        </div>
-                        <div class="col-lg-8 col-md-8">
-                            <input type="text" class="form-control" id="smoking_status" name="smoking_status" placeholder="0 for Unknown, 1 for Formerly Smoked, 2 for Never Smoked, 3 for Smokes">
-                        </div>
-                    </div>
-                    <br>
-                    <center>
-                        <button type="submit" class="btn btn-dark" value="submit">Submit</button>
-                    </center>
-                </div>
-            </form>
-        </div>
-    </div>
-</body>
-
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 50px;
+      }
+      form {
+        display: inline-block;
+        text-align: left;
+      }
+      label,
+      input {
+        display: block;
+        margin: 10px 0;
+      }
+      button {
+        margin-top: 10px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Stroke Risk Prediction</h2>
+    <form method="POST">
+      <label>Age: <input type="number" step="any" name="age" required /></label>
+      <label
+        >Hypertension (1 for Yes, 0 for No):
+        <input type="number" name="hypertension" min="0" max="1" required
+      /></label>
+      <label
+        >Heart Disease (1 for Yes, 0 for No):
+        <input type="number" name="heart_disease" min="0" max="1" required
+      /></label>
+      <label
+        >Average Glucose Level:
+        <input type="number" step="any" name="avg_glucose_level" required
+      /></label>
+      <label>BMI: <input type="number" step="any" name="bmi" required /></label>
+      <label>Gender: <input type="number" name="gender" min="0" max="1" required></label>
+    <label>Smoking Status: <input type="number" name="smoking_status" min="0" max="2" required></label>
+    <label>Residence Type: <input type="number" name="residence_type" min="0" max="1" required></label>
+    <label>Work Type: <input type="number" name="work_type" min="0" max="3" required></label>
+    <label>Marital Status: <input type="number" name="ever_married" min="0" max="1" required></label>
+      <button type="submit">Predict</button>
+    </form>
+    {% if prediction %}
+    <h3>Prediction: {{ prediction }}</h3>
+    {% endif %}
+  </body>
 </html>

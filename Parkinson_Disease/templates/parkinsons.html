@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parkinson's Disease Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        form {
+            display: inline-block;
+            text-align: left;
+        }
+        label, input {
+            display: block;
+            margin: 10px 0;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Parkinson's Disease Prediction</h2>
+    <form method="POST">
+        <label>MDVP:Fo(Hz): <input type="number" step="any" name="mdvp_fo" required></label>
+        <label>MDVP:Fhi(Hz): <input type="number" step="any" name="mdvp_fhi" required></label>
+        <label>MDVP:Flo(Hz): <input type="number" step="any" name="mdvp_flo" required></label>
+        <label>MDVP:Jitter(%): <input type="number" step="any" name="mdvp_jitter" required></label>
+        <label>MDVP:Shimmer: <input type="number" step="any" name="mdvp_shimmer" required></label>
+        <label>HNR: <input type="number" step="any" name="hnr" required></label>
+        <label>RPDE: <input type="number" step="any" name="rpde" required></label>
+        <label>DFA: <input type="number" step="any" name="dfa" required></label>
+        <label>Spread1: <input type="number" step="any" name="spread1" required></label>
+        <label>Spread2: <input type="number" step="any" name="spread2" required></label>
+        <button type="submit">Predict</button>
+    </form>
+    {% if prediction %}
+        <h3>Prediction: {{ prediction }}</h3>
+    {% endif %}
+</body>
+</html>
