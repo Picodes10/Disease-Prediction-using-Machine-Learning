@@ -1,56 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stroke Risk Prediction</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        margin: 50px;
-      }
-      form {
-        display: inline-block;
-        text-align: left;
-      }
-      label,
-      input {
-        display: block;
-        margin: 10px 0;
-      }
-      button {
-        margin-top: 10px;
-        padding: 10px;
-      }
-    </style>
-  </head>
-  <body>
-    <h2>Stroke Risk Prediction</h2>
-    <form method="POST">
-      <label>Age: <input type="number" step="any" name="age" required /></label>
-      <label
-        >Hypertension (1 for Yes, 0 for No):
-        <input type="number" name="hypertension" min="0" max="1" required
-      /></label>
-      <label
-        >Heart Disease (1 for Yes, 0 for No):
-        <input type="number" name="heart_disease" min="0" max="1" required
-      /></label>
-      <label
-        >Average Glucose Level:
-        <input type="number" step="any" name="avg_glucose_level" required
-      /></label>
-      <label>BMI: <input type="number" step="any" name="bmi" required /></label>
-      <label>Gender: <input type="number" name="gender" min="0" max="1" required></label>
-    <label>Smoking Status: <input type="number" name="smoking_status" min="0" max="2" required></label>
-    <label>Residence Type: <input type="number" name="residence_type" min="0" max="1" required></label>
-    <label>Work Type: <input type="number" name="work_type" min="0" max="3" required></label>
-    <label>Marital Status: <input type="number" name="ever_married" min="0" max="1" required></label>
-      <button type="submit">Predict</button>
+</head>
+<body>
+    <h1>Stroke Risk Prediction</h1>
+    <form method="post">
+        <label for="age">Age:</label>
+        <input type="text" name="age" required><br>
+
+        <label for="hypertension">Hypertension (0 or 1):</label>
+        <input type="text" name="hypertension" required><br>
+
+        <label for="heart_disease">Heart Disease (0 or 1):</label>
+        <input type="text" name="heart_disease" required><br>
+
+        <label for="avg_glucose_level">Average Glucose Level:</label>
+        <input type="text" name="avg_glucose_level" required><br>
+
+        <label for="bmi">BMI:</label>
+        <input type="text" name="bmi" required><br>
+
+        <label for="smoking_status">Smoking Status (0,1,2,3):</label>
+        <input type="text" name="smoking_status" required><br>
+
+        <button type="submit">Predict</button>
     </form>
+    
     {% if prediction %}
-    <h3>Prediction: {{ prediction }}</h3>
+        <h2>Prediction: {{ prediction }}</h2>
     {% endif %}
-  </body>
+</body>
 </html>

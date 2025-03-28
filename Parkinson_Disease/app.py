@@ -13,27 +13,28 @@ def index():
     prediction = None
     if request.method == 'POST':
         try:
-            # Extract input values from the form
-            features = [
-                float(request.form['mdvp_fo']),
-                float(request.form['mdvp_fhi']),
-                float(request.form['mdvp_flo']),
-                float(request.form['mdvp_jitter']),
-                float(request.form['mdvp_shimmer']),
-                float(request.form['hnr']),
-                float(request.form['rpde']),
-                float(request.form['dfa']),
-                float(request.form['spread1']),
-                float(request.form['spread2'])
-            ]
-            
+            # Extract and print input values
+            features = []
+            for key in ['mdvp_fo', 'mdvp_fhi', 'mdvp_flo', 'mdvp_jitter', 'mdvp_shimmer', 
+                        'hnr', 'rpde', 'dfa', 'spread1', 'spread2']:
+                value = request.form.get(key, "").strip()
+                print(f"{key}: {value}")  # Debugging line
+                
+                # Validate input
+                if value == "" or not value.replace('.', '', 1).isdigit():
+                    raise ValueError(f"Invalid input for {key}: {value}")
+
+                features.append(float(value))
+
             # Convert to NumPy array and reshape
             features_array = np.array(features).reshape(1, -1)
-            
+
             # Make prediction
             prediction = model.predict(features_array)[0]
             prediction = 'Parkinson’s Disease Detected' if prediction == 1 else 'No Parkinson’s Disease'
-        except:
+        
+        except Exception as e:
+            print("Error:", str(e))  # Debugging line
             prediction = "Invalid input, please enter valid numbers."
     
     return render_template('parkinsons.html', prediction=prediction)
