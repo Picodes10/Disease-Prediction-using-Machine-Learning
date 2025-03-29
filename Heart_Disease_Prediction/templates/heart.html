@@ -8,7 +8,7 @@
         body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
         form { display: inline-block; text-align: left; }
         input { margin: 5px; padding: 8px; width: 100%; }
-        button { margin-top: 10px; padding: 10px; cursor: pointer; width: 100%; }
+        button { margin-top: 10px; padding: 10px; cursor: pointer; width: 100%; background-color: green; color: white; }
         .container { max-width: 400px; margin: auto; }
     </style>
 </head>
@@ -16,7 +16,7 @@
     <div class="container">
         <h2>Heart Disease Prediction</h2>
         <form method="post">
-            <label>Age:</label>
+            <label>Age (Ex: 63, 67):</label>
             <input type="number" step="any" name="age" required><br>
             
             <label>Sex (0 = Female, 1 = Male):</label>
@@ -25,10 +25,10 @@
             <label>Chest Pain Type (0-3):</label>
             <input type="number" step="any" name="cp" required><br>
             
-            <label>Resting Blood Pressure:</label>
+            <label>Resting Blood Pressure (Ex: 145, 160):</label>
             <input type="number" step="any" name="trestbps" required><br>
             
-            <label>Cholesterol:</label>
+            <label>Cholesterol (Ex: 233, 286):</label>
             <input type="number" step="any" name="chol" required><br>
             
             <label>Fasting Blood Sugar (1 = True, 0 = False):</label>
@@ -37,13 +37,13 @@
             <label>Resting ECG (0-2):</label>
             <input type="number" step="any" name="restecg" required><br>
             
-            <label>Maximum Heart Rate Achieved:</label>
+            <label>Maximum Heart Rate Achieved (Ex: 150, 108):</label>
             <input type="number" step="any" name="thalach" required><br>
             
             <label>Exercise-Induced Angina (1 = Yes, 0 = No):</label>
             <input type="number" step="any" name="exang" required><br>
             
-            <label>ST Depression Induced by Exercise:</label>
+            <label>ST Depression Induced by Exercise (Ex: 2.3, 1.5):</label>
             <input type="number" step="any" name="oldpeak" required><br>
             
             <label>Slope of Peak Exercise ST Segment (0-2):</label>
