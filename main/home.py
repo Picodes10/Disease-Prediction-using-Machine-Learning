@@ -25,7 +25,7 @@ app.register_blueprint(stroke_bp, url_prefix='/stroke-risk')
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('HOME.html')
 
 
 if __name__ == "__main__":

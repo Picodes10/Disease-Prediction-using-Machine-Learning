@@ -4,33 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stroke Risk Prediction</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        form { display: inline-block; text-align: left; }
+        input { margin: 5px; padding: 8px; width: 100%; }
+        button { margin-top: 10px; padding: 10px; cursor: pointer; width: 100%; background-color: green; color: white; }
+        .container { max-width: 400px; margin: auto; }
+    </style>
 </head>
 <body>
-    <h1>Stroke Risk Prediction</h1>
-    <form method="post">
-        <label for="age">Age:</label>
-        <input type="text" name="age" required><br>
-
-        <label for="hypertension">Hypertension (0 or 1):</label>
-        <input type="text" name="hypertension" required><br>
-
-        <label for="heart_disease">Heart Disease (0 or 1):</label>
-        <input type="text" name="heart_disease" required><br>
-
-        <label for="avg_glucose_level">Average Glucose Level:</label>
-        <input type="text" name="avg_glucose_level" required><br>
-
-        <label for="bmi">BMI:</label>
-        <input type="text" name="bmi" required><br>
-
-        <label for="smoking_status">Smoking Status (0,1,2,3):</label>
-        <input type="text" name="smoking_status" required><br>
-
-        <button type="submit">Predict</button>
-    </form>
-    
-    {% if prediction %}
-        <h2>Prediction: {{ prediction }}</h2>
-    {% endif %}
+    <div class="container">
+        <h2>Stroke Risk Prediction</h2>
+        <form action="{{ url_for('result') }}" method="post">
+            <label>Gender:</label>
+            <input type="number" name="gender" placeholder="0 for Female, 1 for Male" required>
+            
+            <label>Age:</label>
+            <input type="number" name="age" placeholder="Enter your Age" required>
+            
+            <label>Hypertension:</label>
+            <input type="number" name="hypertension" placeholder="1 for Yes, 0 for No" required>
+            
+            <label>Heart Disease:</label>
+            <input type="number" name="heart_disease" placeholder="1 for Yes, 0 for No" required>
+            
+            <label>Ever Married:</label>
+            <input type="number" name="ever_married" placeholder="1 for Yes, 0 for No" required>
+            
+            <label>Work Type:</label>
+            <input type="number" name="work_type" placeholder="0: Gov Job, 1: Never_worked, 2: Private, 3: Self-employed, 4: Children" required>
+            
+            <label>Residence Type:</label>
+            <input type="number" name="Residence_type" placeholder="1 for Urban, 0 for Rural" required>
+            
+            <label>Avg Glucose Level:</label>
+            <input type="number" step="any" name="avg_glucose_level" placeholder="Enter avg glucose level" required>
+            
+            <label>BMI:</label>
+            <input type="number" step="any" name="bmi" placeholder="Enter BMI" required>
+            
+            <label>Smoking Status:</label>
+            <input type="number" name="smoking_status" placeholder="0: Unknown, 1: Formerly smoked, 2: Never smoked, 3: Smokes" required>
+            
+            <button type="submit">Predict</button>
+        </form>
+    </div>
 </body>
 </html>

@@ -5,38 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parkinson's Disease Prediction</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 50px;
-        }
-        form {
-            display: inline-block;
-            text-align: left;
-        }
-        label, input {
-            display: block;
-            margin: 10px 0;
-        }
-        button {
-            margin-top: 10px;
-            padding: 10px;
-        }
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        form { display: inline-block; text-align: left; }
+        input { margin: 5px; padding: 8px; width: 100%; }
+        button { margin-top: 10px; padding: 10px; cursor: pointer; width: 100%; background-color: green; color: white; }
+        .container { max-width: 400px; margin: auto; }
     </style>
 </head>
 <body>
     <h2>Parkinson's Disease Prediction</h2>
     <form method="POST">
-        <label>MDVP:Fo(Hz): <input type="number" step="any" name="mdvp_fo" required></label>
-        <label>MDVP:Fhi(Hz): <input type="number" step="any" name="mdvp_fhi" required></label>
-        <label>MDVP:Flo(Hz): <input type="number" step="any" name="mdvp_flo" required></label>
-        <label>MDVP:Jitter(%): <input type="number" step="any" name="mdvp_jitter" required></label>
-        <label>MDVP:Shimmer: <input type="number" step="any" name="mdvp_shimmer" required></label>
-        <label>HNR: <input type="number" step="any" name="hnr" required></label>
-        <label>RPDE: <input type="number" step="any" name="rpde" required></label>
-        <label>DFA: <input type="number" step="any" name="dfa" required></label>
-        <label>Spread1: <input type="number" step="any" name="spread1" required></label>
-        <label>Spread2: <input type="number" step="any" name="spread2" required></label>
+        <label>MDVP:Fo(Hz) (Ex: 119.992, 199.228): <input type="number" step="any" name="mdvp_fo" required></label>
+        <label>MDVP:Fhi(Hz) (Ex: 157.302, 209.512): <input type="number" step="any" name="mdvp_fhi" required></label>
+        <label>MDVP:Flo(Hz) (Ex: 74.997, 192.091): <input type="number" step="any" name="mdvp_flo" required></label>
+        <label>MDVP:Jitter(%) (Ex: 0.00784, 0.00241): <input type="number" step="any" name="mdvp_jitter" required></label>
+        <label>MDVP:Shimmer (Ex: 0.04374, 0.01015): <input type="number" step="any" name="mdvp_shimmer" required></label>
+        <label>HNR (Ex: 21.033, 30.94): <input type="number" step="any" name="hnr" required></label>
+        <label>RPDE (Ex: 0.414783, 0.432439): <input type="number" step="any" name="rpde" required></label>
+        <label>DFA (Ex: 0.815285, 0.742055): <input type="number" step="any" name="dfa" required></label>
+        <label>Spread1 (Ex: -4.813031, -7.682587): <input type="number" step="any" name="spread1" required></label>
+        <label>Spread2 (Ex: 0.266482, 0.173319): <input type="number" step="any" name="spread2" required></label>
         <button type="submit">Predict</button>
     </form>
     {% if prediction %}

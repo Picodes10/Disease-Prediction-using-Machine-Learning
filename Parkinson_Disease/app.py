@@ -4,9 +4,12 @@ import numpy as np
 
 app = Flask(__name__)
 
-# Load the trained model
+# Load the trained model and scaler
 with open('model1.pkl', 'rb') as file:
     model = pickle.load(file)
+
+with open('scaler.pkl', 'rb') as file:
+    scaler = pickle.load(file)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -29,8 +32,11 @@ def index():
             # Convert to NumPy array and reshape
             features_array = np.array(features).reshape(1, -1)
 
+            # **Apply Scaling using the same scaler used during training**
+            features_scaled = scaler.transform(features_array)
+
             # Make prediction
-            prediction = model.predict(features_array)[0]
+            prediction = model.predict(features_scaled)[0]
             prediction = 'Parkinson’s Disease Detected' if prediction == 1 else 'No Parkinson’s Disease'
         
         except Exception as e:
