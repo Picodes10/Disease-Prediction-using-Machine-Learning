@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify
+from Alzhimer_Disease_Prediction.app import alzhimer_bp
 from Diabetes_Prediction.app import diabetes_bp
 from Heart_Disease_Prediction.app import heart_bp
 from Liver_Disease_Prediction.app import liver_bp
@@ -11,6 +12,7 @@ app = Flask(__name__,
            static_folder='static')
 
 # Register blueprints
+app.register_blueprints(alzhimer_bp, url_prefix='/alzhimer')
 app.register_blueprint(diabetes_bp, url_prefix='/diabetes')
 app.register_blueprint(heart_bp, url_prefix='/heart')
 app.register_blueprint(liver_bp, url_prefix='/liver')
