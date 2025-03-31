@@ -5,240 +5,305 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Alzheimer's Prediction</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
 
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
 
+      .container {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 600px;
+      }
+
+      h2 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2rem;
+        font-weight: 600;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #34495e;
+        font-weight: 500;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.8rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+      }
+
+      input::placeholder {
+        color: #95a5a6;
+      }
+
+      button {
+        width: 100%;
+        padding: 1rem;
+        background: #3498db;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      button:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+      }
+
+      .result {
+        margin-top: 2rem;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: 500;
+      }
+
+      .result.high-risk {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+
+      .result.low-risk {
+        background: #dcfce7;
+        color: #16a34a;
+      }
+
+      .result.error {
+        background: #fef3c7;
+        color: #d97706;
+      }
+
+      @media (max-width: 480px) {
         .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 600px;
+          padding: 1.5rem;
         }
 
         h2 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 2rem;
-            font-weight: 600;
+          font-size: 1.5rem;
         }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #34495e;
-            font-weight: 500;
-        }
-
-        input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: #f8f9fa;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-        }
-
-        input::placeholder {
-            color: #95a5a6;
-        }
-
-        button {
-            width: 100%;
-            padding: 1rem;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        button:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-        }
-
-        .result {
-            margin-top: 2rem;
-            padding: 1rem;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 500;
-        }
-
-        .result.high-risk {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-
-        .result.low-risk {
-            background: #dcfce7;
-            color: #16a34a;
-        }
-
-        .result.error {
-            background: #fef3c7;
-            color: #d97706;
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 1.5rem;
-            }
-
-            h2 {
-                font-size: 1.5rem;
-            }
-        }
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <h2>Alzheimer's Risk Prediction</h2>
       <form method="POST">
-        <datalist id="memory_loss_values">
-          <option value="1"></option>
-          <option value="0"></option>
+        <datalist id="age">
+          <option value="79"></option>
+          <option value="83"></option>
+          <option value="75"></option>
         </datalist>
 
-        <datalist id="confusion_values">
-          <option value="1"></option>
+        <datalist id="gender">
           <option value="0"></option>
+          <option value="1"></option>
         </datalist>
 
-        <datalist id="disorientation_values">
+        <datalist id="ethinicity">
           <option value="1"></option>
+          <option value="2"></option>
           <option value="0"></option>
         </datalist>
-
-        <datalist id="difficulty_speaking_values">
-          <option value="1"></option>
+        <!-- Edit from here onwards -->
+        <datalist id="skin_thickness_values">
+          <option value="35"></option>
+          <option value="29"></option>
           <option value="0"></option>
+          <option value="23"></option>
         </datalist>
 
-        <datalist id="mood_changes_values">
-          <option value="1"></option>
+        <datalist id="insulin_values">
           <option value="0"></option>
+          <option value="26"></option>
+          <option value="23"></option>
+          <option value="94"></option>
+        </datalist>
+
+        <datalist id="bmi_values">
+          <option value="33.6"></option>
+          <option value="26.6"></option>
+          <option value="23.3"></option>
+          <option value="28.1"></option>
+        </datalist>
+
+        <datalist id="diabetes_pedigree_function_values">
+          <option value="0.627"></option>
+          <option value="0.351"></option>
+          <option value="0.672"></option>
+          <option value="0.167"></option>
         </datalist>
 
         <datalist id="age_values">
-          <option value="65"></option>
-          <option value="70"></option>
-          <option value="80"></option>
+          <option value="50"></option>
+          <option value="31"></option>
+          <option value="32"></option>
+          <option value="21"></option>
         </datalist>
-
-        <datalist id="genetic_risk_values">
-          <option value="1"></option>
-          <option value="0"></option>
-        </datalist>
-
-        <datalist id="brain_scan_anomaly_values">
-          <option value="1"></option>
-          <option value="0"></option>
-        </datalist>
-
-        <div class="form-group">
-          <label>Memory Loss</label>
-          <input
-            type="number"
-            name="memory_loss"
-            list="memory_loss_values"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label>Confusion</label>
-          <input
-            type="number"
-            name="confusion"
-            list="confusion_values"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label>Disorientation</label>
-          <input
-            type="number"
-            name="disorientation"
-            list="disorientation_values"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label>Difficulty Speaking</label>
-          <input
-            type="number"
-            name="difficulty_speaking"
-            list="difficulty_speaking_values"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label>Mood Changes</label>
-          <input
-            type="number"
-            name="mood_changes"
-            list="mood_changes_values"
-            required
-          />
-        </div>
 
         <div class="form-group">
           <label>Age</label>
-          <input type="number" name="age" list="age_values" required />
+          <input type="number" name="feature1" required />
         </div>
-
         <div class="form-group">
-          <label>Genetic Risk</label>
-          <input
-            type="number"
-            name="genetic_risk"
-            list="genetic_risk_values"
-            required
-          />
+          <label>Gender</label>
+          <input type="number" name="feature2" required />
         </div>
-
         <div class="form-group">
-          <label>Brain Scan Anomaly</label>
-          <input
-            type="number"
-            name="brain_scan_anomaly"
-            list="brain_scan_anomaly_values"
-            required
-          />
+          <label>Ethnicity</label>
+          <input type="number" name="feature3" required />
+        </div>
+        <div class="form-group">
+          <label>Education Level</label>
+          <input type="number" name="feature4" required />
+        </div>
+        <div class="form-group">
+          <label>BMI</label>
+          <input type="number" name="feature5" required />
+        </div>
+        <div class="form-group">
+          <label>Smoking</label>
+          <input type="number" name="feature6" required />
+        </div>
+        <div class="form-group">
+          <label>Alcohol Consumption</label>
+          <input type="number" name="feature7" required />
+        </div>
+        <div class="form-group">
+          <label>Physical Activity</label>
+          <input type="number" name="feature8" required />
+        </div>
+        <div class="form-group">
+          <label>Diet Quality</label>
+          <input type="number" name="feature9" required />
+        </div>
+        <div class="form-group">
+          <label>Sleep Quality</label>
+          <input type="number" name="feature10" required />
+        </div>
+        <div class="form-group">
+          <label>Family History Alzheimers</label>
+          <input type="number" name="feature11" required />
+        </div>
+        <div class="form-group">
+          <label>Cardiovascular Disease</label>
+          <input type="number" name="feature12" required />
+        </div>
+        <div class="form-group">
+          <label>Diabetes</label>
+          <input type="number" name="feature13" required />
+        </div>
+        <div class="form-group">
+          <label>Depression</label>
+          <input type="number" name="feature14" required />
+        </div>
+        <div class="form-group">
+          <label>Head Injury</label>
+          <input type="number" name="feature15" required />
+        </div>
+        <div class="form-group">
+          <label>Hypertension</label>
+          <input type="number" name="feature16" required />
+        </div>
+        <div class="form-group">
+          <label>Systolic BP</label>
+          <input type="number" name="feature17" required />
+        </div>
+        <div class="form-group">
+          <label>Diastolic BP</label>
+          <input type="number" name="feature18" required />
+        </div>
+        <div class="form-group">
+          <label>Cholesterol Total</label>
+          <input type="number" name="feature19" required />
+        </div>
+        <div class="form-group">
+          <label>Cholesterol LDL</label>
+          <input type="number" name="feature20" required />
+        </div>
+        <div class="form-group">
+          <label>Cholesterol HDL</label>
+          <input type="number" name="feature21" required />
+        </div>
+        <div class="form-group">
+          <label>Cholesterol Triglycerides</label>
+          <input type="number" name="feature22" required />
+        </div>
+        <div class="form-group">
+          <label>MMSE</label>
+          <input type="number" name="feature23" required />
+        </div>
+        <div class="form-group">
+          <label>Functional Assessment</label>
+          <input type="number" name="feature24" required />
+        </div>
+        <div class="form-group">
+          <label>Memory Complaints</label>
+          <input type="number" name="feature25" required />
+        </div>
+        <div class="form-group">
+          <label>Behavioral Problems</label>
+          <input type="number" name="feature26" required />
+        </div>
+        <div class="form-group">
+          <label>ADL</label>
+          <input type="number" name="feature27" required />
+        </div>
+        <div class="form-group">
+          <label>Confusion</label>
+          <input type="number" name="feature28" required />
+        </div>
+        <div class="form-group">
+          <label>Disorientation</label>
+          <input type="number" name="feature29" required />
+        </div>
+        <div class="form-group">
+          <label>Personality Changes</label>
+          <input type="number" name="feature30" required />
+        </div>
+        <div class="form-group">
+          <label>Difficulty Completing Tasks</label>
+          <input type="number" name="feature31" required />
+        </div>
+        <div class="form-group">
+          <label>Forgetfulness</label>
+          <input type="number" name="feature32" required />
         </div>
 
         <button type="submit">Predict</button>

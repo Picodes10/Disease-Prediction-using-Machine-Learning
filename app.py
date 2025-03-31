@@ -12,7 +12,7 @@ app = Flask(__name__,
            static_folder='static')
 
 # Register blueprints
-app.register_blueprints(alzhimer_bp, url_prefix='/alzhimer')
+app.register_blueprint(alzhimer_bp, url_prefix='/alzhimer')
 app.register_blueprint(diabetes_bp, url_prefix='/diabetes')
 app.register_blueprint(heart_bp, url_prefix='/heart')
 app.register_blueprint(liver_bp, url_prefix='/liver')
