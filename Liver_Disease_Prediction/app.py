@@ -1,56 +1,45 @@
-from flask import Flask, render_template, request
+from flask import render_template, request, Blueprint
 import pickle
 import numpy as np
+import os
 
-app = Flask(__name__)
+liver_bp = Blueprint('liver', __name__, 
+                    template_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates'))
 
-# Load the trained model and scaler
-with open('model3.pkl', 'rb') as file:
+# Load the trained liver disease model
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model3.pkl'), 'rb') as file:
     model = pickle.load(file)
 
-with open('scaler.pkl', 'rb') as file:
-    scaler = pickle.load(file)
-
-@app.route('/', methods=['GET', 'POST'])
+@liver_bp.route('/', methods=['GET', 'POST'])
 def index():
     prediction = None
-    
     if request.method == 'POST':
         try:
             # Extract input values from the form
-            age = float(request.form['age'])
-gender = request.form['gender'].strip().lower()  # Handle case sensitivity
-# Convert gender to numerical value
-gender = 0 if gender == 'male' else 1 
-            total_bilirubin = float(request.form['total_bilirubin'])
-            direct_bilirubin = float(request.form['direct_bilirubin'])
-            alkaline_phosphotase = float(request.form['alkaline_phosphotase'])
-            alamine_aminotransferase = float(request.form['alamine_aminotransferase'])
-            aspartate_aminotransferase = float(request.form['aspartate_aminotransferase'])
-            total_proteins = float(request.form['total_proteins'])
-            albumin = float(request.form['albumin'])
-            albumin_globulin_ratio = float(request.form['albumin_globulin_ratio'])
-
-
-            # Create feature array
-            features = np.array([
-                age, gender, total_bilirubin, direct_bilirubin,
-                alkaline_phosphotase, alamine_aminotransferase,
-                aspartate_aminotransferase, total_proteins,
-                albumin, albumin_globulin_ratio
-            ]).reshape(1, -1)
-
-            # Apply Scaling
-            features_scaled = scaler.transform(features)
-
+            features = [
+                float(request.form['age']),
+                float(request.form['gender']),
+                float(request.form['total_bilirubin']),
+                float(request.form['direct_bilirubin']),
+                float(request.form['alkaline_phosphatase']),
+                float(request.form['alamine_aminotransferase']),
+                float(request.form['aspartate_aminotransferase']),
+                float(request.form['total_proteins']),
+                float(request.form['albumin']),
+                float(request.form['albumin_globulin_ratio'])
+            ]
+            
+            # Convert to NumPy array and reshape
+            features_array = np.array(features).reshape(1, -1)
+            
             # Make prediction
-            pred = model.predict(features_scaled)[0]
-            prediction = 'Liver Disease Detected' if pred == 1 else 'No Liver Disease'
-
+            prediction = model.predict(features_array)[0]
+            prediction = 'High Risk of Liver Disease' if prediction == 1 else 'Low Risk of Liver Disease'
+        except KeyError as e:
+            prediction = f"Error: Missing required field - {str(e)}"
+        except ValueError as e:
+            prediction = f"Error: Invalid input value - {str(e)}"
         except Exception as e:
-            prediction = f"Invalid input, please enter valid numbers. Error: {e}"
+            prediction = f"Error: {str(e)}"
     
     return render_template('liver.html', prediction=prediction)
-
-if __name__ == '__main__':
-    app.run(debug=True)
