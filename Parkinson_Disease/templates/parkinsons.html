@@ -4,31 +4,402 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parkinson's Disease Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
-        form { display: inline-block; text-align: left; }
-        input { margin: 5px; padding: 8px; width: 100%; }
-        button { margin-top: 10px; padding: 10px; cursor: pointer; width: 100%; background-color: green; color: white; }
-        .container { max-width: 400px; margin: auto; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #34495e;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        input::placeholder {
+            color: #95a5a6;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .result.high-risk {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .result.low-risk {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .result.error {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="container">
     <h2>Parkinson's Disease Prediction</h2>
     <form method="POST">
-        <label>MDVP:Fo(Hz) (Ex: 119.992, 199.228): <input type="number" step="any" name="mdvp_fo" required></label>
-        <label>MDVP:Fhi(Hz) (Ex: 157.302, 209.512): <input type="number" step="any" name="mdvp_fhi" required></label>
-        <label>MDVP:Flo(Hz) (Ex: 74.997, 192.091): <input type="number" step="any" name="mdvp_flo" required></label>
-        <label>MDVP:Jitter(%) (Ex: 0.00784, 0.00241): <input type="number" step="any" name="mdvp_jitter" required></label>
-        <label>MDVP:Shimmer (Ex: 0.04374, 0.01015): <input type="number" step="any" name="mdvp_shimmer" required></label>
-        <label>HNR (Ex: 21.033, 30.94): <input type="number" step="any" name="hnr" required></label>
-        <label>RPDE (Ex: 0.414783, 0.432439): <input type="number" step="any" name="rpde" required></label>
-        <label>DFA (Ex: 0.815285, 0.742055): <input type="number" step="any" name="dfa" required></label>
-        <label>Spread1 (Ex: -4.813031, -7.682587): <input type="number" step="any" name="spread1" required></label>
-        <label>Spread2 (Ex: 0.266482, 0.173319): <input type="number" step="any" name="spread2" required></label>
+            <!-- Datalists for input suggestions -->
+            <datalist id="mdvp_fo_values">
+                <option value="119.992">
+                <option value="122.400">
+                <option value="116.682">
+                <option value="116.676">
+            </datalist>
+
+            <datalist id="mdvp_fhi_values">
+                <option value="157.302">
+                <option value="148.650">
+                <option value="131.111">
+                <option value="137.871">
+            </datalist>
+
+            <datalist id="mdvp_flo_values">
+                <option value="74.997">
+                <option value="113.050">
+                <option value="111.555">
+                <option value="111.366">
+            </datalist>
+
+            <datalist id="mdvp_jitter_values">
+                <option value="0.00784">
+                <option value="0.00968">
+                <option value="0.01050">
+                <option value="0.00978">
+            </datalist>
+
+            <datalist id="mdvp_jitter_abs_values">
+                <option value="0.00007">
+                <option value="0.00008">
+                <option value="0.00009">
+                <option value="0.00009">
+            </datalist>
+
+            <datalist id="mdvp_rap_values">
+                <option value="0.00370">
+                <option value="0.00465">
+                <option value="0.00544">
+                <option value="0.00509">
+            </datalist>
+
+            <datalist id="mdvp_ppq_values">
+                <option value="0.00554">
+                <option value="0.00696">
+                <option value="0.00781">
+                <option value="00739">
+            </datalist>
+
+            <datalist id="jitter_ddp_values">
+                <option value="0.01109">
+                <option value="0.01394">
+                <option value="0.01633">
+                <option value="0.01527">
+            </datalist>
+
+            <datalist id="mdvp_shimmer_values">
+                <option value="0.04374">
+                <option value="0.06134">
+                <option value="0.05233">
+                <option value="0.05492">
+            </datalist>
+
+            <datalist id="mdvp_shimmer_db_values">
+                <option value="0.426">
+                <option value="0.626">
+                <option value="0.482">
+                <option value="0.517">
+            </datalist>
+
+            <datalist id="shimmer_apq3_values">
+                <option value="0.02182">
+                <option value="0.03134">
+                <option value="0.02567">
+                <option value="0.02785">
+            </datalist>
+
+            <datalist id="shimmer_apq5_values">
+                <option value="0.02598">
+                <option value="0.03502">
+                <option value="0.03066">
+                <option value="0.03255">
+            </datalist>
+
+            <datalist id="mdvp_apq_values">
+                <option value="0.01943">
+                <option value="0.02736">
+                <option value="0.02431">
+                <option value="0.02624">
+            </datalist>
+
+            <datalist id="shimmer_dda_values">
+                <option value="0.06545">
+                <option value="0.09403">
+                <option value="option value="07700">
+                <option value="option value="08355">
+            </datalist>
+
+            <datalist id="nhr_values">
+                <option value="0.02211">
+                <option value="0.01929">
+                <option value="0.01309">
+                <option value="0.01435">
+            </datalist>
+
+            <datalist id="hnr_values">
+                <option value="21.033">
+                <option value="24.023">
+                <option value="35.487">
+                <option value="33.047">
+            </datalist>
+
+            <datalist id="rpde_values">
+                <option value="0.414783">
+                <option value="0.458359">
+                <option value="0.529897">
+                <option value="0.565887">
+            </datalist>
+
+            <datalist id="dfa_values">
+                <option value="0.815285">
+                <option value="0.784569">
+                <option value="0.733219">
+                <option value="0.686389">
+            </datalist>
+
+            <datalist id="spread1_values">
+                <option value="4.813031">
+                <option value="4.075192">
+                <option value="4.443322">
+                <option value="4.117501">
+            </datalist>
+
+            <datalist id="spread2_values">
+                <option value="0.266482">
+                <option value="0.335590">
+                <option value="0.241573">
+                <option value="0.302260">
+            </datalist>
+
+            <datalist id="d2_values">
+                <option value="2.301442">
+                <option value="2.486855">
+                <option value="2.342259">
+                <option value="2.332879">
+            </datalist>
+
+            <datalist id="ppe_values">
+                <option value="0.284654">
+                <option value="0.368674">
+                <option value="0.410295">
+                <option value="0.339475">
+            </datalist>
+
+            <!-- Form fields with datalist references -->
+            <div class="form-group">
+                <label>MDVP:Fo (Hz):</label>
+                <input type="number" step="any" name="mdvp_fo" list="mdvp_fo_values" placeholder="Average vocal fundamental frequency (e.g., 119.992, 122.400)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>MDVP:Fhi (Hz):</label>
+                <input type="number" step="any" name="mdvp_fhi" list="mdvp_fhi_values" placeholder="Maximum vocal fundamental frequency (e.g., 157.302, 148.650)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>MDVP:Flo (Hz):</label>
+                <input type="number" step="any" name="mdvp_flo" list="mdvp_flo_values" placeholder="Minimum vocal fundamental frequency (e.g., 74.997, 113.050)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>MDVP:Jitter (%):</label>
+                <input type="number" step="any" name="mdvp_jitter" list="mdvp_jitter_values" placeholder="Variation in fundamental frequency (e.g., 0.00784, 0.00968)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>MDVP:Jitter(Abs):</label>
+                <input type="number" step="any" name="mdvp_jitter_abs" list="mdvp_jitter_abs_values" placeholder="Absolute variation in fundamental frequency (e.g., 0.00007, 0.00008)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>MDVP:RAP:</label>
+                <input type="number" step="any" name="mdvp_rap" list="mdvp_rap_values" placeholder="Relative amplitude perturbation (e.g., 0.00370, 0.00465)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>MDVP:PPQ:</label>
+                <input type="number" step="any" name="mdvp_ppq" list="mdvp_ppq_values" placeholder="Five-point period perturbation quotient (e.g., 0.00554, 0.00696)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Jitter:DDP:</label>
+                <input type="number" step="any" name="jitter_ddp" list="jitter_ddp_values" placeholder="Average absolute difference of differences between cycles (e.g., 0.01109, 0.01394)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>MDVP:Shimmer:</label>
+                <input type="number" step="any" name="mdvp_shimmer" list="mdvp_shimmer_values" placeholder="Variation in amplitude (e.g., 0.04374, 0.06134)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>MDVP:Shimmer(dB):</label>
+                <input type="number" step="any" name="mdvp_shimmer_db" list="mdvp_shimmer_db_values" placeholder="Variation in amplitude in dB (e.g., 0.426, 0.626)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Shimmer:APQ3:</label>
+                <input type="number" step="any" name="shimmer_apq3" list="shimmer_apq3_values" placeholder="Three-point amplitude perturbation quotient (e.g., 0.02182, 0.03134)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Shimmer:APQ5:</label>
+                <input type="number" step="any" name="shimmer_apq5" list="shimmer_apq5_values" placeholder="Five-point amplitude perturbation quotient (e.g., 0.02598, 0.03502)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>MDVP:APQ:</label>
+                <input type="number" step="any" name="mdvp_apq" list="mdvp_apq_values" placeholder="11-point amplitude perturbation quotient (e.g., 0.01943, 0.02736)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Shimmer:DDA:</label>
+                <input type="number" step="any" name="shimmer_dda" list="shimmer_dda_values" placeholder="Average absolute differences between consecutive differences (e.g., 0.06545, 0.09403)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>NHR:</label>
+                <input type="number" step="any" name="nhr" list="nhr_values" placeholder="Noise-to-harmonics ratio (e.g., 0.02211, 0.01929)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>HNR:</label>
+                <input type="number" step="any" name="hnr" list="hnr_values" placeholder="Harmonics-to-noise ratio (e.g., 21.033, 24.023)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>RPDE:</label>
+                <input type="number" step="any" name="rpde" list="rpde_values" placeholder="Recurrence period density entropy (e.g., 0.414783, 0.458359)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>DFA:</label>
+                <input type="number" step="any" name="dfa" list="dfa_values" placeholder="Detrended fluctuation analysis (e.g., 0.815285, 0.784569)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Spread1:</label>
+                <input type="number" step="any" name="spread1" list="spread1_values" placeholder="Nonlinear measure of fundamental frequency variation (e.g., -4.813031, -4.075192)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Spread2:</label>
+                <input type="number" step="any" name="spread2" list="spread2_values" placeholder="Nonlinear measure of fundamental frequency variation (e.g., 0.266482, 0.335590)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>D2:</label>
+                <input type="number" step="any" name="d2" list="d2_values" placeholder="Correlation dimension (e.g., 2.301442, 2.486855)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>PPE:</label>
+                <input type="number" step="any" name="ppe" list="ppe_values" placeholder="Pitch period entropy (e.g., 0.284654, 0.368674)" required>
+            </div>
+            
         <button type="submit">Predict</button>
     </form>
     {% if prediction %}
-        <h3>Prediction: {{ prediction }}</h3>
+            <div class="result {% if 'Parkinson' in prediction %}positive{% else %}negative{% endif %}">
+                {{ prediction }}
+            </div>
     {% endif %}
+    </div>
 </body>
 </html>
+
