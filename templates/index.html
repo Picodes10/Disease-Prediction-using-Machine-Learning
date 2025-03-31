@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Prediction System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-brand">HealthPredict</div>
+        <div class="nav-links">
+            <a href="#home" class="active">Home</a>
+            <a href="#introduction">Introduction</a>
+            <a href="#disease-insights">Disease Insights</a>
+            <a href="#footer">Contact</a>
+        </div>
+        <div class="nav-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="section active">
+        <div class="container">
+            <h1>Human Disease Prediction</h1>
+            <p class="subtitle">Advanced AI-powered health risk assessment</p>
+            <div class="disease-grid">
+                <a href="{{ url_for('diabetes.index') }}" class="disease-card">
+                    <i class="fas fa-tint"></i>
+                    <h2>Diabetes Prediction</h2>
+                </a>
+                
+                <a href="{{ url_for('heart.index') }}" class="disease-card">
+                    <i class="fas fa-heartbeat"></i>
+                    <h2>Heart Disease Prediction</h2>
+                </a>
+                
+                <a href="{{ url_for('liver.index') }}" class="disease-card">
+                    <i class="fas fa-liver"></i>
+                    <h2>Liver Disease Prediction</h2>
+                </a>
+                
+                <a href="{{ url_for('parkinsons.index') }}" class="disease-card">
+                    <i class="fas fa-brain"></i>
+                    <h2>Parkinson's Disease Prediction</h2>
+                </a>
+                
+                <a href="{{ url_for('stroke.index') }}" class="disease-card">
+                    <i class="fas fa-brain"></i>
+                    <h2>Stroke Risk Prediction</h2>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section id="introduction" class="section">
+        <div class="container">
+            <h2>About Our System</h2>
+            <div class="intro-content">
+                <div class="intro-text">
+                    <p>Our Disease Prediction System leverages advanced machine learning algorithms to provide accurate health risk assessments. The system analyzes various medical parameters to predict the likelihood of different diseases.</p>
+                    <p>Key Features:</p>
+                    <ul>
+                        <li>Real-time prediction</li>
+                        <li>User-friendly interface</li>
+                        <li>Accurate results</li>
+                        <li>Comprehensive health analysis</li>
+                    </ul>
+                </div>
+                <div class="intro-image">
+                    <img src="{{ url_for('static', filename='images/healthcare.jpg') }}" alt="Healthcare Technology">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disease Insights Section -->
+    <section id="disease-insights" class="section">
+        <div class="container">
+            <h2>Disease Insights</h2>
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Diabetes</h3>
+                    <p>Early detection of diabetes risk factors through comprehensive health metrics analysis.</p>
+                </div>
+                <div class="insight-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Heart Disease</h3>
+                    <p>Assessment of cardiovascular health using advanced medical indicators.</p>
+                </div>
+                <div class="insight-card">
+                    <i class="fas fa-liver"></i>
+                    <h3>Liver Disease</h3>
+                    <p>Evaluation of liver function and disease risk through medical test results.</p>
+                </div>
+                <div class="insight-card">
+                    <i class="fas fa-brain"></i>
+                    <h3>Parkinson's</h3>
+                    <p>Analysis of voice patterns to detect early signs of Parkinson's disease.</p>
+                </div>
+                <div class="insight-card">
+                    <i class="fas fa-brain"></i>
+                    <h3>Stroke</h3>
+                    <p>Comprehensive stroke risk assessment based on health metrics.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-envelope"></i> Email: contact@healthpredict.com</p>
+                    <p><i class="fas fa-phone"></i> Phone: (123) 456-7890</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#introduction">Introduction</a></li>
+                        <li><a href="#disease-insights">Disease Insights</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 HealthPredict. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
