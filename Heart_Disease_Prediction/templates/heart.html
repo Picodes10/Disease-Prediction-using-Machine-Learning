@@ -5,61 +5,284 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heart Disease Prediction</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
-        form { display: inline-block; text-align: left; }
-        input { margin: 5px; padding: 8px; width: 100%; }
-        button { margin-top: 10px; padding: 10px; cursor: pointer; width: 100%; background-color: green; color: white; }
-        .container { max-width: 400px; margin: auto; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #34495e;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        input::placeholder {
+            color: #95a5a6;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .result.high-risk {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .result.low-risk {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .result.error {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Heart Disease Prediction</h2>
-        <form method="post">
-            <label>Age (Ex: 63, 67):</label>
-            <input type="number" step="any" name="age" required><br>
+        <form method="POST">
+            <!-- Datalists for input suggestions -->
+            <datalist id="age_values">
+                <option value="63">
+                <option value="37">
+                <option value="41">
+                <option value="56">
+            </datalist>
+
+            <datalist id="sex_values">
+                <option value="1">
+                <option value="0">
+            </datalist>
+
+            <datalist id="cp_values">
+                <option value="1">
+                <option value="0">
+                <option value="2">
+                <option value="3">
+            </datalist>
+
+            <datalist id="trestbps_values">
+                <option value="145">
+                <option value="130">
+                <option value="130">
+                <option value="120">
+            </datalist>
+
+            <datalist id="chol_values">
+                <option value="233">
+                <option value="250">
+                <option value="204">
+                <option value="236">
+            </datalist>
+
+            <datalist id="fbs_values">
+                <option value="1">
+                <option value="0">
+            </datalist>
+
+            <datalist id="restecg_values">
+                <option value="1">
+                <option value="0">
+                <option value="2">
+            </datalist>
+
+            <datalist id="thalach_values">
+                <option value="150">
+                <option value="187">
+                <option value="172">
+                <option value="178">
+            </datalist>
+
+            <datalist id="exang_values">
+                <option value="0">
+                <option value="1">
+            </datalist>
+
+            <datalist id="oldpeak_values">
+                <option value="2.3">
+                <option value="3.5">
+                <option value="1.4">
+                <option value="0.8">
+            </datalist>
+
+            <datalist id="slope_values">
+                <option value="0">
+                <option value="1">
+                <option value="2">
+            </datalist>
+
+            <datalist id="ca_values">
+                <option value="0">
+                <option value="1">
+                <option value="2">
+                <option value="3">
+            </datalist>
+
+            <datalist id="thal_values">
+                <option value="1">
+                <option value="2">
+                <option value="3">
+            </datalist>
+
+            <!-- Form fields with datalist references -->
+            <div class="form-group">
+                <label>Age</label>
+                <input type="number" name="age" list="age_values" placeholder="Age in years (e.g., 63, 37, 41)" required>
+            </div>
             
-            <label>Sex (0 = Female, 1 = Male):</label>
-            <input type="number" step="any" name="sex" required><br>
+            <div class="form-group">
+                <label>Sex</label>
+                <input type="number" name="sex" list="sex_values" placeholder="1 = male, 0 = female" required>
+            </div>
             
-            <label>Chest Pain Type (0-3):</label>
-            <input type="number" step="any" name="cp" required><br>
+            <div class="form-group">
+                <label>Chest Pain Type</label>
+                <input type="number" name="cp" list="cp_values" placeholder="0-3 (0: typical angina, 1: atypical angina, 2: non-anginal pain, 3: asymptomatic)" required>
+            </div>
             
-            <label>Resting Blood Pressure (Ex: 145, 160):</label>
-            <input type="number" step="any" name="trestbps" required><br>
+            <div class="form-group">
+                <label>Resting Blood Pressure</label>
+                <input type="number" name="trestbps" list="trestbps_values" placeholder="Resting blood pressure in mm Hg (e.g., 145, 130, 120)" required>
+            </div>
             
-            <label>Cholesterol (Ex: 233, 286):</label>
-            <input type="number" step="any" name="chol" required><br>
+            <div class="form-group">
+                <label>Cholesterol</label>
+                <input type="number" name="chol" list="chol_values" placeholder="Serum cholesterol in mg/dl (e.g., 233, 250, 204)" required>
+            </div>
             
-            <label>Fasting Blood Sugar (1 = True, 0 = False):</label>
-            <input type="number" step="any" name="fbs" required><br>
+            <div class="form-group">
+                <label>Fasting Blood Sugar</label>
+                <input type="number" name="fbs" list="fbs_values" placeholder="1 = true, 0 = false" required>
+            </div>
             
-            <label>Resting ECG (0-2):</label>
-            <input type="number" step="any" name="restecg" required><br>
+            <div class="form-group">
+                <label>Resting ECG</label>
+                <input type="number" name="restecg" list="restecg_values" placeholder="0-2 (0: normal, 1: ST-T wave abnormality, 2: left ventricular hypertrophy)" required>
+            </div>
             
-            <label>Maximum Heart Rate Achieved (Ex: 150, 108):</label>
-            <input type="number" step="any" name="thalach" required><br>
+            <div class="form-group">
+                <label>Maximum Heart Rate</label>
+                <input type="number" name="thalach" list="thalach_values" placeholder="Maximum heart rate achieved (e.g., 150, 187, 172)" required>
+            </div>
             
-            <label>Exercise-Induced Angina (1 = Yes, 0 = No):</label>
-            <input type="number" step="any" name="exang" required><br>
+            <div class="form-group">
+                <label>Exercise-Induced Angina</label>
+                <input type="number" name="exang" list="exang_values" placeholder="1 = yes, 0 = no" required>
+            </div>
             
-            <label>ST Depression Induced by Exercise (Ex: 2.3, 1.5):</label>
-            <input type="number" step="any" name="oldpeak" required><br>
+            <div class="form-group">
+                <label>ST Depression</label>
+                <input type="number" step="any" name="oldpeak" list="oldpeak_values" placeholder="ST depression induced by exercise (e.g., 2.3, 3.5, 1.4)" required>
+            </div>
             
-            <label>Slope of Peak Exercise ST Segment (0-2):</label>
-            <input type="number" step="any" name="slope" required><br>
+            <div class="form-group">
+                <label>Slope of Peak Exercise ST Segment</label>
+                <input type="number" name="slope" list="slope_values" placeholder="0-2 (0: upsloping, 1: flat, 2: downsloping)" required>
+            </div>
             
-            <label>Number of Major Vessels Colored by Fluoroscopy (0-3):</label>
-            <input type="number" step="any" name="ca" required><br>
+            <div class="form-group">
+                <label>Number of Major Vessels</label>
+                <input type="number" name="ca" list="ca_values" placeholder="Number of major vessels colored by fluoroscopy (0-3)" required>
+            </div>
             
-            <label>Thalassemia Type (0-3):</label>
-            <input type="number" step="any" name="thal" required><br>
+            <div class="form-group">
+                <label>Thalassemia</label>
+                <input type="number" name="thal" list="thal_values" placeholder="1-3 (1: normal, 2: fixed defect, 3: reversible defect)" required>
+            </div>
             
             <button type="submit">Predict</button>
         </form>
+
         {% if prediction %}
-            <h3>Prediction: {{ prediction }}</h3>
+        <div class="result {% if 'High Risk' in prediction %}high-risk{% elif 'Low Risk' in prediction %}low-risk{% else %}error{% endif %}">
+            {{ prediction }}
+        </div>
         {% endif %}
     </div>
 </body>
 </html>
+
