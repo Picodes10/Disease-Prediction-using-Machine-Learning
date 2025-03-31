@@ -5,49 +5,213 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stroke Risk Prediction</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
-        form { display: inline-block; text-align: left; }
-        input { margin: 5px; padding: 8px; width: 100%; }
-        button { margin-top: 10px; padding: 10px; cursor: pointer; width: 100%; background-color: green; color: white; }
-        .container { max-width: 400px; margin: auto; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #34495e;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        input::placeholder {
+            color: #95a5a6;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .result.high-risk {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .result.low-risk {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .result.error {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Stroke Risk Prediction</h2>
-        <form action="{{ url_for('result') }}" method="post">
-            <label>Gender:</label>
-            <input type="number" name="gender" placeholder="0 for Female, 1 for Male" required>
+        <form action="{{ url_for('stroke.result') }}" method="post">
+            <!-- Datalists for input suggestions -->
+            <datalist id="age_values">
+                <option value="67">
+                <option value="61">
+                <option value="80">
+                <option value="49">
+            </datalist>
+
+            <datalist id="hypertension_values">
+                <option value="1">
+                <option value="0">
+            </datalist>
+
+            <datalist id="heart_disease_values">
+                <option value="1">
+                <option value="0">
+            </datalist>
+
+            <datalist id="avg_glucose_level_values">
+                <option value="228.69">
+                <option value="202.21">
+                <option value="105.92">
+                <option value="171.23">
+            </datalist>
+
+            <datalist id="bmi_values">
+                <option value="36.6">
+                <option value="28.893237">
+                <option value="32.5">
+                <option value="27.0">
+            </datalist>
+
+            <div class="form-group">
+                <label>Gender:</label>
+                <input type="number" name="gender" placeholder="0 for Female, 1 for Male" required>
+            </div>
             
-            <label>Age:</label>
-            <input type="number" name="age" placeholder="Enter your Age" required>
+            <div class="form-group">
+                <label>Age:</label>
+                <input type="number" name="age" list="age_values" placeholder="Age in years (e.g., 67, 61, 80)" required>
+            </div>
             
-            <label>Hypertension:</label>
-            <input type="number" name="hypertension" placeholder="1 for Yes, 0 for No" required>
+            <div class="form-group">
+                <label>Hypertension:</label>
+                <input type="number" name="hypertension" list="hypertension_values" placeholder="Hypertension (1: Yes, 0: No)" required>
+            </div>
             
-            <label>Heart Disease:</label>
-            <input type="number" name="heart_disease" placeholder="1 for Yes, 0 for No" required>
+            <div class="form-group">
+                <label>Heart Disease:</label>
+                <input type="number" name="heart_disease" list="heart_disease_values" placeholder="Heart Disease (1: Yes, 0: No)" required>
+            </div>
             
-            <label>Ever Married:</label>
-            <input type="number" name="ever_married" placeholder="1 for Yes, 0 for No" required>
+            <div class="form-group">
+                <label>Ever Married:</label>
+                <input type="number" name="ever_married" placeholder="1 for Yes, 0 for No" required>
+            </div>
             
-            <label>Work Type:</label>
-            <input type="number" name="work_type" placeholder="0: Gov Job, 1: Never_worked, 2: Private, 3: Self-employed, 4: Children" required>
+            <div class="form-group">
+                <label>Work Type:</label>
+                <input type="number" name="work_type" placeholder="0: Gov Job, 1: Never_worked, 2: Private, 3: Self-employed, 4: Children" required>
+            </div>
             
-            <label>Residence Type:</label>
-            <input type="number" name="Residence_type" placeholder="1 for Urban, 0 for Rural" required>
+            <div class="form-group">
+                <label>Residence Type:</label>
+                <input type="number" name="Residence_type" placeholder="1 for Urban, 0 for Rural" required>
+            </div>
             
-            <label>Avg Glucose Level:</label>
-            <input type="number" step="any" name="avg_glucose_level" placeholder="Enter avg glucose level" required>
+            <div class="form-group">
+                <label>Avg Glucose Level:</label>
+                <input type="number" step="any" name="avg_glucose_level" list="avg_glucose_level_values" placeholder="Average glucose level (e.g., 228.69, 202.21)" required>
+            </div>
             
-            <label>BMI:</label>
-            <input type="number" step="any" name="bmi" placeholder="Enter BMI" required>
+            <div class="form-group">
+                <label>BMI:</label>
+                <input type="number" step="any" name="bmi" list="bmi_values" placeholder="Body Mass Index (e.g., 36.6, 28.89)" required>
+            </div>
             
-            <label>Smoking Status:</label>
-            <input type="number" name="smoking_status" placeholder="0: Unknown, 1: Formerly smoked, 2: Never smoked, 3: Smokes" required>
+            <div class="form-group">
+                <label>Smoking Status:</label>
+                <input type="number" name="smoking_status" placeholder="0: Unknown, 1: Formerly smoked, 2: Never smoked, 3: Smokes" required>
+            </div>
             
             <button type="submit">Predict</button>
         </form>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
     </div>
 </body>
 </html>
