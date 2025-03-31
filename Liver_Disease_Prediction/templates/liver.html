@@ -5,51 +5,253 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liver Disease Prediction</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
-        form { display: inline-block; text-align: left; }
-        input { margin: 5px; padding: 8px; width: 100%; }
-        button { margin-top: 10px; padding: 10px; cursor: pointer; width: 100%; background-color: green; color: white; }
-        .container { max-width: 400px; margin: auto; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #34495e;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        input::placeholder {
+            color: #95a5a6;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .result.high-risk {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .result.low-risk {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .result.error {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Liver Disease Prediction</h2>
-        <form method="post">
-            <label>Age (Ex: 65, 25):</label>
-            <input type="number" step="any" name="age" required><br>
+        <form method="POST">
+            <!-- Datalists for input suggestions -->
+            <datalist id="age_values">
+                <option value="65">
+                <option value="62">
+                <option value="58">
+                <option value="72">
+            </datalist>
+
+            <datalist id="gender_values">
+                <option value="1">
+                <option value="0">
+            </datalist>
+
+            <datalist id="total_bilirubin_values">
+                <option value="0.7">
+                <option value="10.9">
+                <option value="7.3">
+                <option value="1.9">
+            </datalist>
+
+            <datalist id="direct_bilirubin_values">
+                <option value="0.1">
+                <option value="5.5">
+                <option value="4.1">
+                <option value="0.9">
+            </datalist>
+
+            <datalist id="alkaline_phosphatase_values">
+                <option value="187">
+                <option value="699">
+                <option value="490">
+                <option value="296">
+            </datalist>
+
+            <datalist id="alamine_aminotransferase_values">
+                <option value="16">
+                <option value="64">
+                <option value="60">
+                <option value="36">
+            </datalist>
+
+            <datalist id="aspartate_aminotransferase_values">
+                <option value="18">
+                <option value="69">
+                <option value="68">
+                <option value="38">
+            </datalist>
+
+            <datalist id="total_proteins_values">
+                <option value="6.8">
+                <option value="7.3">
+                <option value="7.0">
+                <option value="6.9">
+            </datalist>
+
+            <datalist id="albumin_values">
+                <option value="3.3">
+                <option value="3.0">
+                <option value="3.2">
+                <option value="3.4">
+            </datalist>
+
+            <datalist id="albumin_globulin_ratio_values">
+                <option value="0.9">
+                <option value="0.7">
+                <option value="0.8">
+                <option value="1.0">
+            </datalist>
+
+            <!-- Form fields with datalist references -->
+            <div class="form-group">
+                <label>Age</label>
+                <input type="number" name="age" list="age_values" placeholder="Age in years (e.g., 65, 62, 58)" required>
+            </div>
             
-            <label>Gender (0 = Female, 1 = Male):</label>
-            <input type="number" step="any" name="gender" required><br>
+            <div class="form-group">
+                <label>Gender</label>
+                <input type="number" name="gender" list="gender_values" placeholder="1 = male, 0 = female" required>
+            </div>
             
-            <label>Total Bilirubin (Ex: 0.7, 0.8,):</label>
-            <input type="number" step="any" name="total_bilirubin" required><br>
+            <div class="form-group">
+                <label>Total Bilirubin</label>
+                <input type="number" step="any" name="total_bilirubin" list="total_bilirubin_values" placeholder="Total bilirubin in mg/dL (e.g., 0.7, 10.9, 7.3)" required>
+            </div>
             
-            <label>Direct Bilirubin (Ex: 0.1, 0.3):</label>
-            <input type="number" step="any" name="direct_bilirubin" required><br>
+            <div class="form-group">
+                <label>Direct Bilirubin</label>
+                <input type="number" step="any" name="direct_bilirubin" list="direct_bilirubin_values" placeholder="Direct bilirubin in mg/dL (e.g., 0.1, 5.5, 4.1)" required>
+            </div>
             
-            <label>Alkaline Phosphotase (Ex: 187, 180):</label>
-            <input type="number" step="any" name="alkaline_phosphotase" required><br>
+            <div class="form-group">
+                <label>Alkaline Phosphatase</label>
+                <input type="number" name="alkaline_phosphatase" list="alkaline_phosphatase_values" placeholder="Alkaline phosphatase in IU/L (e.g., 187, 699, 490)" required>
+            </div>
             
-            <label>Alamine Aminotransferase (Ex: 16, 40):</label>
-            <input type="number" step="any" name="alamine_aminotransferase" required><br>
+            <div class="form-group">
+                <label>Alanine Aminotransferase</label>
+                <input type="number" name="alamine_aminotransferase" list="alamine_aminotransferase_values" placeholder="ALT in IU/L (e.g., 16, 64, 60)" required>
+            </div>
             
-            <label>Aspartate Aminotransferas (Ex: 18, 25):</label>
-            <input type="number" step="any" name="aspartate_aminotransferase" required><br>
+            <div class="form-group">
+                <label>Aspartate Aminotransferase</label>
+                <input type="number" name="aspartate_aminotransferase" list="aspartate_aminotransferase_values" placeholder="AST in IU/L (e.g., 18, 69, 68)" required>
+            </div>
             
-            <label>Total Proteins (Ex: 6.8, 7.2):</label>
-            <input type="number" step="any" name="total_proteins" required><br>
+            <div class="form-group">
+                <label>Total Proteins</label>
+                <input type="number" step="any" name="total_proteins" list="total_proteins_values" placeholder="Total proteins in g/dL (e.g., 6.8, 7.3, 7.0)" required>
+            </div>
             
-            <label>Albumin (Ex: 3.3, 4.0):</label>
-            <input type="number" step="any" name="albumin" required><br>
+            <div class="form-group">
+                <label>Albumin</label>
+                <input type="number" step="any" name="albumin" list="albumin_values" placeholder="Albumin in g/dL (e.g., 3.3, 3.0, 3.2)" required>
+            </div>
             
-            <label>Albumin-Globulin Ratio (Ex: 0.9, 1.3):</label>
-            <input type="number" step="any" name="albumin_globulin_ratio" required><br>
+            <div class="form-group">
+                <label>Albumin-Globulin Ratio</label>
+                <input type="number" step="any" name="albumin_globulin_ratio" list="albumin_globulin_ratio_values" placeholder="Albumin/Globulin ratio (e.g., 0.9, 0.7, 0.8)" required>
+            </div>
             
             <button type="submit">Predict</button>
         </form>
+
         {% if prediction %}
-            <h3>Prediction: {{ prediction }}</h3>
+        <div class="result {% if 'High Risk' in prediction %}high-risk{% elif 'Low Risk' in prediction %}low-risk{% else %}error{% endif %}">
+            {{ prediction }}
+        </div>
         {% endif %}
     </div>
 </body>
