@@ -1,16 +1,16 @@
-from flask import Flask, render_template, request
+from flask import render_template, request, Blueprint
 import pickle
-import sklearn
-print(sklearn.__version__)
 import numpy as np
+import os
 
-app = Flask(__name__)
+diabetes_bp = Blueprint('diabetes', __name__, 
+                       template_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates'))
 
 # Load the trained model
-with open('model2.pkl', 'rb') as file:
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model2.pkl'), 'rb') as file:
     model = pickle.load(file)
 
-@app.route('/', methods=['GET', 'POST'])
+@diabetes_bp.route('/', methods=['GET', 'POST'])
 def index():
     prediction = None
     if request.method == 'POST':
@@ -32,11 +32,12 @@ def index():
             
             # Make prediction
             prediction = model.predict(features_array)[0]
-            prediction = 'Diabetic' if prediction == 1 else 'Non-Diabetic'
-        except:
-            prediction = "Invalid input, please enter valid numbers."
+            prediction = 'High Risk of Diabetes' if prediction == 1 else 'Low Risk of Diabetes'
+        except KeyError as e:
+            prediction = f"Error: Missing required field - {str(e)}"
+        except ValueError as e:
+            prediction = f"Error: Invalid input value - {str(e)}"
+        except Exception as e:
+            prediction = f"Error: {str(e)}"
     
     return render_template('diabetes.html', prediction=prediction)
-
-if __name__ == '__main__':
-    app.run(debug=True)
