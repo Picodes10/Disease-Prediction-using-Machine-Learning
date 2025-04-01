@@ -125,8 +125,8 @@
     <div class="container">
       <h2>Alzheimer's Risk Prediction</h2>
       <form method="POST">
+
         <datalist id="age">
-          <option value="79"></option>
           <option value="83"></option>
           <option value="75"></option>
         </datalist>
@@ -141,169 +141,280 @@
           <option value="2"></option>
           <option value="0"></option>
         </datalist>
-        <!-- Edit from here onwards -->
-        <datalist id="skin_thickness_values">
-          <option value="35"></option>
-          <option value="29"></option>
+        
+        <datalist id="educationLevel">
+          <option value="1"></option>
+          <option value="2"></option>
           <option value="0"></option>
-          <option value="23"></option>
         </datalist>
 
-        <datalist id="insulin_values">
+        <datalist id="bmi">
+          <option value="18"></option>
+          <option value="22"></option>
+        </datalist>
+
+        <datalist id="smoking">
           <option value="0"></option>
-          <option value="26"></option>
-          <option value="23"></option>
+          <option value="1"></option>
+        </datalist>
+
+        <datalist id="alcohol">
+          <option value="13"></option>
+          <option value="4"></option>
+        </datalist>
+
+        <datalist id="activity">
+          <option value="6"></option>
+          <option value="4"></option>
+        </datalist>
+
+        <datalist id="DietQuality">
+          <option value="1"></option>
+          <option value="0"></option>
+        </datalist>
+
+        <datalist id="SleepQuality">
+          <option value="9"></option>
+          <option value="8"></option>
+        </datalist>
+
+        <datalist id="FamilyHistoryAlzheimers">
+          <option value="0"></option>
+          <option value="1"></option>
+        </datalist>
+
+        <datalist id="CardiovascularDisease">
+          <option value="0"></option>
+          <option value="1"></option>
+        </datalist>
+
+        <datalist id="Diabetes">
+          <option value="0"></option>
+          <option value="1"></option>
+        </datalist>
+
+        <datalist id="Depression">
+          <option value="0"></option>
+          <option value="1"></option>
+        </datalist>
+
+        <datalist id="HeadInjury">
+          <option value="0"></option>
+          <option value="1"></option>
+        </datalist>
+
+        <datalist id="Hypertension">
+          <option value="0"></option>
+          <option value="1"></option>
+        </datalist>
+
+        <datalist id="SystolicBP">
+          <option value="142"></option>
           <option value="94"></option>
         </datalist>
 
-        <datalist id="bmi_values">
-          <option value="33.6"></option>
-          <option value="26.6"></option>
-          <option value="23.3"></option>
-          <option value="28.1"></option>
+        <datalist id="DiastolicBP">
+          <option value="72"></option>
+          <option value="117"></option>
         </datalist>
 
-        <datalist id="diabetes_pedigree_function_values">
-          <option value="0.627"></option>
-          <option value="0.351"></option>
-          <option value="0.672"></option>
-          <option value="0.167"></option>
+        <datalist id="CholesterolTotal">
+          <option value="242"></option>
+          <option value="237"></option>
         </datalist>
 
-        <datalist id="age_values">
-          <option value="50"></option>
-          <option value="31"></option>
-          <option value="32"></option>
+        <datalist id="CholesterolLDL">
+          <option value="56"></option>
+          <option value="92"></option>
+        </datalist>
+
+        <datalist id="CholesterolHDL">
+          <option value="33"></option>
+          <option value="56"></option>
+        </datalist>
+
+        <datalist id="CholesterolTriglycerides">
+          <option value="162"></option>
+          <option value="291"></option>
+        </datalist>
+
+        <datalist id="MMSE">
           <option value="21"></option>
+          <option value="13"></option>
+        </datalist>
+
+        <datalist id="FunctionalAssessment">
+          <option value="6"></option>
+          <option value="6"></option>
+        </datalist>
+
+        <datalist id="MemoryComplaints">
+          <option value="0"></option>
+          <option value="1"></option>
+        </datalist>
+
+        <datalist id="BehavioralProblems">
+          <option value="0"></option>
+          <option value="1"></option>
+        </datalist>
+
+        <datalist id="ADL">
+          <option value="1"></option>
+          <option value="0"></option>
+        </datalist>
+
+        <datalist id="Confusion">
+          <option value="0"></option>
+          <option value="1"></option>
+        </datalist>
+
+        <datalist id="Disorientation">
+          <option value="0"></option>
+          <option value="1"></option>
+        </datalist>
+
+        <datalist id="PersonalityChanges">
+          <option value="0"></option>
+          <option value="1"></option>
+        </datalist>
+
+        <datalist id="DifficultyCompletingTasks">
+          <option value="0"></option>
+          <option value="1"></option>
+        </datalist>
+
+        <datalist id="Forgetfulness">
+          <option value="0"></option>
+          <option value="1"></option>
         </datalist>
 
         <div class="form-group">
           <label>Age</label>
-          <input type="number" name="feature1" required />
+          <input type="number" name="feature1" list="age" required />
         </div>
         <div class="form-group">
           <label>Gender</label>
-          <input type="number" name="feature2" required />
+          <input type="number" name="feature2" list="gender"  required />
         </div>
         <div class="form-group">
           <label>Ethnicity</label>
-          <input type="number" name="feature3" required />
+          <input type="number" name="feature3" list="ethinicity" required />
         </div>
         <div class="form-group">
           <label>Education Level</label>
-          <input type="number" name="feature4" required />
+          <input type="number" name="feature4" list="educationLevel" required />
         </div>
         <div class="form-group">
           <label>BMI</label>
-          <input type="number" name="feature5" required />
+          <input type="number" name="feature5" list="bmi" required />
         </div>
         <div class="form-group">
           <label>Smoking</label>
-          <input type="number" name="feature6" required />
+          <input type="number" name="feature6" list="smoking" required />
         </div>
         <div class="form-group">
           <label>Alcohol Consumption</label>
-          <input type="number" name="feature7" required />
+          <input type="number" name="feature7" list="alcohol" required />
         </div>
         <div class="form-group">
           <label>Physical Activity</label>
-          <input type="number" name="feature8" required />
+          <input type="number" name="feature8" list="activity"  required />
         </div>
         <div class="form-group">
           <label>Diet Quality</label>
-          <input type="number" name="feature9" required />
+          <input type="number" name="feature9" list="DietQuality" required />
         </div>
         <div class="form-group">
           <label>Sleep Quality</label>
-          <input type="number" name="feature10" required />
+          <input type="number" name="feature10" list="SleepQuality" required />
         </div>
         <div class="form-group">
           <label>Family History Alzheimers</label>
-          <input type="number" name="feature11" required />
+          <input type="number" name="feature11" list="FamilyHistoryAlzheimers" required />
         </div>
         <div class="form-group">
           <label>Cardiovascular Disease</label>
-          <input type="number" name="feature12" required />
+          <input type="number" name="feature12" list="CardiovascularDisease" required />
         </div>
         <div class="form-group">
           <label>Diabetes</label>
-          <input type="number" name="feature13" required />
+          <input type="number" name="feature13" list="Diabetes" required />
         </div>
         <div class="form-group">
           <label>Depression</label>
-          <input type="number" name="feature14" required />
+          <input type="number" name="feature14" list="Depression" required />
         </div>
         <div class="form-group">
           <label>Head Injury</label>
-          <input type="number" name="feature15" required />
+          <input type="number" name="feature15" list="HeadInjury" required />
         </div>
         <div class="form-group">
           <label>Hypertension</label>
-          <input type="number" name="feature16" required />
+          <input type="number" name="feature16" list="Hypertension" required />
         </div>
         <div class="form-group">
           <label>Systolic BP</label>
-          <input type="number" name="feature17" required />
+          <input type="number" name="feature17" list="SystolicBP" required />
         </div>
         <div class="form-group">
           <label>Diastolic BP</label>
-          <input type="number" name="feature18" required />
+          <input type="number" name="feature18" list="DiastolicBP" required />
         </div>
         <div class="form-group">
           <label>Cholesterol Total</label>
-          <input type="number" name="feature19" required />
+          <input type="number" name="feature19" list="CholesterolTotal" required />
         </div>
         <div class="form-group">
           <label>Cholesterol LDL</label>
-          <input type="number" name="feature20" required />
+          <input type="number" name="feature20" list="CholesterolLDL" required />
         </div>
         <div class="form-group">
           <label>Cholesterol HDL</label>
-          <input type="number" name="feature21" required />
+          <input type="number" name="feature21" list="CholesterolHDL" required />
         </div>
         <div class="form-group">
           <label>Cholesterol Triglycerides</label>
-          <input type="number" name="feature22" required />
+          <input type="number" name="feature22" list="CholesterolTriglycerides" required />
         </div>
         <div class="form-group">
           <label>MMSE</label>
-          <input type="number" name="feature23" required />
+          <input type="number" name="feature23" list="MMSE" required />
         </div>
         <div class="form-group">
           <label>Functional Assessment</label>
-          <input type="number" name="feature24" required />
+          <input type="number" name="feature24" list="FunctionalAssessment" required />
         </div>
         <div class="form-group">
           <label>Memory Complaints</label>
-          <input type="number" name="feature25" required />
+          <input type="number" name="feature25" list="MemoryComplaints" required />
         </div>
         <div class="form-group">
           <label>Behavioral Problems</label>
-          <input type="number" name="feature26" required />
+          <input type="number" name="feature26" list="BehavioralProblems" required />
         </div>
         <div class="form-group">
           <label>ADL</label>
-          <input type="number" name="feature27" required />
+          <input type="number" name="feature27" list="ADL" required />
         </div>
         <div class="form-group">
           <label>Confusion</label>
-          <input type="number" name="feature28" required />
+          <input type="number" name="feature28" list="Confusion" required />
         </div>
         <div class="form-group">
           <label>Disorientation</label>
-          <input type="number" name="feature29" required />
+          <input type="number" name="feature29" list="Disorientation" required />
         </div>
         <div class="form-group">
           <label>Personality Changes</label>
-          <input type="number" name="feature30" required />
+          <input type="number" name="feature30" list="PersonalityChanges" required />
         </div>
         <div class="form-group">
           <label>Difficulty Completing Tasks</label>
-          <input type="number" name="feature31" required />
+          <input type="number" name="feature31" list="DifficultyCompletingTasks" required />
         </div>
         <div class="form-group">
           <label>Forgetfulness</label>
-          <input type="number" name="feature32" required />
+          <input type="number" name="feature32" list="Forgetfulness" required />
         </div>
 
         <button type="submit">Predict</button>
