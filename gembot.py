@@ -1,50 +1,47 @@
-import google.generativeai as genai
-import os
+import asyncio
+import websockets
+import json
+import uuid
+from websockets.exceptions import ConnectionClosedOK
 
-# Set up Gemini API key
-os.environ["GOOGLE_API_KEY"] = "AIzaSyCgF0c7AB5FYvqi1LSk-VQiPEp7w8eUVv8"
-genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
+chat_id = str(uuid.uuid4())
+system_prompt = (
+    "You are a knowledgeable and friendly medical chatbot, ready to assist users "
+    "with a wide range of health-related questions. Your responses should be clear, "
+    "accurate, and professional, while maintaining a human-like tone. Remember to "
+    "always mention that you are not a substitute for professional medical advice, "
+    "but can provide helpful general health information 24/7 for free."
+)
 
-# Define system prompt for disease information
-SYSTEM_PROMPT = """You are a medical information assistant specializing in disease information. 
-Your role is to provide accurate, helpful information about:
-1. Disease symptoms and signs
-2. Common causes and risk factors
-3. Available treatments and medications
-4. Prevention strategies
-5. When to seek medical attention
+async def collect_bot_response(user_message):
+    url = "wss://backend.buildpicoapps.com/api/chatbot/chat"
+    response_text = ""
 
-Please note that you should:
-- Always emphasize that you are an AI assistant and not a replacement for professional medical advice
-- Encourage users to consult healthcare providers for diagnosis and treatment
-- Provide general information only, not specific medical advice
-- Be clear and concise in your responses
-- Use medical terminology appropriately but explain complex terms
-- Include relevant statistics when available
-- Mention potential complications and warning signs
-
-If the user's question is unclear or too vague, ask for clarification."""
-
-# Define chatbot function
-def chatbot_response(user_input):
     try:
-        model = genai.GenerativeModel("gemini-1.5-pro")
-        
-        # Combine system prompt with user input
-        prompt = f"{SYSTEM_PROMPT}\n\nUser Question: {user_input}"
-        
-        response = model.generate_content(prompt)
-        return response.text
-    except Exception as e:
-        return f"I apologize, but I encountered an error: {str(e)}. Please try again later."
+        # Apply timeout using asyncio.wait_for instead of `timeout=10`
+        websocket = await asyncio.wait_for(websockets.connect(url), timeout=10)
 
-# Example interaction
-if __name__ == "__main__":
-    print("Medical Information Assistant (Type 'exit' to quit)")
-    print("Ask me about diseases, symptoms, treatments, or prevention strategies.")
-    while True:
-        user_input = input("\nYou: ")
-        if user_input.lower() == "exit":
-            break
-        response = chatbot_response(user_input)
-        print("\nAssistant:", response)
+        async with websocket:
+            payload = {
+                "chatId": chat_id,
+                "appId": "follow-outside",
+                "systemPrompt": system_prompt,
+                "message": user_message,
+            }
+
+            await websocket.send(json.dumps(payload))
+
+            try:
+                while True:
+                    response = await asyncio.wait_for(websocket.recv(), timeout=2)
+                    response_text += response
+            except (asyncio.TimeoutError, ConnectionClosedOK):
+                pass
+
+    except Exception as e:
+        response_text = f"Error communicating with chatbot: {str(e)}"
+
+    return response_text
+
+def chatbot_response(user_message):
+    return asyncio.run(collect_bot_response(user_message))
