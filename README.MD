@@ -1,46 +1,86 @@
-# Disease Prediction System using Machine Learning
+# Human Disease Prediction System using Machine Learning
 
 ## Overview
 
-This repository contains a **Disease Prediction System** that leverages machine learning models to predict the likelihood of various diseases based on user inputs. The system covers the following diseases:
+This repository contains a comprehensive **Disease Prediction System** that leverages machine learning models to predict the likelihood of various diseases based on user inputs. The system covers:
 
 - **Heart Disease**
 - **Liver Disease**
 - **Stroke Risk**
 - **Diabetes**
 - **Parkinson's Disease**
+- **Alzheimer's Risk Prediction** (newly added with optimized feature set)
 
 The application uses a web interface built with **Flask** and **Jinja2 templates**, allowing users to select a disease and make predictions using pre-trained machine learning models.
 
-## Features
+## Key Features
 
-- **User-Friendly Interface**: The system provides an intuitive and easy-to-use web interface where users can select a disease for prediction.
-- **Machine Learning Models**: Pre-trained models are used for predicting disease risk. These models are built using popular machine learning algorithms.
-- **Multiple Disease Predictions**: The system supports predictions for various diseases:
-    - **Diabetes Prediction**
-    - **Heart Disease Prediction**
-    - **Liver Disease Prediction**
-    - **Parkinson’s Disease Prediction**
-    - **Stroke Risk Prediction**
-- **Real-Time Predictions**: Once the user selects a disease, they can input their data, and the system predicts the likelihood of the disease in real-time.
+- **Multi-Disease Prediction Platform**: Single interface for 6 different disease predictions
+- **Advanced ML Models**: Uses diverse algorithms including Neural Networks and XGBoost
+- **Optimized Alzheimer's Prediction**: Newly added with clinically validated 14-feature model
+- **Web Interface**: Intuitive Flask-based interface with responsive design
+- **Real-Time Predictions**: Instant risk assessment based on input parameters
 
-## Algorithms Used
+### Disease Modules:
+- Diabetes Prediction
+- Heart Disease Prediction
+- Liver Disease Prediction
+- Parkinson's Disease Prediction
+- Stroke Risk Prediction
+- Alzheimer's Risk Prediction (new)
 
-Each disease prediction model is trained using one or more of the following machine learning algorithms:
+## Machine Learning Algorithms
 
-- **Logistic Regression**: Used for binary classification tasks such as predicting the presence or absence of a disease.
-- **Random Forest Classifier**: An ensemble learning algorithm that combines multiple decision trees to improve prediction accuracy.
-- **Support Vector Machine (SVM)**: A powerful classifier used for high-dimensional data, useful for disease prediction when the data is complex.
-- **K-Nearest Neighbors (KNN)**: A simple, yet effective algorithm for classification based on the distance to the nearest neighbors.
-- **Decision Tree Classifier**: A decision tree-based model used for classification tasks, which splits data based on feature values.
-- **Naive Bayes**: A probabilistic classifier used for diseases where the features are conditionally independent.
+The system employs multiple state-of-the-art algorithms:
 
-The choice of algorithm depends on the nature of the disease data and the features used for prediction. The models are trained on relevant datasets and then saved as `.pkl` files for real-time prediction.
+- **Logistic Regression**: For binary classification tasks
+- **Random Forest**: Ensemble method combining multiple decision trees
+- **Support Vector Machines (SVM)**: For high-dimensional data
+- **K-Nearest Neighbors (KNN)**: Distance-based classification
+- **Decision Trees**: Rule-based classification
+- **Naive Bayes**: Probabilistic classifier
+- **XGBoost**: Gradient boosting for improved accuracy
+- **Neural Networks**: Deep learning models for complex patterns
 
-## Technologies Used
+### Alzheimer's Model Optimization
+The newly added Alzheimer's prediction uses only these clinically significant features:
+1. Age
+2. Family History
+3. Depression
+4. Head Injury
+5. Hypertension
+6. MMSE Score
+7. Memory Complaints
+8. Behavioral Problems
+9. ADL (Activities of Daily Living)
+10. Confusion
+11. Disorientation
+12. Personality Changes
+13. Difficulty Completing Tasks
+14. Forgetfulness
 
-- **Flask**: A lightweight Python web framework used for building the web application.
-- **Python**: The core programming language for model development and server-side logic.
-- **Machine Learning Models**: Trained using popular machine learning algorithms as mentioned above.
-- **HTML/CSS**: Used for creating and styling the web interface.
-- **Jinja2 Templates**: Templating engine used by Flask to dynamically render content.
+## Technology Stack
+
+- **Backend**:
+  - Python (Pandas, NumPy, Scikit-learn)
+  - Flask web framework
+  - Joblib/Pickle for model serialization
+
+- **Frontend**:
+  - HTML5, CSS3, JavaScript
+  - Bootstrap for responsive design
+  - Jinja2 templating
+
+- **Machine Learning**:
+  - Scikit-learn
+  - XGBoost
+  - TensorFlow/Keras for Neural Networks
+
+## Getting Started
+
+```bash
+git clone https://github.com/yourusername/Disease-Prediction.git
+cd Disease-Prediction
+pip install -r requirements.txt
+flask run
+```

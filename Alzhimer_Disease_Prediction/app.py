@@ -8,40 +8,21 @@ alzhimer_bp = Blueprint('alzhimer', __name__,
                        template_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates'))
 
 # Load the trained Alzheimer's model
-with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'alz.pkl'), 'rb') as file:
-    model = pickle.load(file)
+model = joblib.load(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'alz.pkl'))
 
 @alzhimer_bp.route('/', methods=['GET', 'POST'])
 def index():
     prediction = None
     if request.method == 'POST':
         try:
-            # Extract input values from form
+            # Extract input values from form (only selected features)
             features = [
                 float(request.form['Age']),
-                float(request.form['Gender']),
-                float(request.form['Ethnicity']),
-                float(request.form['EducationLevel']),
-                float(request.form['BMI']),
-                float(request.form['Smoking']),
-                float(request.form['AlcoholConsumption']),
-                float(request.form['PhysicalActivity']),
-                float(request.form['DietQuality']),
-                float(request.form['SleepQuality']),
                 float(request.form['FamilyHistoryAlzheimers']),
-                float(request.form['CardiovascularDisease']),
-                float(request.form['Diabetes']),
                 float(request.form['Depression']),
                 float(request.form['HeadInjury']),
                 float(request.form['Hypertension']),
-                float(request.form['SystolicBP']),
-                float(request.form['DiastolicBP']),
-                float(request.form['CholesterolTotal']),
-                float(request.form['CholesterolLDL']),
-                float(request.form['CholesterolHDL']),
-                float(request.form['CholesterolTriglycerides']),
                 float(request.form['MMSE']),
-                float(request.form['FunctionalAssessment']),
                 float(request.form['MemoryComplaints']),
                 float(request.form['BehavioralProblems']),
                 float(request.form['ADL']),

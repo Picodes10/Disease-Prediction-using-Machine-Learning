@@ -129,159 +129,55 @@
             <!-- Datalists for input suggestions -->
             <datalist id="mdvp_fo_values">
                 <option value="119.992">
-                <option value="122.400">
-                <option value="116.682">
-                <option value="116.676">
+                <option value="197.076">
             </datalist>
-
+            
             <datalist id="mdvp_fhi_values">
                 <option value="157.302">
-                <option value="148.650">
-                <option value="131.111">
-                <option value="137.871">
+                <option value="206.896">
             </datalist>
 
             <datalist id="mdvp_flo_values">
                 <option value="74.997">
-                <option value="113.050">
-                <option value="111.555">
-                <option value="111.366">
+                <option value="192.055">
             </datalist>
 
             <datalist id="mdvp_jitter_values">
                 <option value="0.00784">
-                <option value="0.00968">
-                <option value="0.01050">
-                <option value="0.00978">
-            </datalist>
-
-            <datalist id="mdvp_jitter_abs_values">
-                <option value="0.00007">
-                <option value="0.00008">
-                <option value="0.00009">
-                <option value="0.00009">
-            </datalist>
-
-            <datalist id="mdvp_rap_values">
-                <option value="0.00370">
-                <option value="0.00465">
-                <option value="0.00544">
-                <option value="0.00509">
-            </datalist>
-
-            <datalist id="mdvp_ppq_values">
-                <option value="0.00554">
-                <option value="0.00696">
-                <option value="0.00781">
-                <option value="00739">
-            </datalist>
-
-            <datalist id="jitter_ddp_values">
-                <option value="0.01109">
-                <option value="0.01394">
-                <option value="0.01633">
-                <option value="0.01527">
+                <option value="0.00289">
             </datalist>
 
             <datalist id="mdvp_shimmer_values">
                 <option value="0.04374">
-                <option value="0.06134">
-                <option value="0.05233">
-                <option value="0.05492">
-            </datalist>
-
-            <datalist id="mdvp_shimmer_db_values">
-                <option value="0.426">
-                <option value="0.626">
-                <option value="0.482">
-                <option value="0.517">
-            </datalist>
-
-            <datalist id="shimmer_apq3_values">
-                <option value="0.02182">
-                <option value="0.03134">
-                <option value="0.02567">
-                <option value="0.02785">
-            </datalist>
-
-            <datalist id="shimmer_apq5_values">
-                <option value="0.02598">
-                <option value="0.03502">
-                <option value="0.03066">
-                <option value="0.03255">
-            </datalist>
-
-            <datalist id="mdvp_apq_values">
-                <option value="0.01943">
-                <option value="0.02736">
-                <option value="0.02431">
-                <option value="0.02624">
-            </datalist>
-
-            <datalist id="shimmer_dda_values">
-                <option value="0.06545">
-                <option value="0.09403">
-                <option value="option value="07700">
-                <option value="option value="08355">
-            </datalist>
-
-            <datalist id="nhr_values">
-                <option value="0.02211">
-                <option value="0.01929">
-                <option value="0.01309">
-                <option value="0.01435">
+                <option value="0.01098">
             </datalist>
 
             <datalist id="hnr_values">
                 <option value="21.033">
-                <option value="24.023">
-                <option value="35.487">
-                <option value="33.047">
+                <option value="26.775">
             </datalist>
 
             <datalist id="rpde_values">
                 <option value="0.414783">
-                <option value="0.458359">
-                <option value="0.529897">
-                <option value="0.565887">
+                <option value="0.422229">
             </datalist>
 
             <datalist id="dfa_values">
                 <option value="0.815285">
-                <option value="0.784569">
-                <option value="0.733219">
-                <option value="0.686389">
+                <option value="0.741367">
             </datalist>
 
             <datalist id="spread1_values">
                 <option value="4.813031">
-                <option value="4.075192">
-                <option value="4.443322">
-                <option value="4.117501">
+                <option value="7.3483">
             </datalist>
 
             <datalist id="spread2_values">
                 <option value="0.266482">
-                <option value="0.335590">
-                <option value="0.241573">
-                <option value="0.302260">
+                <option value="0.177551">
             </datalist>
 
-            <datalist id="d2_values">
-                <option value="2.301442">
-                <option value="2.486855">
-                <option value="2.342259">
-                <option value="2.332879">
-            </datalist>
-
-            <datalist id="ppe_values">
-                <option value="0.284654">
-                <option value="0.368674">
-                <option value="0.410295">
-                <option value="0.339475">
-            </datalist>
-
-            <!-- Form fields with datalist references -->
+            <!-- Form fields with datalist references - Only the 10 required features -->
             <div class="form-group">
                 <label>MDVP:Fo (Hz):</label>
                 <input type="number" step="any" name="mdvp_fo" list="mdvp_fo_values" placeholder="Average vocal fundamental frequency (e.g., 119.992, 122.400)" required>
@@ -303,58 +199,8 @@
             </div>
             
             <div class="form-group">
-                <label>MDVP:Jitter(Abs):</label>
-                <input type="number" step="any" name="mdvp_jitter_abs" list="mdvp_jitter_abs_values" placeholder="Absolute variation in fundamental frequency (e.g., 0.00007, 0.00008)" required>
-            </div>
-            
-            <div class="form-group">
-                <label>MDVP:RAP:</label>
-                <input type="number" step="any" name="mdvp_rap" list="mdvp_rap_values" placeholder="Relative amplitude perturbation (e.g., 0.00370, 0.00465)" required>
-            </div>
-            
-            <div class="form-group">
-                <label>MDVP:PPQ:</label>
-                <input type="number" step="any" name="mdvp_ppq" list="mdvp_ppq_values" placeholder="Five-point period perturbation quotient (e.g., 0.00554, 0.00696)" required>
-            </div>
-            
-            <div class="form-group">
-                <label>Jitter:DDP:</label>
-                <input type="number" step="any" name="jitter_ddp" list="jitter_ddp_values" placeholder="Average absolute difference of differences between cycles (e.g., 0.01109, 0.01394)" required>
-            </div>
-            
-            <div class="form-group">
                 <label>MDVP:Shimmer:</label>
                 <input type="number" step="any" name="mdvp_shimmer" list="mdvp_shimmer_values" placeholder="Variation in amplitude (e.g., 0.04374, 0.06134)" required>
-            </div>
-            
-            <div class="form-group">
-                <label>MDVP:Shimmer(dB):</label>
-                <input type="number" step="any" name="mdvp_shimmer_db" list="mdvp_shimmer_db_values" placeholder="Variation in amplitude in dB (e.g., 0.426, 0.626)" required>
-            </div>
-            
-            <div class="form-group">
-                <label>Shimmer:APQ3:</label>
-                <input type="number" step="any" name="shimmer_apq3" list="shimmer_apq3_values" placeholder="Three-point amplitude perturbation quotient (e.g., 0.02182, 0.03134)" required>
-            </div>
-            
-            <div class="form-group">
-                <label>Shimmer:APQ5:</label>
-                <input type="number" step="any" name="shimmer_apq5" list="shimmer_apq5_values" placeholder="Five-point amplitude perturbation quotient (e.g., 0.02598, 0.03502)" required>
-            </div>
-            
-            <div class="form-group">
-                <label>MDVP:APQ:</label>
-                <input type="number" step="any" name="mdvp_apq" list="mdvp_apq_values" placeholder="11-point amplitude perturbation quotient (e.g., 0.01943, 0.02736)" required>
-            </div>
-            
-            <div class="form-group">
-                <label>Shimmer:DDA:</label>
-                <input type="number" step="any" name="shimmer_dda" list="shimmer_dda_values" placeholder="Average absolute differences between consecutive differences (e.g., 0.06545, 0.09403)" required>
-            </div>
-            
-            <div class="form-group">
-                <label>NHR:</label>
-                <input type="number" step="any" name="nhr" list="nhr_values" placeholder="Noise-to-harmonics ratio (e.g., 0.02211, 0.01929)" required>
             </div>
             
             <div class="form-group">
@@ -380,16 +226,6 @@
             <div class="form-group">
                 <label>Spread2:</label>
                 <input type="number" step="any" name="spread2" list="spread2_values" placeholder="Nonlinear measure of fundamental frequency variation (e.g., 0.266482, 0.335590)" required>
-            </div>
-            
-            <div class="form-group">
-                <label>D2:</label>
-                <input type="number" step="any" name="d2" list="d2_values" placeholder="Correlation dimension (e.g., 2.301442, 2.486855)" required>
-            </div>
-            
-            <div class="form-group">
-                <label>PPE:</label>
-                <input type="number" step="any" name="ppe" list="ppe_values" placeholder="Pitch period entropy (e.g., 0.284654, 0.368674)" required>
             </div>
             
         <button type="submit">Predict</button>
