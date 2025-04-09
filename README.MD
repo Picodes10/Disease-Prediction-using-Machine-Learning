@@ -42,23 +42,6 @@ The system employs multiple state-of-the-art algorithms:
 - **XGBoost**: Gradient boosting for improved accuracy
 - **Neural Networks**: Deep learning models for complex patterns
 
-### Alzheimer's Model Optimization
-The newly added Alzheimer's prediction uses only these clinically significant features:
-1. Age
-2. Family History
-3. Depression
-4. Head Injury
-5. Hypertension
-6. MMSE Score
-7. Memory Complaints
-8. Behavioral Problems
-9. ADL (Activities of Daily Living)
-10. Confusion
-11. Disorientation
-12. Personality Changes
-13. Difficulty Completing Tasks
-14. Forgetfulness
-
 ## Technology Stack
 
 - **Backend**:
