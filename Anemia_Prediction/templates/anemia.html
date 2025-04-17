@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anemia Prediction</title>
+  <style>
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    h2 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #34495e;
+      font-weight: 500;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #f8f9fa;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+
+    button {
+      width: 100%;
+      padding: 1rem;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #2980b9;
+      transform: translateY(-2px);
+    }
+
+    .result {
+      margin-top: 2rem;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .high-risk {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .low-risk {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .error {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .recommendation {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-left: 4px solid #3498db;
+      background: #f4faff;
+    }
+
+    .recommendation h3 {
+      margin-bottom: 0.5rem;
+      color: #2c3e50;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 1.5rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+      <h2>Anemia Prediction</h2>
+      <form method="POST">
+          <!-- Datalists for input suggestions -->
+          <datalist id="gender_values">
+              <option value="Male">
+              <option value="Female">
+          </datalist>
+
+          <datalist id="hemoglobin_values">
+              <option value="14.9">
+              <option value="9">
+          </datalist>
+
+          <datalist id="mch_values">
+              <option value="22.7">
+              <option value="21.5">
+          </datalist>
+
+          <datalist id="mchc_values">
+              <option value="29.1">
+              <option value="29.6">
+          </datalist>
+
+          <datalist id="mcv_values">
+              <option value="83.7">
+              <option value="71.2">
+          </datalist>
+
+          <!-- Form fields with datalist references -->
+          <div class="form-group">
+              <label>Gender</label>
+              <input list="gender_values" name="gender" placeholder="Enter gender (Male/Female)" required>
+          </div>
+
+          <div class="form-group">
+              <label>Hemoglobin (g/dL)</label>
+              <input type="number" step="0.1" name="hemoglobin" list="hemoglobin_values" placeholder="e.g., 14.9, 9" required>
+          </div>
+
+          <div class="form-group">
+              <label>MCH (pg)</label>
+              <input type="number" step="0.1" name="mch" list="mch_values" placeholder="e.g., 22.7, 21.5" required>
+          </div>
+
+          <div class="form-group">
+              <label>MCHC (g/dL)</label>
+              <input type="number" step="0.1" name="mchc" list="mchc_values" placeholder="e.g., 29.1, 29.6" required>
+          </div>
+
+          <div class="form-group">
+              <label>MCV (fL)</label>
+              <input type="number" step="0.1" name="mcv" list="mcv_values" placeholder="e.g., 83.7, 71.2" required>
+          </div>
+
+          <button type="submit">Predict</button>
+      </form>
+
+      {% if prediction %}
+      <div class="result {% if 'High Risk' in prediction %}high-risk{% elif 'Low Risk' in prediction %}low-risk{% else %}error{% endif %}">
+          {{ prediction }}
+      </div>
+      {% endif %}
+  </div>
+</body>
+</html>
