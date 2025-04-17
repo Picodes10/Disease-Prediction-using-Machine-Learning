@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCOS Prediction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #34495e;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        input::placeholder {
+            color: #95a5a6;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .result.high-risk {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .result.low-risk {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .result.error {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>PCOS Prediction</h2>
+        <form method="POST">
+            <!-- Datalists for input suggestions -->
+            <datalist id="age_values">
+                <option value="24">
+                <option value="37">
+                <option value="32">
+                <option value="28">
+                <option value="25">
+            </datalist>
+
+            <datalist id="bmi_values">
+                <option value="34.7">
+                <option value="26.4">
+                <option value="23.6">
+                <option value="28.8">
+                <option value="22.1">
+            </datalist>
+
+            <datalist id="menstrual_irregularity_values">
+                <option value="1">
+                <option value="0">
+            </datalist>
+
+            <datalist id="testosterone_values">
+                <option value="25.2">
+                <option value="57.1">
+                <option value="92.7">
+                <option value="63.1">
+                <option value="59.8">
+            </datalist>
+
+            <datalist id="antral_follicle_count_values">
+                <option value="20">
+                <option value="25">
+                <option value="28">
+                <option value="26">
+                <option value="8">
+            </datalist>
+
+            <datalist id="pcos_diagnosis_values">
+                <option value="0">
+            </datalist>
+
+            <!-- Form fields with datalist references -->
+            <div class="form-group">
+                <label>Age</label>
+                <input type="number" name="age" list="age_values" placeholder="Age in years (e.g., 24, 37, 28)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>BMI</label>
+                <input type="number" name="bmi" list="bmi_values" placeholder="Body Mass Index (e.g., 34.7, 26.4)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Menstrual Irregularity</label>
+                <input type="number" name="menstrual_irregularity" list="menstrual_irregularity_values" placeholder="1 = yes, 0 = no" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Testosterone Level</label>
+                <input type="number" name="testosterone_level" list="testosterone_values" placeholder="Testosterone Level (e.g., 25.2, 57.1)" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Antral Follicle Count</label>
+                <input type="number" name="antral_follicle_count" list="antral_follicle_count_values" placeholder="Antral Follicle Count (e.g., 20, 25)" required>
+            </div>         
+            
+            <button type="submit">Predict</button>
+        </form>
+        {% if result %}
+            <div class="result {% if result == 'High Risk' %}high-risk{% elif result == 'Low Risk' %}low-risk{% else %}error{% endif %}">
+                {{ result }}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
