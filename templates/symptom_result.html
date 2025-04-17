@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Disease Prediction Result</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f4f6f8;
+    }
+
+    .result-container {
+      max-width: 800px;
+      margin: 60px auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .disease-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #0d6efd;
+    }
+
+    .section-title {
+      margin-top: 30px;
+      font-weight: 600;
+      color: #343a40;
+    }
+
+    .precaution-list li::before {
+      content: "🩺 ";
+      margin-right: 5px;
+    }
+
+    .btn-group {
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container result-container">
+    <h2 class="text-center mb-4 text-success">✅ Disease Prediction Complete</h2>
+
+    <p class="disease-title text-center">🧬 You may be affected by: <strong>{{ result.disease }}</strong></p>
+
+    <div class="mt-4">
+      <h5 class="section-title">🧠 About the Disease</h5>
+      <p class="text-muted">{{ result.description }}</p>
+    </div>
+
+    <div class="mt-4">
+      <h5 class="section-title">🛡️ Recommended Precautions</h5>
+      <ul class="precaution-list">
+        {% for p in result.precautions.split(',') %}
+          <li>{{ p }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="btn-group d-flex justify-content-center">
+      <a href="{{ url_for('symptom_checker') }}" class="btn btn-outline-primary me-2">🔁 Check Another</a>
+      <a href="{{ url_for('home') }}" class="btn btn-outline-secondary">🏠 Back to Home</a>
+    </div>
+  </div>
+
+</body>
+</html>

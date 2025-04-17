@@ -1,186 +1,495 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Disease Prediction System</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles.css') }}"
-    />
-    <link rel="stylesheet" href="/static/styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
-        <div class="container">
-            <a class="navbar-brand text-black" href="#">HealthPredict</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active text-black" aria-current="page" href="#home">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-black" href="#introduction">Introduction</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link text-black" href="{{ url_for('chatbot') }}">Chatbot</a>
-                  </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-black" href="#footer">Footer</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HealthPredict</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light shadow-sm bg-white">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-primary" href="#">HealthPredict</a>
+
+      <!-- Nav links -->
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('disease_predictor') }}">Disease Predictor</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('symptom_checker') }}">Symptoms Checker</a>
+          </li>
+           <!-- NEW: Skin Disease Predictor -->
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('skin_predictor') }}">Image Scanner</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('medibase') }}">Medibase</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero-section d-flex align-items-center" style="background-image: url('{{ url_for('static', filename='z.jpg') }}'); height: 85vh; background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <div class="container text-center text-white" style="z-index: 2; position: relative;">
+      <h1 class="display-5 fw-bold">Predict Your Health</h1>
+      <p class="lead mb-4">Empowering you with data-driven insights for a healthier future.</p>
+      <a href="#features" class="btn btn-lg btn-primary">Get Started</a>
+    </div>
+  </section>
+
+ <!-- About Section -->
+<section id="about" class="py-5 text-center bg-light">
+  <div class="container">
+    <h2 class="mb-4 fw-bold">About HealthPredict</h2>
+    <p class="lead">
+      HealthPredict is an innovative health platform designed to provide personalized health predictions and guidance. 
+      By analyzing various health factors and symptoms, we offer users the ability to make proactive healthcare decisions. 
+      With advanced machine learning models, we help individuals assess their risk for various health conditions and 
+      provide personalized recommendations to lead a healthier life.
+    </p>
+  </div>
+</section>
+
+
+
+
+<!-- Features -->
+<section id="features" class="bg-light py-5 text-center">
+  <div class="container">
+    <h2 class="fw-bold mb-5">Our Key Features</h2>
+    <div class="row">
+      <div class="col-md-3">
+        <i class="fas fa-stethoscope fa-2x mb-3 text-primary"></i>
+        <h5>Disease Prediction</h5>
+        <p>Receive accurate disease predictions based on your health data and lifestyle.</p>
+      </div>
+      <div class="col-md-3">
+        <i class="fas fa-heartbeat fa-2x mb-3 text-danger"></i>
+        <h5>Symptom Checker</h5>
+        <p>Identify possible illnesses based on your symptoms to seek timely medical attention.</p>
+      </div>
+      <div class="col-md-3">
+        <i class="fas fa-camera fa-2x mb-3 text-warning"></i>
+        <h5>Image Scanner</h5>
+        <p>Upload a photo of a skin condition and get instant analysis and potential diagnosis suggestions.</p>
+      </div>
+      <div class="col-md-3">
+        <i class="fas fa-notes-medical fa-2x mb-3 text-success"></i>
+        <h5>MediBase</h5>
+        <p>Access disease info, health videos, and wellness articles — all in one place.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+  <!-- Footer -->
+  <footer class="text-center py-4 border-top">
+    <div class="container">
+      <h5 class="mb-3">HealthPredict</h5>
+      <form class="d-flex justify-content-center mb-3">
+        <input type="email" placeholder="Type your email" class="form-control w-25 me-2" />
+        <button class="btn btn-primary">Subscribe</button>
+      </form>
+      <div class="small">
+        © 2025 Brand, Inc. • <a href="#">Privacy</a> • <a href="#">Terms</a> • <a href="#">Sitemap</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <style>
+
+    .popup {
+      position: fixed;
+      left: 1575px;
+      right: 30px; 
+      top: 80px;
+      width: 300px;
+      background: #f0f8ff;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 999;
+    }
+
+    .question-box {
+      cursor: pointer;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .visible {
+      display: block;
+    }
+
+    #mentalHealthBox {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 15px;
+      border-radius: 16px;
+      font-family: 'Segoe UI', sans-serif;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    #mentalHealthBox h4 {
+      margin-top: 20px;
+    }
+
+    .result-box {
+      background: #fff8dc;
+      border-left: 5px solid #ff4081;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .result-box strong {
+      font-size: 16px;
+      color: #e91e63;
+    }
+
+    form input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background: linear-gradient(135deg, #0072ff, #00c6ff);
+    }
+
+  
+    #chatbot-button {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background-color: #0d6efd;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+      z-index: 1000;
+      cursor: pointer;
+    }
+  
+    #chatbot-popup {
+      position: fixed;
+      bottom: 100px;
+      right: 25px;
+      width: 320px;
+      height: 420px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      display: none;
+      flex-direction: column;
+      z-index: 999;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease-in-out;
+    }
+  
+    #chatbot-popup.fullscreen {
+      width: 70%;
+      height: 75%;
+      bottom: 60px;
+      right: 15%;
+    }
+  
+    #chatbot-header {
+      background-color: #0d6efd;
+      color: white;
+      padding: 12px;
+      font-weight: bold;
+      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  
+    #chatbot-header button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+  
+    #chatbot-messages {
+      padding: 15px;
+      flex: 1;
+      overflow-y: auto;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .chat-bubble {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+      line-height: 1.4;
+      display: inline-block;
+      word-wrap: break-word;
+    }
+  
+    .user-msg {
+      align-self: flex-end;
+      background-color: #e4e6eb;
+      color: #000;
+      border-bottom-right-radius: 4px;
+    }
+  
+    .bot-msg {
+      align-self: flex-start;
+      background-color: #0d6efd;
+      color: white;
+      border-bottom-left-radius: 4px;
+    }
+  
+    #chatbot-input-area {
+      display: flex;
+      padding: 10px;
+      gap: 8px;
+      border-top: 1px solid #ccc;
+    }
+  
+    #chatbot-input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+  
+    #chatbot-send {
+      background-color: #0d6efd;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      cursor: pointer;
+      
+    }
+  </style>
+  
+</head>
+<body>
+
+<!-- 🧠 Mental Health Check-up Widget -->
+<div class="popup">
+  <div class="question-box" onclick="toggleBox()">
+      <span>🧠 How are you feeling today?</span>
+      <span class="arrow">⬇️</span>
+  </div>
+
+  <div id="mentalHealthBox" class="hidden">
+    <form id="mentalHealthForm">
+      <p>1. How often do you feel anxious?</p>
+      <input type="text" name="q1">
+      <p>2. How often do you feel sad or down?</p>
+      <input type="text" name="q2">
+      <p>3. Do you enjoy your daily activities?</p>
+      <input type="text" name="q3">
+      <p>4. How well do you sleep?</p>
+      <input type="text" name="q4">
+      <br><br>
+      <button type="submit">Check Now</button>
+    </form>
+    
+    <!-- Result area -->
+    <div id="stressResult" class="result-box hidden"></div>
     
 
-    <!-- Home Section -->
-    <section id="home" class="section active">
-      <div class="header-content text-center">
-        <h1 class="fw-bold ">Human Disease Prediction</h1>
-        <p class="lead font-monospace">
-          Harnessing the power of Machine Learning for early and accurate <br>
-          disease prediction, empowering proactive healthcare and improved
-          patient outcomes.
-        </p>
-        <div class="disease-grid justify-content-center align-items-center row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-          <div class="col">
-            <a
-              href="{{ url_for('diabetes.index') }}"
-              class="disease-card btn btn-outline-primary d-flex flex-column align-items-center p-3"
-            >
-              <h2 class="fs-6">Diabetes Prediction</h2>
-            </a>
-          </div>
-          <div class="col">
-            <a
-              href="{{ url_for('heart.index') }}"
-              class="disease-card btn btn-outline-danger d-flex flex-column align-items-center p-3"
-            >
-              <h2 class="fs-6">Heart Disease Prediction</h2>
-            </a>
-          </div>
-          <div class="col">
-            <a
-              href="{{ url_for('liver.index') }}"
-              class="disease-card btn btn-outline-success d-flex flex-column align-items-center p-3"
-            >
-              <h2 class="fs-6">Liver Disease Prediction</h2>
-            </a>
-          </div>
-          <div class="col">
-            <a
-              href="{{ url_for('parkinsons.index') }}"
-              class="disease-card btn btn-outline-warning d-flex flex-column align-items-center p-3"
-            >
-              <h2 class="fs-6">Parkinson's Disease Prediction</h2>
-            </a>
-          </div>
-          <div class="col">
-            <a
-              href="{{ url_for('stroke.index') }}"
-              class="disease-card btn btn-outline-info d-flex flex-column align-items-center p-3"
-            >
-              <h2 class="fs-6">Stroke Risk Prediction</h2>
-            </a>
-          </div>
-          <div class="col">
-            <a
-              href="{{ url_for('alzhimer.index') }}"
-              class="disease-card btn btn-outline-secondary d-flex flex-column align-items-center p-3"
-            >
-              <h2 class="fs-6">Alzheimer Risk Prediction</h2>
-            </a>
-          </div>
-          <div class="col">
-            <a
-              href="{{ url_for('asthma.index') }}"
-              class="disease-card btn btn-outline-secondary d-flex flex-column align-items-center p-3"
-            >
-              <h2 class="fs-6">Asthma Risk Prediction</h2>
-            </a>
-          </div>
-          <div class="col">
-            <a
-              href="{{ url_for('anemia.index') }}"
-              class="disease-card btn btn-outline-secondary d-flex flex-column align-items-center p-3"
-            >
-              <h2 class="fs-6">Anemia Risk Prediction</h2>
-            </a>
-          </div>
-          <div class="col">
-            <a
-              href="{{ url_for('pcos.index') }}"
-              class="disease-card btn btn-outline-secondary d-flex flex-column align-items-center p-3"
-            >
-              <h2 class="fs-6">PCOS Risk Prediction</h2>
-            </a>
-          </div>
-        </div>
+  </div> <!-- ✅ Closing the mentalHealthBox div -->
+</div> <!-- ✅ Closing the popup div -->
+
+
+
+
+  <button id="chatbot-button">💬</button>
+
+  <div id="chatbot-popup">
+    <div style="width: 100%; height: 100%; display: flex; flex-direction: column;">
+      <div id="chatbot-header">
+        AI Chatbot
+        <button id="toggle-fullscreen" title="Toggle Fullscreen">📺</button>
       </div>
-    </section>
-
-    <!-- Introduction Section -->
-    <section id="introduction" class="section">
-        <div class="container">
-          <h2 class="section-title">About Our System</h2>
-          <div class="intro-content row">
-            <div class="intro-text col-md-6">
-              <p>
-                Our Disease Prediction System leverages advanced machine learning
-                algorithms to provide accurate health risk assessments. The system
-                analyzes various medical parameters to predict the likelihood of
-                different diseases.
-              </p>
-              <p><strong>Key Features:</strong></p>
-              <ul>
-                <li>Real-time prediction</li>
-                <li>User-friendly interface</li>
-                <li>Accurate results</li>
-                <li>Comprehensive health analysis</li>
-              </ul>
-            </div>
-            <div class="intro-image col-md-6">
-              <img src="/static/x.jpg" alt="Healthcare Technology" class="img-fluid rounded shadow-sm">
-            </div>
-          </div>
-        </div>
-      </section>
-      
-
-
-    <!-- Footer -->
-    <footer id="footer" class="footer">
-      <div class="container">
-        <div class="footer-bottom">
-          <p>&copy; 2024 HealthPredict. All rights reserved.</p>
-        </div>
+      <div id="chatbot-messages"></div>
+      <div id="chatbot-input-area">
+        <input type="text" id="chatbot-input" placeholder="Ask a question..." />
+        <button id="chatbot-send">Send</button>
       </div>
-    </footer>
+    </div>
+  </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script>
+    const chatbotBtn = document.getElementById("chatbot-button");
+    const chatbotPopup = document.getElementById("chatbot-popup");
+    const chatbotMessages = document.getElementById("chatbot-messages");
+    const chatbotInput = document.getElementById("chatbot-input");
+    const chatbotSend = document.getElementById("chatbot-send");
+    const toggleFullscreenBtn = document.getElementById("toggle-fullscreen");
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-      crossorigin="anonymous"
+    chatbotBtn.addEventListener("click", () => {
+      chatbotPopup.style.display = chatbotPopup.style.display === "none" ? "flex" : "none";
+    });
+
+    chatbotSend.addEventListener("click", sendMessage);
+    chatbotInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    toggleFullscreenBtn.addEventListener("click", () => {
+      chatbotPopup.classList.toggle("fullscreen");
+    });
+
+    function sendMessage() {
+      const msg = chatbotInput.value.trim();
+      if (!msg) return;
+    
+      // Display user message
+      const userBubble = document.createElement("div");
+      userBubble.textContent = msg;
+      userBubble.classList.add("chat-bubble", "user-msg");
+      chatbotMessages.appendChild(userBubble);
+      chatbotInput.value = "";
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    
+      // Send to backend
+      fetch("/chatbot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msg })
+      })
+        .then(res => res.json())
+        .then(data => {
+          const botBubble = document.createElement("div");
+          botBubble.textContent = data.response;
+          botBubble.classList.add("chat-bubble", "bot-msg");
+          chatbotMessages.appendChild(botBubble);
+          chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        })
+        .catch(() => {
+          const errorBubble = document.createElement("div");
+          errorBubble.textContent = "Bot: Something went wrong!";
+          errorBubble.classList.add("chat-bubble", "bot-msg");
+          chatbotMessages.appendChild(errorBubble);
+        });
+    }
+    
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const box = document.getElementById('mentalHealthBox');
+    const form = document.getElementById('mentalHealthForm');
+    const resultBox = document.getElementById('stressResult');
+  
+    function toggleForm() {
+      const isHidden = box.classList.contains('hidden');
+  
+      if (isHidden) {
+        // Show box
+        box.classList.remove('hidden');
+        box.classList.add('visible');
+  
+        // Clear form and result
+        form.reset();
+        resultBox.innerHTML = '';
+        resultBox.style.display = 'none';
+  
+      } else {
+        // Hide box
+        box.classList.remove('visible');
+        box.classList.add('hidden');
+      }
+    }
+  
+    form.addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent full page reload
+  
+      const formData = new FormData(form);
+  
+      fetch('/stress-checker', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        const { level, suggestions } = data;
+  
+        resultBox.style.display = 'block';
+        resultBox.innerHTML = `
+          <h4>🧠 Your Stress Level: <strong>${level}</strong></h4>
+          <ul>
+            ${suggestions.map(tip => `<li>${tip}</li>`).join('')}
+          </ul>
+        `;
+      })
+      .catch(err => {
+        resultBox.innerHTML = `<p style="color:red;">Error submitting form.</p>`;
+        resultBox.style.display = 'block';
+      });
+    });
+  </script>
+  <script>
+    function toggleBox() {
+      const box = document.getElementById("mentalHealthBox");
+      const arrow = document.querySelector(".question-box .arrow");
+      if (box.classList.contains("hidden")) {
+        box.classList.remove("hidden");
+        box.classList.add("visible");
+        arrow.textContent = "⬆️";
+      } else {
+        box.classList.remove("visible");
+        box.classList.add("hidden");
+        arrow.textContent = "⬇️";
+      }
+    }
+  </script>
+  
+    
+</body>
+</html>

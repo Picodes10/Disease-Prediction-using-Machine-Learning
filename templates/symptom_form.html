@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Symptom Checker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .symptom-card {
+      border-radius: 12px;
+      padding: 12px 20px;
+      background-color: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s ease-in-out;
+    }
+
+    .symptom-card:hover {
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+      transform: translateY(-3px);
+    }
+
+    .form-check-input:checked {
+      background-color: #0d6efd;
+      border-color: #0d6efd;
+    }
+
+    .submit-btn {
+      font-weight: bold;
+      padding: 10px 30px;
+    }
+
+    .search-input {
+      margin-bottom: 25px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <h2 class="text-center mb-4">🩺 Smart Symptom Checker</h2>
+
+    <!-- Search bar -->
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <input type="text" class="form-control search-input" id="symptomSearch" placeholder="🔍 Search symptom...">
+      </div>
+    </div>
+
+    <form method="POST" action="{{ url_for('symptom_checker') }}">
+      <div class="row row-cols-1 row-cols-md-3 g-4" id="symptomContainer">
+        {% for symptom in symptoms %}
+        <div class="col symptom-item">
+          <div class="symptom-card">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="symptoms" id="symptom-{{ loop.index }}" value="{{ symptom }}">
+              <label class="form-check-label" for="symptom-{{ loop.index }}">{{ symptom.replace("_", " ").title() }}</label>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary submit-btn">Predict Disease</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Search filter
+    const searchInput = document.getElementById("symptomSearch");
+    const items = document.querySelectorAll(".symptom-item");
+
+    searchInput.addEventListener("input", () => {
+      const term = searchInput.value.toLowerCase();
+      items.forEach(item => {
+        const label = item.innerText.toLowerCase();
+        item.style.display = label.includes(term) ? "block" : "none";
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediBase</title>
+  <style>
+    :root {
+      --primary-color: #1a56db;
+      --hover-color: #133a9f;
+      --background-color: #f2f9f9;
+      --card-color: #eaf7fa;
+      --text-color: #333;
+      --detail-bg: #ffffff;
+    }
+  
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    h2 {
+      color: var(--primary-color);
+      text-align: center;
+      margin: 30px 0 10px;
+      font-size: 2.2rem;
+    }
+  
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      padding: 20px;
+      width: 100%;
+      max-width: 1200px;
+    }
+  
+    .left-panel {
+      flex: 1 1 35%;
+      max-width: 400px;
+    }
+  
+    .right-panel {
+      flex: 2 1 60%;
+      background-color: var(--detail-bg);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+  
+    .search-box {
+      width: 92%;
+      padding: 12px 18px;
+      border-radius: 30px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      transition: 0.3s ease;
+    }
+  
+    .search-box:focus {
+      border-color: var(--primary-color);
+      outline: none;
+    }
+  
+    .disease-card {
+      background-color: var(--card-color);
+      border-radius: 15px;
+      padding: 22px 18px;
+      margin-bottom: 12px;
+      font-size: 17px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease, background-color 0.3s;
+    }
+  
+    .disease-card:hover {
+      transform: scale(1.02);
+      background-color: #c1f0f5;
+    }
+  
+    .disease-card img {
+      width: 28px;
+      height: 28px;
+      margin-right: 14px;
+    }
+  
+    .disease-details {
+      display: none;
+      padding: 14px 20px;
+      background: var(--detail-bg);
+      border-left: 4px solid var(--primary-color);
+      border-radius: 10px;
+      margin-bottom: 16px;
+      font-size: 15px;
+      color: var(--text-color);
+      animation: fadeIn 0.3s ease-in-out;
+    }
+  
+    .disease-details ul {
+      margin-top: 4px;
+      margin-bottom: 10px;
+      padding-left: 20px;
+    }
+  
+    .news-section h3,
+    .videos-section h3 {
+      margin-top: 0;
+      color: var(--text-color);
+    }
+  
+    .news-section ul {
+      padding-left: 20px;
+      margin: 0;
+      max-height: 260px;
+      overflow-y: auto;
+    }
+  
+    .news-section ul li {
+      margin-bottom: 8px;
+    }
+  
+    .news-section ul li a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+  
+    .news-section ul li a:hover {
+      text-decoration: underline;
+    }
+  
+    .video-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+        padding: 1rem;
+      }
+      .video-grid iframe {
+            width: 100%;
+            height: 180px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      
+      .video-grid iframe:hover {
+        transform: scale(1.02);
+      }
+      
+  
+    .refresh-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+      margin-top: 12px;
+    }
+  
+    .refresh-btn:hover {
+      background-color: var(--hover-color);
+    }
+  
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #f9f5f5;
+      color: #111;
+      text-align: center;
+      padding: 12px 0;
+      font-size: 14px;
+    }
+  
+    footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+  
+    footer a:hover {
+      text-decoration: underline;
+    }
+  
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+  
+</head>
+<body>
+
+  <h2>MediBase</h2>
+
+  <div class="container">
+
+    <div class="left-panel">
+      <input type="text" class="search-box" placeholder="🔍 Search for a disease...">
+      
+      <!-- Disease cards with expandable details -->
+      <div class="disease-card"><img src="{{ url_for('static', filename='icons/heart-disease.png') }}" alt="Heart Icon">Heart Disease</div>
+      <div class="disease-details">
+        <strong>Definition:</strong><ul><li>Heart disease refers to a range of conditions that affect the heart</li></ul>
+        <strong>Symptoms:</strong><ul><li>Chest pain</li><li>Shortness of breath</li><li>Fatigue</li></ul>
+        <strong>Causes:</strong><ul><li>High blood pressure</li><li>Cholesterol</li><li>Smoking</li></ul>
+        <strong>Prevention:</strong><ul><li>Healthy diet</li><li>Regular exercise</li><li>Manage stress</li></ul>
+        <strong>Diagnosis:</strong><ul><li>ECG</li><li>Blood tests</li><li>Chest X-ray</li><li>Coronary angiogram</li></ul>
+        <strong>Treatment:</strong><ul><li>Medications (beta blockers, statins)</li><li>Lifestyle changes</li><li>Angioplasty or bypass surgery</li></ul>
+        <strong>Risk Factors:</strong><ul><li>Age</li><li>Smoking</li><li>Diabetes</li><li>Obesity</li><li>Family history</li></ul>
+      </div>
+
+      <div class="disease-card"><img src="{{ url_for('static', filename='icons/diabetes-test.png') }}" alt="Diabetes Icon">Diabetes</div>
+      <div class="disease-details">
+        <strong>Definition:</strong><ul><li>Diabetes is a chronic condition where the body is unable to properly process blood glucose</li></ul>
+        <strong>Symptoms:</strong><ul><li>Frequent urination</li><li>Excessive thirst</li><li>Increased hunger</li><li>Blurred vision</li></ul>
+        <strong>Causes:</strong><ul><li>Genetics</li><li>Obesity</li><li>Poor lifestyle</li><li>Insulin resistance</li></ul>
+        <strong>Prevention:</strong><ul><li>Healthy diet</li><li>Exercise</li><li>Maintain ideal weight</li><li>Regular checkups</li></ul>
+        <strong>Diagnosis:</strong><ul><li>Fasting blood sugar test</li><li>A1C test</li><li>Glucose tolerance test</li></ul>
+        <strong>Treatment:</strong><ul><li>Insulin therapy</li><li>Oral medications</li><li>Dietary control</li><li>Exercise</li></ul>
+        <strong>Risk Factors:</strong><ul><li>Family history</li><li>Inactivity</li><li>Overweight</li><li>High blood pressure</li></ul>
+      </div>
+
+      <div class="disease-card"><img src="{{ url_for('static', filename='icons/liver.png') }}" alt="Liver Icon">Liver Disease</div>
+      <div class="disease-details">
+        <strong>Definition:</strong><ul><li>Liver disease encompasses any condition that damages the liver and affects its function</li></ul>
+        <strong>Symptoms:</strong><ul><li>Jaundice</li><li>Fatigue</li><li>Dark urine</li><li>Swelling in the abdomen</li></ul>
+        <strong>Causes:</strong><ul><li>Hepatitis viruses</li><li>Alcohol abuse</li><li>Non-alcoholic fatty liver disease</li></ul>
+        <strong>Prevention:</strong><ul><li>Avoid alcohol and drug abuse</li><li>Vaccination</li><li>Maintain healthy weight</li></ul>
+        <strong>Diagnosis:</strong><ul><li>Blood tests</li><li>Imaging (ultrasound/CT)</li><li>Liver biopsy</li></ul>
+        <strong>Treatment:</strong><ul><li>Medication</li><li>Lifestyle changes</li><li>Liver transplant in severe cases</li></ul>
+        <strong>Risk Factors:</strong><ul><li>Alcohol use</li><li>Obesity</li><li>Diabetes</li><li>Unsafe needle practices</li></ul>
+      </div>
+
+      <div class="disease-card"><img src="{{ url_for('static', filename='icons/parkinson.png') }}" alt="Hand Icon">Parkinson’s Disease</div>
+      <div class="disease-details">
+        <strong>Definition:</strong><ul><li>Parkinson’s disease is a progressive nervous system disorder that affects movement</li></ul>
+        <strong>Symptoms:</strong><ul><li>Tremors</li><li>Slowed movements</li><li>Muscle stiffness</li><li>Balance issues</li></ul>
+        <strong>Causes:</strong><ul><li>Loss of dopamine-producing neurons</li><li>Possibly genetic or environmental</li></ul>
+        <strong>Prevention:</strong><ul><li>No guaranteed prevention, but healthy lifestyle may help delay onset</li></ul>
+        <strong>Diagnosis:</strong><ul><li>Neurological exam</li><li>Brain imaging</li><li>Response to Parkinson’s medications</li></ul>
+        <strong>Treatment:</strong><ul><li>Levodopa</li><li>Dopamine agonists</li><li>Physiotherapy</li><li>Deep brain stimulation</li></ul>
+        <strong>Risk Factors:</strong><ul><li>Age (60+)</li><li>Family history</li><li>Exposure to toxins</li></ul>
+      </div>
+
+      <div class="disease-card"><img src="{{ url_for('static', filename='icons/brain.png') }}" alt="Brain Icon">Stroke Risk</div>
+      <div class="disease-details">
+        <strong>Definition:</strong><ul><li>A stroke occurs when blood supply to part of the brain is interrupted or reduced</li></ul>
+        <strong>Symptoms:</strong><ul><li>Sudden numbness</li><li>Confusion</li><li>Trouble speaking</li><li>Loss of balance</li></ul>
+        <strong>Causes:</strong><ul><li>Blocked or burst blood vessels in the brain</li></ul>
+        <strong>Prevention:</strong><ul><li>Control blood pressure and cholesterol</li><li>Healthy lifestyle</li><li>Don’t smoke</li></ul>
+        <strong>Diagnosis:</strong><ul><li>CT scan</li><li>MRI</li><li>Carotid ultrasound</li><li>Angiogram</li></ul>
+        <strong>Treatment:</strong><ul><li>Clot-busting medications</li><li>Surgery</li><li>Rehabilitation</li></ul>
+        <strong>Risk Factors:</strong><ul><li>High BP</li><li>Heart disease</li><li>Diabetes</li><li>Smoking</li><li>Obesity</li></ul>
+      </div>
+
+      <div class="disease-card"><img src="{{ url_for('static', filename='icons/alzheimer.png') }}" alt="Oldman Icon">Alzheimer’s Disease</div>
+      <div class="disease-details">
+        <strong>Definition:</strong><ul><li>Alzheimer’s disease is a progressive neurological disorder that causes memory loss</li></ul>
+        <strong>Symptoms:</strong><ul><li>Memory loss</li><li>Confusion</li><li>Trouble with language and thinking</li><li>Personality changes</li></ul>
+        <strong>Causes:</strong><ul><li>Abnormal buildup of amyloid plaques and tau tangles in the brain</li></ul>
+        <strong>Prevention:</strong><ul><li>Stay mentally and socially active</li><li>Heart-healthy lifestyle</li></ul>
+        <strong>Diagnosis:</strong><ul><li>Cognitive tests</li><li>Brain imaging (MRI/CT)</li><li>Medical history</li></ul>
+        <strong>Treatment:</strong><ul><li>No cure; medications (donepezil, memantine) may ease symptoms</li></ul>
+        <strong>Risk Factors:</strong><ul><li>Age</li><li>Family history</li><li>Head trauma</li><li>Sedentary lifestyle</li></ul>
+      </div>
+
+      <div class="disease-card"><img src="{{ url_for('static', filename='icons/red-blood-cells.png') }}" alt="Drop Icon">Anemia</div>
+        <div class="disease-details">
+            <strong>Definition:</strong><ul><li>Anemia is a condition where the body lacks enough healthy red blood cells or hemoglobin, reducing oxygen transport to tissues.</li></ul>
+            <strong>Symptoms:</strong><ul><li>Fatigue</li><li>Pale skin</li><li>Dizziness or lightheadedness</li><li>Shortness of breath</li><li>Cold hands and feet</li></ul>
+            <strong>Causes:</strong><ul><li>Iron deficiency</li><li>Vitamin B12 or folate deficiency</li><li>Chronic diseases</li><li>Blood loss (e.g., menstruation, injury)</li><li>Genetic disorders (e.g., sickle cell)</li></ul>
+            <strong>Prevention:</strong><ul><li>Iron-rich diet (leafy greens, red meat)</li><li>Vitamin supplements when needed</li><li>Regular screenings in at-risk individuals</li><li>Treat underlying conditions</li></ul>
+            <strong>Diagnosis:</strong><ul><li>Complete blood count (CBC)</li><li>Iron studies</li><li>Vitamin B12/folate test</li><li>Bone marrow biopsy (rare cases)</li></ul>
+            <strong>Treatment:</strong><ul><li>Iron or vitamin supplements</li><li>Blood transfusion (in severe cases)</li><li>Treating the underlying cause</li><li>Dietary changes</li></ul>
+            <strong>Risk Factors:</strong><ul><li>Poor diet</li><li>Menstruation</li><li>Pregnancy</li><li>Chronic illnesses</li><li>Family history of anemia</li></ul>
+    </div>
+
+    <div class="disease-card"><img src="{{ url_for('static', filename='icons/lungs.png') }}" alt="Inhaler Icon">Asthma</div>
+    <div class="disease-details">
+    <strong>Definition:</strong><ul><li>Asthma is a chronic respiratory condition where airways become inflamed and narrowed, causing difficulty in breathing.</li></ul>
+  <strong>Symptoms:</strong><ul><li>Wheezing</li><li>Shortness of breath</li><li>Chest tightness</li><li>Coughing, especially at night or early morning</li></ul>
+  <strong>Causes:</strong><ul><li>Allergens (pollen, dust mites, mold)</li><li>Air pollution</li><li>Respiratory infections</li><li>Physical activity (exercise-induced)</li></ul>
+  <strong>Prevention:</strong><ul><li>Avoid known triggers</li><li>Maintain clean indoor air</li><li>Get vaccinated against flu and pneumonia</li><li>Use controller medications as prescribed</li></ul>
+  <strong>Diagnosis:</strong><ul><li>Spirometry</li><li>Peak flow test</li><li>Methacholine challenge</li><li>Allergy testing</li></ul>
+  <strong>Treatment:</strong><ul><li>Inhaled corticosteroids</li><li>Bronchodilators (rescue inhalers)</li><li>Leukotriene modifiers</li><li>Allergy shots (immunotherapy)</li></ul>
+  <strong>Risk Factors:</strong><ul><li>Family history of asthma</li><li>Allergies</li><li>Smoking or secondhand smoke</li><li>Obesity</li><li>Exposure to pollutants</li></ul>
+    </div>
+
+    <div class="disease-card"><img src="{{ url_for('static', filename='icons/woman.png') }}" alt="Ovary Icon">PCOS</div>
+    <div class="disease-details">
+  <strong>Definition:</strong><ul><li>PCOS is a hormonal disorder common among women of reproductive age, involving irregular periods, excess androgen, and polycystic ovaries.</li></ul>
+  <strong>Symptoms:</strong><ul><li>Irregular or missed periods</li><li>Excess facial or body hair</li><li>Acne or oily skin</li><li>Weight gain</li><li>Thinning hair on the scalp</li></ul>
+  <strong>Causes:</strong><ul><li>Hormonal imbalance (e.g., high androgens)</li><li>Insulin resistance</li><li>Genetic factors</li><li>Low-grade inflammation</li></ul>
+  <strong>Prevention:</strong><ul><li>Maintain a healthy weight</li><li>Balanced diet</li><li>Regular physical activity</li><li>Monitor blood sugar levels</li></ul>
+  <strong>Diagnosis:</strong><ul><li>Pelvic ultrasound</li><li>Blood tests (androgens, insulin, etc.)</li><li>Physical exam</li><li>Medical history review</li></ul>
+  <strong>Treatment:</strong><ul><li>Birth control pills to regulate hormones</li><li>Anti-androgen medications</li><li>Metformin for insulin resistance</li><li>Lifestyle modifications</li></ul>
+  <strong>Risk Factors:</strong><ul><li>Family history of PCOS</li><li>Obesity</li><li>Insulin resistance</li><li>Sedentary lifestyle</li></ul>
+    </div>
+
+</div>
+
+    <div class="right-panel">
+
+      <div class="news-section">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h3>📰 Latest Health News</h3>
+          <button onclick="refreshNews()" class="refresh-btn">🔄 Refresh</button>
+        </div>
+        <ul>
+            {% for article in news[:8] %}
+              <li><a href="{{ article.url }}" target="_blank">{{ article.title }}</a></li>
+            {% endfor %}
+          </ul>
+      </div>
+
+      <div class="videos-section">
+        <h3>🎥 Recommended Health Videos</h3>
+        <div id="videoGrid" class="video-grid"></div>
+
+      </div>
+
+
+  <script>
+    const searchBox = document.querySelector('.search-box');
+    const cards = document.querySelectorAll('.disease-card');
+    const details = document.querySelectorAll('.disease-details');
+
+    cards.forEach((card, index) => {
+      card.addEventListener('click', () => {
+        details[index].style.display = details[index].style.display === 'block' ? 'none' : 'block';
+      });
+    });
+
+    searchBox.addEventListener('input', () => {
+      const val = searchBox.value.toLowerCase();
+      cards.forEach((card, index) => {
+        if (card.textContent.toLowerCase().includes(val)) {
+          card.style.display = 'flex';
+          details[index].style.display = 'none';  // reset dropdown
+        } else {
+          card.style.display = 'none';
+          details[index].style.display = 'none';
+        }
+      });
+    });
+
+    function refreshNews() {
+      fetch('https://newsapi.org/v2/top-headlines?category=health&language=en&pageSize=5&apiKey=97768cd1094a4c16ab947a080b22660d')
+        .then(res => res.json())
+        .then(data => {
+          const list = document.getElementById('newsList');
+          list.innerHTML = '';
+          data.articles.forEach(article => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>`;
+            list.appendChild(li);
+          });
+        });
+    }
+
+    const YOUTUBE_API_KEY = "AIzaSyA7gKNa7zIdM5m1mHYjoOE3KHBnMA_URFY";
+    const query = "heart disease, diabetes, stroke, parkinson, alzheimer, liver disease,anemia";
+    
+    async function loadYouTubeVideos() {
+        try {
+            const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&maxResults=4&key=${YOUTUBE_API_KEY}`);
+            const data = await response.json();
+            const videos = data.items;
+    
+            const videoGrid = document.getElementById("videoGrid");
+    
+            if (!videoGrid) {
+                console.error("videoGrid container not found in HTML.");
+                return;
+            }
+    
+            videoGrid.innerHTML = ""; // Clear previous videos
+    
+            videos.forEach(video => {
+                const iframe = document.createElement("iframe");
+                iframe.src = `https://www.youtube.com/embed/${video.id.videoId}`;
+                iframe.frameBorder = "0";
+                iframe.allowFullscreen = true;
+                iframe.classList.add("video-frame");
+                videoGrid.appendChild(iframe);
+            });
+        } catch (error) {
+            console.error("Failed to load YouTube videos:", error);
+        }
+    }
+    
+
+    refreshNews();
+    loadYouTubeVideos();
+  </script>
+
+  <footer>
+    <p>© 2025 HealthPredict | <a href="{{ url_for('credit') }}">Icon Credits</a></p>
+  </footer>
+</body>
+</html>
