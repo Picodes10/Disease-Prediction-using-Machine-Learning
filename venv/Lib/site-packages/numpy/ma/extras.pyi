@@ -1,68 +1,22 @@
-from _typeshed import Incomplete
+from typing import Any
 
-import numpy as np
-from numpy.lib._function_base_impl import average
 from numpy.lib._index_tricks_impl import AxisConcatenator
 
-from .core import MaskedArray, dot
+from numpy.ma.core import (
+    dot as dot,
+    mask_rowcols as mask_rowcols,
+)
 
-__all__ = [
-    "apply_along_axis",
-    "apply_over_axes",
-    "atleast_1d",
-    "atleast_2d",
-    "atleast_3d",
-    "average",
-    "clump_masked",
-    "clump_unmasked",
-    "column_stack",
-    "compress_cols",
-    "compress_nd",
-    "compress_rowcols",
-    "compress_rows",
-    "corrcoef",
-    "count_masked",
-    "cov",
-    "diagflat",
-    "dot",
-    "dstack",
-    "ediff1d",
-    "flatnotmasked_contiguous",
-    "flatnotmasked_edges",
-    "hsplit",
-    "hstack",
-    "in1d",
-    "intersect1d",
-    "isin",
-    "mask_cols",
-    "mask_rowcols",
-    "mask_rows",
-    "masked_all",
-    "masked_all_like",
-    "median",
-    "mr_",
-    "ndenumerate",
-    "notmasked_contiguous",
-    "notmasked_edges",
-    "polyfit",
-    "row_stack",
-    "setdiff1d",
-    "setxor1d",
-    "stack",
-    "union1d",
-    "unique",
-    "vander",
-    "vstack",
-]
+__all__: list[str]
 
 def count_masked(arr, axis=...): ...
 def masked_all(shape, dtype = ...): ...
 def masked_all_like(arr): ...
 
 class _fromnxfunction:
-    __name__: Incomplete
-    __doc__: Incomplete
-    def __init__(self, funcname) -> None: ...
+    __name__: Any
+    __doc__: Any
+    def __init__(self, funcname): ...
     def getdoc(self): ...
     def __call__(self, *args, **params): ...
 
@@ -91,6 +45,7 @@ diagflat: _fromnxfunction_single
 
 def apply_along_axis(func1d, axis, arr, *args, **kwargs): ...
 def apply_over_axes(func, a, axes): ...
+def average(a, axis=..., weights=..., returned=..., keepdims=...): ...
 def median(a, axis=..., out=..., overwrite_input=..., keepdims=...): ...
 def compress_nd(x, axis=...): ...
 def compress_rowcols(x, axis=...): ...
@@ -110,13 +65,13 @@ def cov(x, y=..., rowvar=..., bias=..., allow_masked=..., ddof=...): ...
 def corrcoef(x, y=..., rowvar=..., bias = ..., allow_masked=..., ddof = ...): ...
 
 class MAxisConcatenator(AxisConcatenator):
-    @staticmethod
-    def concatenate(arrays: Incomplete, axis: int = 0) -> Incomplete: ...  # type: ignore[override]  # pyright: ignore[reportIncompatibleMethodOverride]
+    concatenate: Any
     @classmethod
-    def makemat(cls, arr: Incomplete) -> Incomplete: ...  # type: ignore[override]  # pyright: ignore[reportIncompatibleVariableOverride]
+    def makemat(cls, arr): ...
+    def __getitem__(self, key): ...
 
 class mr_class(MAxisConcatenator):
-    def __init__(self) -> None: ...
+    def __init__(self): ...
 
 mr_: mr_class
 
@@ -129,6 +84,3 @@ def clump_unmasked(a): ...
 def clump_masked(a): ...
 def vander(x, n=...): ...
 def polyfit(x, y, deg, rcond=..., full=..., w=..., cov=...): ...
-
-#
-def mask_rowcols(a: Incomplete, axis: Incomplete | None = None) -> MaskedArray[Incomplete, np.dtype[Incomplete]]: ...

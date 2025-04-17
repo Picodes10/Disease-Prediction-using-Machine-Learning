@@ -42,7 +42,7 @@ class DistutilsBackend(Backend):
                 i = get_info(n)
                 if not i:
                     print(
-                        f"No {n!r} resources found"
+                        f"No {repr(n)} resources found"
                         "in system (try `f2py --help-link`)"
                     )
                 dict_append(ext_args, **i)

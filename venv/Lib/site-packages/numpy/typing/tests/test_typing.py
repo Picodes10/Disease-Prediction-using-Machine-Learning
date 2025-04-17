@@ -5,6 +5,7 @@ import os
 import re
 import shutil
 from collections import defaultdict
+from collections.abc import Iterator
 from typing import TYPE_CHECKING
 
 import pytest
@@ -33,7 +34,6 @@ else:
     NO_MYPY = False
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
     # We need this as annotation, but it's located in a private namespace.
     # As a compromise, do *not* import it during runtime
     from _pytest.mark.structures import ParameterSet
@@ -168,9 +168,9 @@ def test_fail(path: str) -> None:
         target_line = lines[lineno - 1]
         if "# E:" in target_line:
             expression, _, marker = target_line.partition("  # E: ")
-            error = errors[lineno].strip()
-            expected_error = marker.strip()
-            _test_fail(path, expression, error, expected_error, lineno)
+            expected_error = errors[lineno].strip()
+            marker = marker.strip()
+            _test_fail(path, expression, marker, expected_error, lineno)
         else:
             pytest.fail(
                 f"Unexpected mypy output at line {lineno}\n\n{errors[lineno]}"
@@ -200,7 +200,7 @@ def _test_fail(
 ) -> None:
     if expected_error is None:
         raise AssertionError(_FAIL_MSG1.format(lineno, expression, error))
-    elif expected_error not in error:
+    elif error not in expected_error:
         raise AssertionError(_FAIL_MSG2.format(
             lineno, expression, expected_error, error
         ))

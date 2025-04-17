@@ -1,4 +1,14 @@
-from numpy import matrix
-from .defmatrix import bmat, asmatrix
+from numpy._pytesttester import PytestTester
 
-__all__ = ["matrix", "bmat", "asmatrix"]
+from numpy import (
+    matrix as matrix,
+)
+
+from numpy.matrixlib.defmatrix import (
+    bmat as bmat,
+    mat as mat,
+    asmatrix as asmatrix,
+)
+
+__all__: list[str]
+test: PytestTester

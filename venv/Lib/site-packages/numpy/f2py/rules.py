@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 
 Rules for building C/API module with f2py2e.
@@ -46,8 +47,7 @@ terms of the NumPy License.
 
 NO WARRANTY IS EXPRESSED OR IMPLIED.  USE AT YOUR OWN RISK.
 """
-import os
-import sys
+import os, sys
 import time
 import copy
 from pathlib import Path
@@ -245,11 +245,6 @@ PyMODINIT_FUNC PyInit_#modulename#(void) {
     if (! PyErr_Occurred())
         on_exit(f2py_report_on_exit,(void*)\"#modulename#\");
 #endif
-
-    if (PyType_Ready(&PyFortran_Type) < 0) {
-        return NULL;
-    }
-
     return m;
 }
 #ifdef __cplusplus
@@ -464,7 +459,7 @@ rout_rules = [
     {
       extern #ctype# #F_FUNC#(#name_lower#,#NAME#)(void);
       PyObject* o = PyDict_GetItemString(d,"#name#");
-      tmp = F2PyCapsule_FromVoidPtr((void*)#F_WRAPPEDFUNC#(#name_lower#,#NAME#),NULL);
+      tmp = F2PyCapsule_FromVoidPtr((void*)#F_FUNC#(#name_lower#,#NAME#),NULL);
       PyObject_SetAttrString(o,"_cpointer", tmp);
       Py_DECREF(tmp);
       s = PyUnicode_FromString("#name#");

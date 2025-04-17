@@ -1,9 +1,13 @@
+import sys
 from typing import Any
 
 import numpy as np
 import numpy.typing as npt
 
-from typing_extensions import assert_type
+if sys.version_info >= (3, 11):
+    from typing import assert_type
+else:
+    from typing_extensions import assert_type
 
 AR_f8: npt.NDArray[np.float64]
 AR_LIKE_f: list[float]

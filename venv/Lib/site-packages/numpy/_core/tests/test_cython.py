@@ -1,7 +1,9 @@
 from datetime import datetime
 import os
+import shutil
 import subprocess
 import sys
+import time
 import pytest
 
 import numpy as np
@@ -46,8 +48,7 @@ def install_temp(tmpdir_factory):
     native_file = str(build_dir / 'interpreter-native-file.ini')
     with open(native_file, 'w') as f:
         f.write("[binaries]\n")
-        f.write(f"python = '{sys.executable}'\n")
-        f.write(f"python3 = '{sys.executable}'")
+        f.write(f"python = '{sys.executable}'")
 
     try:
         subprocess.check_call(["meson", "--version"])
@@ -71,7 +72,7 @@ def install_temp(tmpdir_factory):
         print("----------------")
         print("meson build failed when doing")
         print(f"'meson setup --native-file {native_file} {srcdir}'")
-        print("'meson compile -vv'")
+        print(f"'meson compile -vv'")
         print(f"in {build_dir}")
         print("----------------")
         raise
@@ -216,8 +217,10 @@ def test_multiiter_fields(install_temp, arrays):
     assert bcast.shape == checks.get_multiiter_shape(bcast)
     assert bcast.index == checks.get_multiiter_current_index(bcast)
     assert all(
-        x.base is y.base
-        for x, y in zip(bcast.iters, checks.get_multiiter_iters(bcast))
+        [
+            x.base is y.base
+            for x, y in zip(bcast.iters, checks.get_multiiter_iters(bcast))
+        ]
     )
 
 
@@ -277,8 +280,10 @@ def test_npyiter_api(install_temp):
         x is y for x, y in zip(checks.get_npyiter_operands(it), it.operands)
     )
     assert all(
-        np.allclose(x, y)
-        for x, y in zip(checks.get_npyiter_itviews(it), it.itviews)
+        [
+            np.allclose(x, y)
+            for x, y in zip(checks.get_npyiter_itviews(it), it.itviews)
+        ]
     )
 
 
@@ -291,13 +296,7 @@ def test_fillwithbytes(install_temp):
 
 def test_complex(install_temp):
     from checks import inc2_cfloat_struct
-
+    
     arr = np.array([0, 10+10j], dtype="F")
     inc2_cfloat_struct(arr)
     assert arr[1] == (12 + 12j)
-
-
-def test_npy_uintp_type_enum():
-    import checks
-    assert checks.check_npy_uintp_type_enum()
-

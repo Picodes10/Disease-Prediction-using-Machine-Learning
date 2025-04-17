@@ -1425,7 +1425,7 @@ class _FromStringWorker:
             return result
 
         # referencing/dereferencing
-        if r.startswith(('*', '&')):
+        if r.startswith('*') or r.startswith('&'):
             op = {'*': Op.DEREF, '&': Op.REF}[r[0]]
             operand = self.process(restore(r[1:]))
             return Expr(op, operand)

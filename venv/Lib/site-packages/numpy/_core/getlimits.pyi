@@ -1,3 +1,6 @@
-from numpy import finfo, iinfo
+from numpy import (
+    finfo as finfo,
+    iinfo as iinfo,
+)
 
-__all__ = ["finfo", "iinfo"]
+__all__: list[str]

@@ -66,6 +66,8 @@ def take_along_axis(arr, indices, axis):
     Functions returning an index along an axis, like `argsort` and
     `argpartition`, produce suitable indices for this function.
 
+    .. versionadded:: 1.15.0
+
     Parameters
     ----------
     arr : ndarray (Ni..., M, Nk...)
@@ -191,6 +193,8 @@ def put_along_axis(arr, indices, values, axis):
     Functions returning an index along an axis, like `argsort` and
     `argpartition`, produce suitable indices for this function.
 
+    .. versionadded:: 1.15.0
+
     Parameters
     ----------
     arr : ndarray (Ni..., M, Nk...)
@@ -310,6 +314,9 @@ def apply_along_axis(func1d, axis, arr, *args, **kwargs):
         Additional arguments to `func1d`.
     kwargs : any
         Additional named arguments to `func1d`.
+
+        .. versionadded:: 1.9.0
+
 
     Returns
     -------
@@ -527,6 +534,11 @@ def expand_dims(a, axis):
             Passing an axis where ``axis > a.ndim`` will be treated as
             ``axis == a.ndim``, and passing ``axis < -a.ndim - 1`` will
             be treated as ``axis == 0``. This behavior is deprecated.
+
+        .. versionchanged:: 1.18.0
+            A tuple of axes is now supported.  Out of range axes as
+            described above are now forbidden and raise an
+            `~exceptions.AxisError`.
 
     Returns
     -------

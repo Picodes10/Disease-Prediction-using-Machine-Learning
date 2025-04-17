@@ -10,9 +10,9 @@ from numpy._typing import (
     _ArrayLike
 )
 
-__all__ = ["broadcast_to", "broadcast_arrays", "broadcast_shapes"]
-
 _SCT = TypeVar("_SCT", bound=generic)
+
+__all__: list[str]
 
 class DummyArray:
     __array_interface__: dict[str, Any]

@@ -1,14 +1,12 @@
-from typing import TypedDict, type_check_only
+from typing import TypedDict
 
 from numpy.random.bit_generator import BitGenerator, SeedSequence
 from numpy._typing import _ArrayLikeInt_co
 
-@type_check_only
 class _PCG64Internal(TypedDict):
     state: int
     inc: int
 
-@type_check_only
 class _PCG64State(TypedDict):
     bit_generator: str
     state: _PCG64Internal

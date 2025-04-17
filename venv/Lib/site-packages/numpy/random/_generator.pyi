@@ -1,5 +1,5 @@
 from collections.abc import Callable
-from typing import Any, TypeAlias, overload, TypeVar, Literal
+from typing import Any, overload, TypeVar, Literal
 
 import numpy as np
 from numpy import (
@@ -17,7 +17,7 @@ from numpy import (
     uint32,
     uint64,
 )
-from numpy.random import BitGenerator, SeedSequence, RandomState
+from numpy.random import BitGenerator, SeedSequence
 from numpy._typing import (
     ArrayLike,
     NDArray,
@@ -25,6 +25,8 @@ from numpy._typing import (
     _ArrayLikeInt_co,
     _DoubleCodes,
     _DTypeLikeBool,
+    _DTypeLikeInt,
+    _DTypeLikeUInt,
     _Float32Codes,
     _Float64Codes,
     _FloatLike_co,
@@ -45,7 +47,7 @@ from numpy._typing import (
 
 _ArrayType = TypeVar("_ArrayType", bound=NDArray[Any])
 
-_DTypeLikeFloat32: TypeAlias = (
+_DTypeLikeFloat32 = (
     dtype[float32]
     | _SupportsDType[dtype[float32]]
     | type[float32]
@@ -53,7 +55,7 @@ _DTypeLikeFloat32: TypeAlias = (
     | _SingleCodes
 )
 
-_DTypeLikeFloat64: TypeAlias = (
+_DTypeLikeFloat64 = (
     dtype[float64]
     | _SupportsDType[dtype[float64]]
     | type[float]
@@ -212,8 +214,6 @@ class Generator:
         low: int,
         high: None | int = ...,
         size: None = ...,
-        *,
-        endpoint: bool = ...,
     ) -> int: ...
     @overload
     def integers(  # type: ignore[misc]
@@ -338,8 +338,6 @@ class Generator:
         low: _ArrayLikeInt_co,
         high: None | _ArrayLikeInt_co = ...,
         size: None | _ShapeLike = ...,
-        *,
-        endpoint: bool = ...
     ) -> NDArray[int64]: ...
     @overload
     def integers(  # type: ignore[misc]
@@ -782,5 +780,5 @@ class Generator:
     def shuffle(self, x: ArrayLike, axis: int = ...) -> None: ...
 
 def default_rng(
-    seed: None | _ArrayLikeInt_co | SeedSequence | BitGenerator | Generator | RandomState = ...
+    seed: None | _ArrayLikeInt_co | SeedSequence | BitGenerator | Generator = ...
 ) -> Generator: ...

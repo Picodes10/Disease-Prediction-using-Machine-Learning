@@ -1,9 +1,12 @@
+import sys
 from typing import Any
 
 import numpy as np
-from numpy._typing import _64Bit
 
-from typing_extensions import assert_type, LiteralString
+if sys.version_info >= (3, 11):
+    from typing import assert_type, LiteralString
+else:
+    from typing_extensions import assert_type, LiteralString
 
 f: float
 f8: np.float64
@@ -16,8 +19,8 @@ u4: np.uint32
 finfo_f8: np.finfo[np.float64]
 iinfo_i8: np.iinfo[np.int64]
 
-assert_type(np.finfo(f), np.finfo[np.float64])
-assert_type(np.finfo(f8), np.finfo[np.floating[_64Bit]])
+assert_type(np.finfo(f), np.finfo[np.double])
+assert_type(np.finfo(f8), np.finfo[np.float64])
 assert_type(np.finfo(c8), np.finfo[np.float32])
 assert_type(np.finfo('f2'), np.finfo[np.floating[Any]])
 

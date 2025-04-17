@@ -3,7 +3,6 @@ from typing import (
     Literal as L,
     Any,
     SupportsIndex,
-    TypeAlias,
 )
 
 from numpy._typing import (
@@ -11,9 +10,7 @@ from numpy._typing import (
     ArrayLike,
 )
 
-__all__ = ["histogram", "histogramdd", "histogram_bin_edges"]
-
-_BinKind: TypeAlias = L[
+_BinKind = L[
     "stone",
     "auto",
     "doane",
@@ -23,6 +20,8 @@ _BinKind: TypeAlias = L[
     "sqrt",
     "sturges",
 ]
+
+__all__: list[str]
 
 def histogram_bin_edges(
     a: ArrayLike,

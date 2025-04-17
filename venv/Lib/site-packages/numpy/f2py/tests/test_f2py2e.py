@@ -1,11 +1,6 @@
-import re
-import shlex
-import subprocess
-import sys
-import textwrap
+import textwrap, re, sys, subprocess, shlex
 from pathlib import Path
 from collections import namedtuple
-
 import platform
 
 import pytest
@@ -249,7 +244,7 @@ def test_no_py312_distutils_fcompiler(capfd, hello_world_f90, monkeypatch):
         out, _ = capfd.readouterr()
         assert "--fcompiler cannot be used with meson" in out
     monkeypatch.setattr(
-        sys, "argv", "f2py --help-link".split()
+        sys, "argv", f"f2py --help-link".split()
     )
     with util.switchdir(ipath.parent):
         f2pycli()

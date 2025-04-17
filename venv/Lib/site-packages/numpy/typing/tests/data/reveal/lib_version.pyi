@@ -1,6 +1,11 @@
+import sys
+
 from numpy.lib import NumpyVersion
 
-from typing_extensions import assert_type
+if sys.version_info >= (3, 11):
+    from typing import assert_type
+else:
+    from typing_extensions import assert_type
 
 version = NumpyVersion("1.8.0")
 

@@ -1,9 +1,13 @@
+import sys
 from collections.abc import Sequence
 from typing import Any
 
 from numpy._typing import _NestedSequence
 
-from typing_extensions import assert_type
+if sys.version_info >= (3, 11):
+    from typing import assert_type
+else:
+    from typing_extensions import assert_type
 
 a: Sequence[int]
 b: Sequence[Sequence[int]]

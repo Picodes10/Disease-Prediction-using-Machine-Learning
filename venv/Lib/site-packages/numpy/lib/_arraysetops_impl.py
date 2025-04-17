@@ -177,6 +177,8 @@ def unique(ar, return_index=False, return_inverse=False,
         that contain objects are not supported if the `axis` kwarg is used. The
         default is None.
 
+        .. versionadded:: 1.13.0
+
     equal_nan : bool, optional
         If True, collapses multiple NaN values in the return array into one.
 
@@ -196,10 +198,11 @@ def unique(ar, return_index=False, return_inverse=False,
         The number of times each of the unique values comes up in the
         original array. Only provided if `return_counts` is True.
 
+        .. versionadded:: 1.9.0
+
     See Also
     --------
     repeat : Repeat elements of an array.
-    sort : Return a sorted copy of an array.
 
     Notes
     -----
@@ -213,15 +216,17 @@ def unique(ar, return_index=False, return_inverse=False,
     flattened subarrays are sorted in lexicographic order starting with the
     first element.
 
-    .. versionchanged:: 1.21
-        Like np.sort, NaN will sort to the end of the values.
-        For complex arrays all NaN values are considered equivalent
+    .. versionchanged: 1.21
+        If nan values are in the input array, a single nan is put
+        to the end of the sorted unique values.
+
+        Also for complex arrays all NaN values are considered equivalent
         (no matter whether the NaN is in the real or imaginary part).
         As the representant for the returned array the smallest one in the
         lexicographical order is chosen - see np.sort for how the lexicographical
         order is defined for complex arrays.
 
-    .. versionchanged:: 2.0
+    .. versionchanged: 2.0
         For multi-dimensional inputs, ``unique_inverse`` is reshaped
         such that the input can be reconstructed using
         ``np.take(unique, unique_inverse, axis=axis)``. The result is
@@ -283,7 +288,7 @@ def unique(ar, return_index=False, return_inverse=False,
     """
     ar = np.asanyarray(ar)
     if axis is None:
-        ret = _unique1d(ar, return_index, return_inverse, return_counts,
+        ret = _unique1d(ar, return_index, return_inverse, return_counts, 
                         equal_nan=equal_nan, inverse_shape=ar.shape, axis=None)
         return _unpack_tuple(ret)
 
@@ -408,14 +413,14 @@ def _unique_all_dispatcher(x, /):
 @array_function_dispatch(_unique_all_dispatcher)
 def unique_all(x):
     """
-    Find the unique elements of an array, and counts, inverse, and indices.
+    Find the unique elements of an array, and counts, inverse and indices.
 
-    This function is an Array API compatible alternative to::
+    This function is an Array API compatible alternative to:
 
-        np.unique(x, return_index=True, return_inverse=True,
-                  return_counts=True, equal_nan=False)
-
-    but returns a namedtuple for easier access to each output.
+    >>> x = np.array([1, 1, 2])
+    >>> np.unique(x, return_index=True, return_inverse=True,
+    ...           return_counts=True, equal_nan=False)
+    (array([1, 2]), array([0, 2]), array([0, 0, 1]), array([2, 1]))
 
     Parameters
     ----------
@@ -440,16 +445,12 @@ def unique_all(x):
     Examples
     --------
     >>> import numpy as np
-    >>> x = [1, 1, 2]
-    >>> uniq = np.unique_all(x)
-    >>> uniq.values
-    array([1, 2])
-    >>> uniq.indices
-    array([0, 2])
-    >>> uniq.inverse_indices
-    array([0, 0, 1])
-    >>> uniq.counts
-    array([2, 1])
+    >>> np.unique_all([1, 1, 2])
+    UniqueAllResult(values=array([1, 2]),
+                    indices=array([0, 2]),
+                    inverse_indices=array([0, 0, 1]),
+                    counts=array([2, 1]))
+
     """
     result = unique(
         x,
@@ -470,11 +471,11 @@ def unique_counts(x):
     """
     Find the unique elements and counts of an input array `x`.
 
-    This function is an Array API compatible alternative to::
+    This function is an Array API compatible alternative to:
 
-        np.unique(x, return_counts=True, equal_nan=False)
-
-    but returns a namedtuple for easier access to each output.
+    >>> x = np.array([1, 1, 2])
+    >>> np.unique(x, return_counts=True, equal_nan=False)
+    (array([1, 2]), array([2, 1]))
 
     Parameters
     ----------
@@ -496,12 +497,9 @@ def unique_counts(x):
     Examples
     --------
     >>> import numpy as np
-    >>> x = [1, 1, 2]
-    >>> uniq = np.unique_counts(x)
-    >>> uniq.values
-    array([1, 2])
-    >>> uniq.counts
-    array([2, 1])
+    >>> np.unique_counts([1, 1, 2])
+    UniqueCountsResult(values=array([1, 2]), counts=array([2, 1]))
+
     """
     result = unique(
         x,
@@ -522,11 +520,11 @@ def unique_inverse(x):
     """
     Find the unique elements of `x` and indices to reconstruct `x`.
 
-    This function is an Array API compatible alternative to::
+    This function is Array API compatible alternative to:
 
-        np.unique(x, return_inverse=True, equal_nan=False)
-
-    but returns a namedtuple for easier access to each output.
+    >>> x = np.array([1, 1, 2])
+    >>> np.unique(x, return_inverse=True, equal_nan=False)
+    (array([1, 2]), array([0, 0, 1]))
 
     Parameters
     ----------
@@ -549,12 +547,9 @@ def unique_inverse(x):
     Examples
     --------
     >>> import numpy as np
-    >>> x = [1, 1, 2]
-    >>> uniq = np.unique_inverse(x)
-    >>> uniq.values
-    array([1, 2])
-    >>> uniq.inverse_indices
-    array([0, 0, 1])
+    >>> np.unique_inverse([1, 1, 2])
+    UniqueInverseResult(values=array([1, 2]), inverse_indices=array([0, 0, 1]))
+
     """
     result = unique(
         x,
@@ -575,9 +570,11 @@ def unique_values(x):
     """
     Returns the unique elements of an input array `x`.
 
-    This function is an Array API compatible alternative to::
+    This function is Array API compatible alternative to:
 
-        np.unique(x, equal_nan=False)
+    >>> x = np.array([1, 1, 2])
+    >>> np.unique(x, equal_nan=False)
+    array([1, 2])
 
     Parameters
     ----------
@@ -634,6 +631,8 @@ def intersect1d(ar1, ar2, assume_unique=False, return_indices=False):
         If True, the indices which correspond to the intersection of the two
         arrays are returned. The first instance of a value is used if there are
         multiple. Default is False.
+
+        .. versionadded:: 1.15.0
 
     Returns
     -------
@@ -805,6 +804,8 @@ def in1d(ar1, ar2, assume_unique=False, invert=False, *, kind=None):
           'table' may be faster in most cases. If 'table' is chosen,
           `assume_unique` will have no effect.
 
+        .. versionadded:: 1.8.0
+
     Returns
     -------
     in1d : (M,) ndarray, bool
@@ -831,6 +832,8 @@ def in1d(ar1, ar2, assume_unique=False, invert=False, *, kind=None):
     but may use greater memory. The default value for `kind` will
     be automatically selected based only on memory usage, so one may
     manually set ``kind='table'`` if memory constraints can be relaxed.
+
+    .. versionadded:: 1.4.0
 
     Examples
     --------
@@ -905,11 +908,11 @@ def _in1d(ar1, ar2, assume_unique=False, invert=False, *, kind=None):
         # However, here we set the requirement that by default
         # the intermediate array can only be 6x
         # the combined memory allocation of the original
-        # arrays. See discussion on
+        # arrays. See discussion on 
         # https://github.com/numpy/numpy/pull/12065.
 
         if (
-            range_safe_from_overflow and
+            range_safe_from_overflow and 
             (below_memory_constraint or kind == 'table')
         ):
 
@@ -1066,6 +1069,7 @@ def isin(element, test_elements, assume_unique=False, invert=False, *,
 
     Notes
     -----
+
     `isin` is an element-wise function version of the python keyword `in`.
     ``isin(a, b)`` is roughly equivalent to
     ``np.array([item in b for item in a])`` if `a` and `b` are 1-D sequences.
@@ -1084,6 +1088,8 @@ def isin(element, test_elements, assume_unique=False, invert=False, *,
     but may use greater memory. The default value for `kind` will
     be automatically selected based only on memory usage, so one may
     manually set ``kind='table'`` if memory constraints can be relaxed.
+
+    .. versionadded:: 1.13.0
 
     Examples
     --------

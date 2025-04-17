@@ -1,4 +1,5 @@
 import re
+import sys
 import zipfile
 import pathlib
 from typing import IO, Any
@@ -8,7 +9,10 @@ import numpy.typing as npt
 import numpy as np
 from numpy.lib._npyio_impl import BagObj
 
-from typing_extensions import assert_type
+if sys.version_info >= (3, 11):
+    from typing import assert_type
+else:
+    from typing_extensions import assert_type
 
 str_path: str
 pathlib_path: pathlib.Path

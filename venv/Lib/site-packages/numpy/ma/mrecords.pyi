@@ -1,16 +1,9 @@
 from typing import Any, TypeVar
 
 from numpy import dtype
-from . import MaskedArray
+from numpy.ma import MaskedArray
 
-__all__ = [
-    "MaskedRecords",
-    "mrecarray",
-    "fromarrays",
-    "fromrecords",
-    "fromtextfile",
-    "addfield",
-]
+__all__: list[str]
 
 _ShapeType_co = TypeVar("_ShapeType_co", covariant=True, bound=tuple[int, ...])
 _DType_co = TypeVar("_DType_co", bound=dtype[Any], covariant=True)

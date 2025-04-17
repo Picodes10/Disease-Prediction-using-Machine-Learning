@@ -1,22 +1,13 @@
 from numpy._core.records import (
-    record,
-    recarray,
-    find_duplicate,
-    format_parser,
-    fromarrays,
-    fromrecords,
-    fromstring,
-    fromfile,
-    array,
+    record as record,
+    recarray as recarray,
+    format_parser as format_parser,
+    fromarrays as fromarrays,
+    fromrecords as fromrecords,
+    fromstring as fromstring,
+    fromfile as fromfile,
+    array as array
 )
-__all__ = [
-    "record",
-    "recarray",
-    "format_parser",
-    "fromarrays",
-    "fromrecords",
-    "fromstring",
-    "fromfile",
-    "array",
-    "find_duplicate",
-]
+
+__all__: list[str]
+__path__: list[str]

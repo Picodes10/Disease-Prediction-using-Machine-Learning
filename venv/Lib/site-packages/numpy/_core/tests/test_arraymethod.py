@@ -5,6 +5,7 @@ this is private API, but when added, public API may be added here.
 
 from __future__ import annotations
 
+import sys
 import types
 from typing import Any
 

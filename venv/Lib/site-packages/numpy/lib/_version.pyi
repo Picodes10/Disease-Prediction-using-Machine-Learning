@@ -1,4 +1,4 @@
-__all__ = ["NumpyVersion"]
+__all__: list[str]
 
 class NumpyVersion:
     vstring: str

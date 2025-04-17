@@ -1,16 +1,14 @@
-from typing import TypedDict, type_check_only
+from typing import TypedDict
 
 from numpy import uint64
 from numpy.typing import NDArray
 from numpy.random.bit_generator import BitGenerator, SeedSequence
 from numpy._typing import _ArrayLikeInt_co
 
-@type_check_only
 class _PhiloxInternal(TypedDict):
     counter: NDArray[uint64]
     key: NDArray[uint64]
 
-@type_check_only
 class _PhiloxState(TypedDict):
     bit_generator: str
     state: _PhiloxInternal

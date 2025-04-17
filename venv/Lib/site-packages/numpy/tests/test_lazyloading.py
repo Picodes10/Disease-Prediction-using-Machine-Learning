@@ -1,4 +1,5 @@
 import sys
+import importlib
 from importlib.util import LazyLoader, find_spec, module_from_spec
 import pytest
 
@@ -26,7 +27,7 @@ def test_lazy_load():
         np = module
 
         # test a subpackage import
-        from numpy.lib import recfunctions  # noqa: F401
+        from numpy.lib import recfunctions
 
         # test triggering the import of the package
         np.ndarray

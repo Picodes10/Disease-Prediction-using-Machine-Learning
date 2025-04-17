@@ -13,11 +13,19 @@ and the masking of individual fields.
 #  first place, and then rename the invalid fields with a trailing
 #  underscore. Maybe we could just overload the parser function ?
 
+from numpy.ma import (
+    MAError, MaskedArray, masked, nomask, masked_array, getdata,
+    getmaskarray, filled
+)
+import numpy.ma as ma
 import warnings
 
 import numpy as np
-import numpy.ma as ma
+from numpy import dtype, ndarray, array as narray
 
+from numpy._core.records import (
+    recarray, fromarrays as recfromarrays, fromrecords as recfromrecords
+)
 
 _byteorderconv = np._core.records._byteorderconv
 
@@ -74,7 +82,7 @@ def _get_fieldmask(self):
     return fdmask
 
 
-class MaskedRecords(ma.MaskedArray):
+class MaskedRecords(MaskedArray):
     """
 
     Attributes
@@ -95,17 +103,17 @@ class MaskedRecords(ma.MaskedArray):
     def __new__(cls, shape, dtype=None, buf=None, offset=0, strides=None,
                 formats=None, names=None, titles=None,
                 byteorder=None, aligned=False,
-                mask=ma.nomask, hard_mask=False, fill_value=None, keep_mask=True,
+                mask=nomask, hard_mask=False, fill_value=None, keep_mask=True,
                 copy=False,
                 **options):
 
-        self = np.recarray.__new__(cls, shape, dtype=dtype, buf=buf, offset=offset,
-                                   strides=strides, formats=formats, names=names,
-                                   titles=titles, byteorder=byteorder,
-                                   aligned=aligned,)
+        self = recarray.__new__(cls, shape, dtype=dtype, buf=buf, offset=offset,
+                                strides=strides, formats=formats, names=names,
+                                titles=titles, byteorder=byteorder,
+                                aligned=aligned,)
 
         mdtype = ma.make_mask_descr(self.dtype)
-        if mask is ma.nomask or not np.size(mask):
+        if mask is nomask or not np.size(mask):
             if not keep_mask:
                 self._mask = tuple([False] * len(mdtype))
         else:
@@ -119,7 +127,7 @@ class MaskedRecords(ma.MaskedArray):
                 else:
                     msg = "Mask and data not compatible: data size is %i, " + \
                           "mask size is %i."
-                    raise ma.MAError(msg % (nd, nm))
+                    raise MAError(msg % (nd, nm))
             if not keep_mask:
                 self.__setmask__(mask)
                 self._sharedmask = True
@@ -136,20 +144,20 @@ class MaskedRecords(ma.MaskedArray):
         # Make sure we have a _fieldmask by default
         _mask = getattr(obj, '_mask', None)
         if _mask is None:
-            objmask = getattr(obj, '_mask', ma.nomask)
-            _dtype = np.ndarray.__getattribute__(self, 'dtype')
-            if objmask is ma.nomask:
+            objmask = getattr(obj, '_mask', nomask)
+            _dtype = ndarray.__getattribute__(self, 'dtype')
+            if objmask is nomask:
                 _mask = ma.make_mask_none(self.shape, dtype=_dtype)
             else:
                 mdescr = ma.make_mask_descr(_dtype)
-                _mask = np.array([tuple([m] * len(mdescr)) for m in objmask],
-                               dtype=mdescr).view(np.recarray)
+                _mask = narray([tuple([m] * len(mdescr)) for m in objmask],
+                               dtype=mdescr).view(recarray)
         # Update some of the attributes
         _dict = self.__dict__
         _dict.update(_mask=_mask)
         self._update_from(obj)
-        if _dict['_baseclass'] == np.ndarray:
-            _dict['_baseclass'] = np.recarray
+        if _dict['_baseclass'] == ndarray:
+            _dict['_baseclass'] = recarray
         return
 
     @property
@@ -158,7 +166,7 @@ class MaskedRecords(ma.MaskedArray):
         Returns the data as a recarray.
 
         """
-        return np.ndarray.view(self, np.recarray)
+        return ndarray.view(self, recarray)
 
     @property
     def _fieldmask(self):
@@ -185,15 +193,15 @@ class MaskedRecords(ma.MaskedArray):
         except AttributeError:
             # attr must be a fieldname
             pass
-        fielddict = np.ndarray.__getattribute__(self, 'dtype').fields
+        fielddict = ndarray.__getattribute__(self, 'dtype').fields
         try:
             res = fielddict[attr][:2]
         except (TypeError, KeyError) as e:
             raise AttributeError(
                 f'record array has no attribute {attr}') from e
         # So far, so good
-        _localdict = np.ndarray.__getattribute__(self, '__dict__')
-        _data = np.ndarray.view(self, _localdict['_baseclass'])
+        _localdict = ndarray.__getattribute__(self, '__dict__')
+        _data = ndarray.view(self, _localdict['_baseclass'])
         obj = _data.getfield(*res)
         if obj.dtype.names is not None:
             raise NotImplementedError("MaskedRecords is currently limited to"
@@ -211,8 +219,8 @@ class MaskedRecords(ma.MaskedArray):
             tp_len = len(_mask.dtype)
             hasmasked = _mask.view((bool, ((tp_len,) if tp_len else ()))).any()
         if (obj.shape or hasmasked):
-            obj = obj.view(ma.MaskedArray)
-            obj._baseclass = np.ndarray
+            obj = obj.view(MaskedArray)
+            obj._baseclass = ndarray
             obj._isfield = True
             obj._mask = _mask
             # Reset the field values
@@ -244,13 +252,13 @@ class MaskedRecords(ma.MaskedArray):
             ret = object.__setattr__(self, attr, val)
         except Exception:
             # Not a generic attribute: exit if it's not a valid field
-            fielddict = np.ndarray.__getattribute__(self, 'dtype').fields or {}
-            optinfo = np.ndarray.__getattribute__(self, '_optinfo') or {}
+            fielddict = ndarray.__getattribute__(self, 'dtype').fields or {}
+            optinfo = ndarray.__getattribute__(self, '_optinfo') or {}
             if not (attr in fielddict or attr in optinfo):
                 raise
         else:
             # Get the list of names
-            fielddict = np.ndarray.__getattribute__(self, 'dtype').fields or {}
+            fielddict = ndarray.__getattribute__(self, 'dtype').fields or {}
             # Check the attribute
             if attr not in fielddict:
                 return ret
@@ -268,7 +276,7 @@ class MaskedRecords(ma.MaskedArray):
             raise AttributeError(
                 f'record array has no attribute {attr}') from e
 
-        if val is ma.masked:
+        if val is masked:
             _fill_value = _localdict['_fill_value']
             if _fill_value is not None:
                 dval = _localdict['_fill_value'][attr]
@@ -276,9 +284,9 @@ class MaskedRecords(ma.MaskedArray):
                 dval = val
             mval = True
         else:
-            dval = ma.filled(val)
-            mval = ma.getmaskarray(val)
-        obj = np.ndarray.__getattribute__(self, '_data').setfield(dval, *res)
+            dval = filled(val)
+            mval = getmaskarray(val)
+        obj = ndarray.__getattribute__(self, '_data').setfield(dval, *res)
         _localdict['_mask'].__setitem__(attr, mval)
         return obj
 
@@ -290,15 +298,15 @@ class MaskedRecords(ma.MaskedArray):
 
         """
         _localdict = self.__dict__
-        _mask = np.ndarray.__getattribute__(self, '_mask')
-        _data = np.ndarray.view(self, _localdict['_baseclass'])
+        _mask = ndarray.__getattribute__(self, '_mask')
+        _data = ndarray.view(self, _localdict['_baseclass'])
         # We want a field
         if isinstance(indx, str):
             # Make sure _sharedmask is True to propagate back to _fieldmask
             # Don't use _set_mask, there are some copies being made that
             # break propagation Don't force the mask to nomask, that wreaks
             # easy masking
-            obj = _data[indx].view(ma.MaskedArray)
+            obj = _data[indx].view(MaskedArray)
             obj._mask = _mask[indx]
             obj._sharedmask = True
             fval = _localdict['_fill_value']
@@ -306,12 +314,12 @@ class MaskedRecords(ma.MaskedArray):
                 obj._fill_value = fval[indx]
             # Force to masked if the mask is True
             if not obj.ndim and obj._mask:
-                return ma.masked
+                return masked
             return obj
         # We want some elements.
         # First, the data.
         obj = np.asarray(_data[indx]).view(mrecarray)
-        obj._mask = np.asarray(_mask[indx]).view(np.recarray)
+        obj._mask = np.asarray(_mask[indx]).view(recarray)
         return obj
 
     def __setitem__(self, indx, value):
@@ -319,7 +327,7 @@ class MaskedRecords(ma.MaskedArray):
         Sets the given record to value.
 
         """
-        ma.MaskedArray.__setitem__(self, indx, value)
+        MaskedArray.__setitem__(self, indx, value)
         if isinstance(indx, str):
             self._mask[indx] = ma.getmaskarray(value)
 
@@ -358,16 +366,16 @@ class MaskedRecords(ma.MaskedArray):
         # OK, basic copy-paste from MaskedArray.view.
         if dtype is None:
             if type is None:
-                output = np.ndarray.view(self)
+                output = ndarray.view(self)
             else:
-                output = np.ndarray.view(self, type)
+                output = ndarray.view(self, type)
         # Here again.
         elif type is None:
             try:
-                if issubclass(dtype, np.ndarray):
-                    output = np.ndarray.view(self, dtype)
+                if issubclass(dtype, ndarray):
+                    output = ndarray.view(self, dtype)
                 else:
-                    output = np.ndarray.view(self, dtype)
+                    output = ndarray.view(self, dtype)
             # OK, there's the change
             except TypeError:
                 dtype = np.dtype(dtype)
@@ -379,14 +387,14 @@ class MaskedRecords(ma.MaskedArray):
                     output = self.__array__().view(dtype, basetype)
                     output._update_from(self)
                 else:
-                    output = np.ndarray.view(self, dtype)
+                    output = ndarray.view(self, dtype)
                 output._fill_value = None
         else:
-            output = np.ndarray.view(self, dtype, type)
+            output = ndarray.view(self, dtype, type)
         # Update the mask, just like in MaskedArray.view
-        if (getattr(output, '_mask', ma.nomask) is not ma.nomask):
+        if (getattr(output, '_mask', nomask) is not nomask):
             mdtype = ma.make_mask_descr(output.dtype)
-            output._mask = self._mask.view(mdtype, np.ndarray)
+            output._mask = self._mask.view(mdtype, ndarray)
             output._mask.shape = output.shape
         return output
 
@@ -424,8 +432,8 @@ class MaskedRecords(ma.MaskedArray):
         """
         if fill_value is not None:
             return self.filled(fill_value).tolist()
-        result = np.array(self.filled().tolist(), dtype=object)
-        mask = np.array(self._mask.tolist())
+        result = narray(self.filled().tolist(), dtype=object)
+        mask = narray(self._mask.tolist())
         result[mask] = None
         return result.tolist()
 
@@ -460,8 +468,8 @@ class MaskedRecords(ma.MaskedArray):
 
         """
         (ver, shp, typ, isf, raw, msk, flv) = state
-        np.ndarray.__setstate__(self, (shp, typ, isf, raw))
-        mdtype = np.dtype([(k, np.bool) for (k, _) in self.dtype.descr])
+        ndarray.__setstate__(self, (shp, typ, isf, raw))
+        mdtype = dtype([(k, np.bool) for (k, _) in self.dtype.descr])
         self.__dict__['_mask'].__setstate__((shp, mdtype, isf, msk))
         self.fill_value = flv
 
@@ -480,8 +488,8 @@ def _mrreconstruct(subtype, baseclass, baseshape, basetype,):
     Build a new MaskedArray from the information stored in a pickle.
 
     """
-    _data = np.ndarray.__new__(baseclass, baseshape, basetype).view(subtype)
-    _mask = np.ndarray.__new__(np.ndarray, baseshape, 'b1')
+    _data = ndarray.__new__(baseclass, baseshape, basetype).view(subtype)
+    _mask = ndarray.__new__(ndarray, baseshape, 'b1')
     return subtype.__new__(subtype, _data, mask=_mask, dtype=basetype,)
 
 mrecarray = MaskedRecords
@@ -523,12 +531,12 @@ def fromarrays(arraylist, dtype=None, shape=None, formats=None,
     Lists of tuples should be preferred over lists of lists for faster processing.
 
     """
-    datalist = [ma.getdata(x) for x in arraylist]
-    masklist = [np.atleast_1d(ma.getmaskarray(x)) for x in arraylist]
-    _array = np.rec.fromarrays(datalist,
-                               dtype=dtype, shape=shape, formats=formats,
-                               names=names, titles=titles, aligned=aligned,
-                               byteorder=byteorder).view(mrecarray)
+    datalist = [getdata(x) for x in arraylist]
+    masklist = [np.atleast_1d(getmaskarray(x)) for x in arraylist]
+    _array = recfromarrays(datalist,
+                           dtype=dtype, shape=shape, formats=formats,
+                           names=names, titles=titles, aligned=aligned,
+                           byteorder=byteorder).view(mrecarray)
     _array._mask.flat = list(zip(*masklist))
     if fill_value is not None:
         _array.fill_value = fill_value
@@ -537,7 +545,7 @@ def fromarrays(arraylist, dtype=None, shape=None, formats=None,
 
 def fromrecords(reclist, dtype=None, shape=None, formats=None, names=None,
                 titles=None, aligned=False, byteorder=None,
-                fill_value=None, mask=ma.nomask):
+                fill_value=None, mask=nomask):
     """
     Creates a MaskedRecords from a list of records.
 
@@ -571,22 +579,22 @@ def fromrecords(reclist, dtype=None, shape=None, formats=None, names=None,
     # Grab the initial _fieldmask, if needed:
     _mask = getattr(reclist, '_mask', None)
     # Get the list of records.
-    if isinstance(reclist, np.ndarray):
+    if isinstance(reclist, ndarray):
         # Make sure we don't have some hidden mask
-        if isinstance(reclist, ma.MaskedArray):
-            reclist = reclist.filled().view(np.ndarray)
+        if isinstance(reclist, MaskedArray):
+            reclist = reclist.filled().view(ndarray)
         # Grab the initial dtype, just in case
         if dtype is None:
             dtype = reclist.dtype
         reclist = reclist.tolist()
-    mrec = np.rec.fromrecords(reclist, dtype=dtype, shape=shape, formats=formats,
+    mrec = recfromrecords(reclist, dtype=dtype, shape=shape, formats=formats,
                           names=names, titles=titles,
                           aligned=aligned, byteorder=byteorder).view(mrecarray)
     # Set the fill_value if needed
     if fill_value is not None:
         mrec.fill_value = fill_value
     # Now, let's deal w/ the mask
-    if mask is not ma.nomask:
+    if mask is not nomask:
         mask = np.asarray(mask)
         maskrecordlength = len(mask.dtype)
         if maskrecordlength:
@@ -708,8 +716,8 @@ def fromtextfile(fname, delimiter=None, commentchar='#', missingchar='',
         varnames = _varnames
 
     # Get the data.
-    _variables = ma.masked_array([line.strip().split(delimiter) for line in ftext
-                                 if line[0] != commentchar and len(line) > 1])
+    _variables = masked_array([line.strip().split(delimiter) for line in ftext
+                               if line[0] != commentchar and len(line) > 1])
     (_, nfields) = _variables.shape
     ftext.close()
 
@@ -725,13 +733,13 @@ def fromtextfile(fname, delimiter=None, commentchar='#', missingchar='',
             vartypes = _guessvartypes(_variables[0])
 
     # Construct the descriptor.
-    mdescr = list(zip(varnames, vartypes))
+    mdescr = [(n, f) for (n, f) in zip(varnames, vartypes)]
     mfillv = [ma.default_fill_value(f) for f in vartypes]
 
     # Get the data and the mask.
     # We just need a list of masked_arrays. It's easier to create it like that:
     _mask = (_variables.T == missingchar)
-    _datalist = [ma.masked_array(a, mask=m, dtype=t, fill_value=f)
+    _datalist = [masked_array(a, mask=m, dtype=t, fill_value=f)
                  for (a, m, t, f) in zip(_variables.T, _mask, vartypes, mfillv)]
 
     return fromarrays(_datalist, dtype=mdescr)
@@ -753,7 +761,7 @@ def addfield(mrecord, newfield, newfieldname=None):
     # Get the new data.
     # Create a new empty recarray
     newdtype = np.dtype(_data.dtype.descr + [(newfieldname, newfield.dtype)])
-    newdata = np.recarray(_data.shape, newdtype)
+    newdata = recarray(_data.shape, newdtype)
     # Add the existing field
     [newdata.setfield(_data.getfield(*f), *f)
      for f in _data.dtype.fields.values()]
@@ -763,12 +771,12 @@ def addfield(mrecord, newfield, newfieldname=None):
     # Get the new mask
     # Create a new empty recarray
     newmdtype = np.dtype([(n, np.bool) for n in newdtype.names])
-    newmask = np.recarray(_data.shape, newmdtype)
+    newmask = recarray(_data.shape, newmdtype)
     # Add the old masks
     [newmask.setfield(_mask.getfield(*f), *f)
      for f in _mask.dtype.fields.values()]
     # Add the mask of the new field
-    newmask.setfield(ma.getmaskarray(newfield),
+    newmask.setfield(getmaskarray(newfield),
                      *newmask.dtype.fields[newfieldname])
     newdata._mask = newmask
     return newdata

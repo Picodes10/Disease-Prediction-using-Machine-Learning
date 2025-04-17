@@ -627,7 +627,7 @@ def routsign2map(rout):
                                 ln = k
                                 break
                     lcb_map[ln] = un[1]
-    elif rout.get('externals'):
+    elif 'externals' in rout and rout['externals']:
         errmess('routsign2map: Confused: function %s has externals %s but no "use" statement.\n' % (
             ret['name'], repr(rout['externals'])))
     ret['callprotoargument'] = getcallprotoargument(rout, lcb_map) or ''
@@ -798,7 +798,7 @@ void
     return ret
 
 
-def common_sign2map(a, var):  # obsolete
+def common_sign2map(a, var):  # obsolute
     ret = {'varname': a, 'ctype': getctype(var)}
     if isstringarray(var):
         ret['ctype'] = 'char'

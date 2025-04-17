@@ -9,9 +9,9 @@ from numpy._typing import (
     _ArrayLikeObject_co,
 )
 
-__all__ = ["fix", "isneginf", "isposinf"]
-
 _ArrayType = TypeVar("_ArrayType", bound=NDArray[Any])
+
+__all__: list[str]
 
 @overload
 def fix(  # type: ignore[misc]

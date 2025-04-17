@@ -6,12 +6,16 @@ matplotlib.  They have been rewritten and extended for convenience.
 
 """
 import itertools
-
 import numpy as np
 import numpy.ma as ma
-import numpy.ma.mrecords as mrec
+from numpy import ndarray
+from numpy.ma import MaskedArray
+from numpy.ma.mrecords import MaskedRecords
 from numpy._core.overrides import array_function_dispatch
+from numpy._core.records import recarray
 from numpy.lib._iotools import _is_string_like
+
+_check_fill_value = np.ma.core._check_fill_value
 
 
 __all__ = [
@@ -237,7 +241,7 @@ def get_fieldstructure(adtype, lastname=None, parents=None,):
     lastname : optional
         Last processed field name (used internally during recursion).
     parents : dictionary
-        Dictionary of parent fields (used internally during recursion).
+        Dictionary of parent fields (used interbally during recursion).
 
     Examples
     --------
@@ -263,7 +267,7 @@ def get_fieldstructure(adtype, lastname=None, parents=None,):
                 parents[name] = []
             parents.update(get_fieldstructure(current, name, parents))
         else:
-            lastparent = list((parents.get(lastname, []) or []))
+            lastparent = [_ for _ in (parents.get(lastname, []) or [])]
             if lastparent:
                 lastparent.append(lastname)
             elif lastname:
@@ -330,15 +334,15 @@ def _fix_output(output, usemask=True, asrecarray=False):
     Private function: return a recarray, a ndarray, a MaskedArray
     or a MaskedRecords depending on the input parameters
     """
-    if not isinstance(output, ma.MaskedArray):
+    if not isinstance(output, MaskedArray):
         usemask = False
     if usemask:
         if asrecarray:
-            output = output.view(mrec.MaskedRecords)
+            output = output.view(MaskedRecords)
     else:
         output = ma.filled(output)
         if asrecarray:
-            output = output.view(np.recarray)
+            output = output.view(recarray)
     return output
 
 
@@ -414,7 +418,7 @@ def merge_arrays(seqarrays, fill_value=-1, flatten=False,
     if (len(seqarrays) == 1):
         seqarrays = np.asanyarray(seqarrays[0])
     # Do we have a single ndarray as input ?
-    if isinstance(seqarrays, (np.ndarray, np.void)):
+    if isinstance(seqarrays, (ndarray, np.void)):
         seqdtype = seqarrays.dtype
         # Make sure we have named fields
         if seqdtype.names is None:
@@ -425,13 +429,13 @@ def merge_arrays(seqarrays, fill_value=-1, flatten=False,
             # Find what type of array we must return
             if usemask:
                 if asrecarray:
-                    seqtype = mrec.MaskedRecords
+                    seqtype = MaskedRecords
                 else:
-                    seqtype = ma.MaskedArray
+                    seqtype = MaskedArray
             elif asrecarray:
-                seqtype = np.recarray
+                seqtype = recarray
             else:
-                seqtype = np.ndarray
+                seqtype = ndarray
             return seqarrays.view(dtype=seqdtype, type=seqtype)
         else:
             seqarrays = (seqarrays,)
@@ -455,8 +459,8 @@ def merge_arrays(seqarrays, fill_value=-1, flatten=False,
             mask = ma.getmaskarray(a).ravel()
             # Get the filling value (if needed)
             if nbmissing:
-                fval = mrec._check_fill_value(fill_value, a.dtype)
-                if isinstance(fval, (np.ndarray, np.void)):
+                fval = _check_fill_value(fill_value, a.dtype)
+                if isinstance(fval, (ndarray, np.void)):
                     if len(fval.dtype) == 1:
                         fval = fval.item()[0]
                         fmsk = True
@@ -474,15 +478,15 @@ def merge_arrays(seqarrays, fill_value=-1, flatten=False,
         output = ma.array(np.fromiter(data, dtype=newdtype, count=maxlength),
                           mask=list(_izip_records(seqmask, flatten=flatten)))
         if asrecarray:
-            output = output.view(mrec.MaskedRecords)
+            output = output.view(MaskedRecords)
     else:
         # Same as before, without the mask we don't need...
         for (a, n) in zip(seqarrays, sizes):
             nbmissing = (maxlength - n)
             data = a.ravel().__array__()
             if nbmissing:
-                fval = mrec._check_fill_value(fill_value, a.dtype)
-                if isinstance(fval, (np.ndarray, np.void)):
+                fval = _check_fill_value(fill_value, a.dtype)
+                if isinstance(fval, (ndarray, np.void)):
                     if len(fval.dtype) == 1:
                         fval = fval.item()[0]
                     else:
@@ -493,7 +497,7 @@ def merge_arrays(seqarrays, fill_value=-1, flatten=False,
         output = np.fromiter(tuple(_izip_records(seqdata, flatten=flatten)),
                              dtype=newdtype, count=maxlength)
         if asrecarray:
-            output = output.view(np.recarray)
+            output = output.view(recarray)
     # And we're done...
     return output
 
@@ -508,6 +512,10 @@ def drop_fields(base, drop_names, usemask=True, asrecarray=False):
     Return a new array with fields in `drop_names` dropped.
 
     Nested fields are supported.
+
+    .. versionchanged:: 1.18.0
+        `drop_fields` returns an array with 0 fields if all fields are dropped,
+        rather than returning ``None`` as it did previously.
 
     Parameters
     ----------
@@ -1204,7 +1212,7 @@ def apply_along_fields(func, arr):
     Returns
     -------
     out : ndarray
-       Result of the reduction operation
+       Result of the recution operation
 
     Examples
     --------
@@ -1363,7 +1371,7 @@ def stack_arrays(arrays, defaults=None, usemask=True, asrecarray=False,
                 dtype=[('A', 'S3'), ('B', '<f8'), ('C', '<f8')])
 
     """
-    if isinstance(arrays, np.ndarray):
+    if isinstance(arrays, ndarray):
         return arrays
     elif len(arrays) == 1:
         return arrays[0]
@@ -1680,6 +1688,3 @@ def rec_join(key, r1, r2, jointype='inner', r1postfix='1', r2postfix='2',
     kwargs = dict(jointype=jointype, r1postfix=r1postfix, r2postfix=r2postfix,
                   defaults=defaults, usemask=False, asrecarray=True)
     return join_by(key, r1, r2, **kwargs)
-
-
-del array_function_dispatch

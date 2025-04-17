@@ -97,6 +97,9 @@ def buildhooks(pymod):
 
     usenames = getuseblocks(pymod)
     for m in findf90modules(pymod):
+        contains_functions_or_subroutines = any(
+            item for item in m["body"] if item["block"] in ["function", "subroutine"]
+        )
         sargs, fargs, efargs, modobjs, notvars, onlyvars = [], [], [], [], [
             m['name']], []
         sargsp = []
@@ -117,9 +120,8 @@ def buildhooks(pymod):
             outmess(f"\t\t\tSkipping {m['name']} since there are no public vars/func in this module...\n")
             continue
 
-        # gh-25186
-        if m['name'] in usenames and containscommon(m):
-            outmess(f"\t\t\tSkipping {m['name']} since it is in 'use' and contains a common block...\n")
+        if m['name'] in usenames and not contains_functions_or_subroutines:
+            outmess(f"\t\t\tSkipping {m['name']} since it is in 'use'...\n")
             continue
         if onlyvars:
             outmess('\t\t  Variables: %s\n' % (' '.join(onlyvars)))

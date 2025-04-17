@@ -3,6 +3,7 @@ import gc
 import os
 import sys
 import threading
+import warnings
 
 import pytest
 

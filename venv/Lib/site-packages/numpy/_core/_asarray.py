@@ -5,7 +5,7 @@ Functions in the ``as*array`` family that promote array-likes into arrays.
 """
 from .overrides import (
     array_function_dispatch,
-    finalize_array_function_like,
+    set_array_function_like_doc,
     set_module,
 )
 from .multiarray import array, asanyarray
@@ -24,7 +24,7 @@ POSSIBLE_FLAGS = {
 }
 
 
-@finalize_array_function_like
+@set_array_function_like_doc
 @set_module('numpy')
 def require(a, dtype=None, requirements=None, *, like=None):
     """

@@ -53,7 +53,9 @@ __all__ = ['load_library', 'ndpointer', 'c_intp', 'as_ctypes', 'as_array',
            'as_ctypes_type']
 
 import os
-import numpy as np
+from numpy import (
+    integer, ndarray, dtype as _dtype, asarray, frombuffer
+)
 from numpy._core.multiarray import _flagdict, flagsobj
 
 try:
@@ -179,7 +181,7 @@ def _flags_fromnum(num):
 class _ndptr(_ndptr_base):
     @classmethod
     def from_param(cls, obj):
-        if not isinstance(obj, np.ndarray):
+        if not isinstance(obj, ndarray):
             raise TypeError("argument must be an ndarray")
         if cls._dtype_ is not None \
                and obj.dtype != cls._dtype_:
@@ -219,10 +221,10 @@ class _concrete_ndptr(_ndptr):
 
         This mirrors the `contents` attribute of a normal ctypes pointer
         """
-        full_dtype = np.dtype((self._dtype_, self._shape_))
+        full_dtype = _dtype((self._dtype_, self._shape_))
         full_ctype = ctypes.c_char * full_dtype.itemsize
         buffer = ctypes.cast(self, ctypes.POINTER(full_ctype)).contents
-        return np.frombuffer(buffer, dtype=full_dtype).squeeze(axis=0)
+        return frombuffer(buffer, dtype=full_dtype).squeeze(axis=0)
 
 
 # Factory for an array-checking class with from_param defined for
@@ -280,16 +282,16 @@ def ndpointer(dtype=None, ndim=None, shape=None, flags=None):
 
     """
 
-    # normalize dtype to dtype | None
+    # normalize dtype to an Optional[dtype]
     if dtype is not None:
-        dtype = np.dtype(dtype)
+        dtype = _dtype(dtype)
 
-    # normalize flags to int | None
+    # normalize flags to an Optional[int]
     num = None
     if flags is not None:
         if isinstance(flags, str):
             flags = flags.split(',')
-        elif isinstance(flags, (int, np.integer)):
+        elif isinstance(flags, (int, integer)):
             num = flags
             flags = _flags_fromnum(num)
         elif isinstance(flags, flagsobj):
@@ -302,7 +304,7 @@ def ndpointer(dtype=None, ndim=None, shape=None, flags=None):
                 raise TypeError("invalid flags specification") from e
             num = _num_fromflags(flags)
 
-    # normalize shape to tuple | None
+    # normalize shape to an Optional[tuple]
     if shape is not None:
         try:
             shape = tuple(shape)
@@ -366,7 +368,7 @@ if ctypes is not None:
             ct.c_float, ct.c_double,
             ct.c_bool,
         ]
-        return {np.dtype(ctype): ctype for ctype in simple_types}
+        return {_dtype(ctype): ctype for ctype in simple_types}
 
 
     _scalar_type_map = _get_scalar_type_map()
@@ -514,7 +516,7 @@ if ctypes is not None:
         <class 'struct'>
 
         """
-        return _ctype_from_dtype(np.dtype(dtype))
+        return _ctype_from_dtype(_dtype(dtype))
 
 
     def as_array(obj, shape=None):
@@ -525,26 +527,6 @@ if ctypes is not None:
 
         The shape parameter must be given if converting from a ctypes POINTER.
         The shape parameter is ignored if converting from a ctypes array
-
-        Examples
-        --------
-        Converting a ctypes integer array:
-
-        >>> import ctypes
-        >>> ctypes_array = (ctypes.c_int * 5)(0, 1, 2, 3, 4)
-        >>> np_array = np.ctypeslib.as_array(ctypes_array)
-        >>> np_array
-        array([0, 1, 2, 3, 4], dtype=int32)
-
-        Converting a ctypes POINTER:
-
-        >>> import ctypes
-        >>> buffer = (ctypes.c_int * 5)(0, 1, 2, 3, 4)
-        >>> pointer = ctypes.cast(buffer, ctypes.POINTER(ctypes.c_int))
-        >>> np_array = np.ctypeslib.as_array(pointer, (5,))
-        >>> np_array
-        array([0, 1, 2, 3, 4], dtype=int32)
-
         """
         if isinstance(obj, ctypes._Pointer):
             # convert pointers to an array of the desired shape
@@ -555,35 +537,12 @@ if ctypes is not None:
             p_arr_type = ctypes.POINTER(_ctype_ndarray(obj._type_, shape))
             obj = ctypes.cast(obj, p_arr_type).contents
 
-        return np.asarray(obj)
+        return asarray(obj)
 
 
     def as_ctypes(obj):
-        """
-        Create and return a ctypes object from a numpy array.  Actually
-        anything that exposes the __array_interface__ is accepted.
-
-        Examples
-        --------
-        Create ctypes object from inferred int ``np.array``:
-
-        >>> inferred_int_array = np.array([1, 2, 3])
-        >>> c_int_array = np.ctypeslib.as_ctypes(inferred_int_array)
-        >>> type(c_int_array)
-        <class 'c_long_Array_3'>
-        >>> c_int_array[:]
-        [1, 2, 3]
-
-        Create ctypes object from explicit 8 bit unsigned int ``np.array`` :
-
-        >>> exp_int_array = np.array([1, 2, 3], dtype=np.uint8)
-        >>> c_int_array = np.ctypeslib.as_ctypes(exp_int_array)
-        >>> type(c_int_array)
-        <class 'c_ubyte_Array_3'>
-        >>> c_int_array[:]
-        [1, 2, 3]
-
-        """
+        """Create and return a ctypes object from a numpy array.  Actually
+        anything that exposes the __array_interface__ is accepted."""
         ai = obj.__array_interface__
         if ai["strides"]:
             raise TypeError("strided arrays not supported")

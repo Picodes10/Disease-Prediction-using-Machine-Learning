@@ -1,29 +1,30 @@
-from _typeshed import StrOrBytesPath
+import os
 import subprocess
 from collections.abc import Iterable
-from typing import Literal as L, overload, TypedDict, type_check_only
+from typing import Literal as L, Any, overload, TypedDict
 
-__all__ = ["run_main", "get_include"]
+from numpy._pytesttester import PytestTester
 
-@type_check_only
 class _F2PyDictBase(TypedDict):
     csrc: list[str]
     h: list[str]
 
-@type_check_only
 class _F2PyDict(_F2PyDictBase, total=False):
     fsrc: list[str]
     ltx: list[str]
 
+__all__: list[str]
+test: PytestTester
+
 def run_main(comline_list: Iterable[str]) -> dict[str, _F2PyDict]: ...
 
 @overload
-def compile(
+def compile(  # type: ignore[misc]
     source: str | bytes,
     modulename: str = ...,
     extra_args: str | list[str] = ...,
     verbose: bool = ...,
-    source_fn: StrOrBytesPath | None = ...,
+    source_fn: None | str | bytes | os.PathLike[Any] = ...,
     extension: L[".f", ".f90"] = ...,
     full_output: L[False] = ...,
 ) -> int: ...
@@ -33,10 +34,9 @@ def compile(
     modulename: str = ...,
     extra_args: str | list[str] = ...,
     verbose: bool = ...,
-    source_fn: StrOrBytesPath | None = ...,
+    source_fn: None | str | bytes | os.PathLike[Any] = ...,
     extension: L[".f", ".f90"] = ...,
-    *,
-    full_output: L[True],
+    full_output: L[True] = ...,
 ) -> subprocess.CompletedProcess[bytes]: ...
 
 def get_include() -> str: ...
