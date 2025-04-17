@@ -5,6 +5,7 @@ from Heart_Disease_Prediction.app import heart_bp
 from Liver_Disease_Prediction.app import liver_bp
 from Parkinson_Disease.app import parkinsons_bp
 from Stroke_Risk_Prediction.app import stroke_bp
+from Asthma_Prediction.app import asthma_bp
 from gembot import chatbot_response
 
 app = Flask(__name__, 
@@ -18,6 +19,7 @@ app.register_blueprint(heart_bp, url_prefix='/heart')
 app.register_blueprint(liver_bp, url_prefix='/liver')
 app.register_blueprint(parkinsons_bp, url_prefix='/parkinsons')
 app.register_blueprint(stroke_bp, url_prefix='/stroke')
+app.register_blueprint(asthma_bp, url_prefix='/asthma')
 
 @app.route('/')
 def home():

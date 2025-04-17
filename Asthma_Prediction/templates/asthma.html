@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Asthma Prediction</title>
+  <style>
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e0f7fa, #c8e6c9);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    h2 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #34495e;
+      font-weight: 500;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #f8f9fa;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #26a69a;
+      box-shadow: 0 0 0 3px rgba(38, 166, 154, 0.1);
+    }
+
+    button {
+      width: 100%;
+      padding: 1rem;
+      background: #26a69a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #00796b;
+      transform: translateY(-2px);
+    }
+
+    .result {
+      margin-top: 2rem;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .high-risk {
+      background-color: #ffe0e0;
+      color: #c0392b;
+    }
+
+    .low-risk {
+      background-color: #e0ffe0;
+      color: #27ae60;
+    }
+
+    .error {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 1.5rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Asthma Prediction</h2>
+    <form method="POST">
+      <div class="form-group"><label>Age</label><input type="number" name="age" required></div>
+
+      <div class="form-group"><label>Gender</label>
+        <select name="gender" required>
+          <option value="">-- Select --</option>
+          <option value="0">Male</option>
+          <option value="1">Female</option>
+        </select>
+      </div>
+
+      <div class="form-group"><label>Smoking</label>
+        <select name="smoking" required>
+          <option value="">-- Select --</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <div class="form-group"><label>Dust Exposure</label>
+        <select name="dust_exposure" required>
+          <option value="">-- Select --</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <div class="form-group"><label>Family History of Asthma</label>
+        <select name="family_history" required>
+          <option value="">-- Select --</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <div class="form-group"><label>History of Allergies</label>
+        <select name="allergies" required>
+          <option value="">-- Select --</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <div class="form-group"><label>Lung Function - FEV1</label><input type="number" step="any" name="fev1" required></div>
+      <div class="form-group"><label>Lung Function - FVC</label><input type="number" step="any" name="fvc" required></div>
+
+      <div class="form-group"><label>Wheezing</label>
+        <select name="wheezing" required>
+          <option value="">-- Select --</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <div class="form-group"><label>Shortness of Breath</label>
+        <select name="shortness_of_breath" required>
+          <option value="">-- Select --</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <div class="form-group"><label>Chest Tightness</label>
+        <select name="chest_tightness" required>
+          <option value="">-- Select --</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <div class="form-group"><label>Coughing</label>
+        <select name="coughing" required>
+          <option value="">-- Select --</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <div class="form-group"><label>Nighttime Symptoms</label>
+        <select name="nighttime_symptoms" required>
+          <option value="">-- Select --</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <div class="form-group"><label>Exercise Induced Symptoms</label>
+        <select name="exercise_induced" required>
+          <option value="">-- Select --</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction %}
+    <div class="result 
+      {% if 'High Risk' in prediction %}high-risk
+      {% elif 'Low Risk' in prediction %}low-risk
+      {% else %}error
+      {% endif %}">
+      <h3>{{ prediction }}</h3>
+      <p>
+        {% if 'High Risk' in prediction %}
+          ⚠️ You might be at high risk for asthma. It's recommended to visit a pulmonologist, avoid triggers like dust, smoke, and allergens, and monitor symptoms regularly.
+        {% elif 'Low Risk' in prediction %}
+          ✅ You appear to be at low risk. Maintain a healthy lifestyle, avoid polluted environments, and keep an eye on any new symptoms.
+        {% else %}
+          ⚠️ We couldn't determine your risk level accurately. Please try again or check your inputs.
+        {% endif %}
+      </p>
+    </div>
+    {% endif %}
+  </div>
+</body>
+</html>
