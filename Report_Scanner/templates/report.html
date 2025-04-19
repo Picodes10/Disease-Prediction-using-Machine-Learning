@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Prescription Report Analyzer</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(to right, #fdfbfb, #ebedee);
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+    .card {
+      border: none;
+      border-radius: 1rem;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .custom-btn {
+      padding: 12px 30px;
+      font-size: 1rem;
+      font-weight: 500;
+      border-radius: 50px;
+      transition: 0.3s ease;
+    }
+    .custom-btn:hover {
+      background-color: #0d6efd;
+      color: #fff;
+      transform: scale(1.05);
+    }
+    .title {
+      font-weight: 700;
+      font-size: 2.2rem;
+    }
+    .section-title {
+      font-weight: 600;
+      margin-top: 2rem;
+    }
+    .results, .diagnosis {
+      margin-top: 1.5rem;
+    }
+    ul {
+      text-align: left;
+      padding-left: 1.5rem;
+    }
+    ul li {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6 text-center">
+        <h2 class="title mb-4">📄 Prescription Report Analyzer</h2>
+<form method="POST" action="{{ url_for('report_scanner.index') }}" enctype="multipart/form-data" class="p-4 bg-white rounded-4 shadow-sm">
+          <div class="mb-3">
+            <input type="file" name="report" accept=".jpg,.jpeg,.png,.pdf" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-primary custom-btn">
+            Upload & Analyze
+          </button>
+        </form>
+      </div>
+    </div>
+
+    {% if analysis %}
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card mt-4 p-4">
+          <h4 class="section-title text-center">📝 Detailed Analysis</h4>
+          <ul>
+            {% for item in analysis %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if diagnosis %}
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card mt-4 p-4">
+          <h4 class="section-title text-center">🔎 Possible Diagnosis</h4>
+          <ul>
+            {% for item in diagnosis %}
+              <li><strong>{{ item }}</strong></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</body>
+</html>

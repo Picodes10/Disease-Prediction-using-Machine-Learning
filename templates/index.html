@@ -28,7 +28,7 @@
           </li>
            <!-- NEW: Skin Disease Predictor -->
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('skin_predictor') }}">Image Scanner</a>
+            <a class="nav-link" href="{{ url_for('report_scanner.index') }}">Report Scanner</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('medibase') }}">Insights</a>
@@ -81,7 +81,7 @@
       <div class="col-md-3">
         <i class="fas fa-camera fa-2x mb-3 text-warning"></i>
         <h5>Image Scanner</h5>
-        <p>Upload a photo of a skin condition and get instant analysis and potential diagnosis suggestions.</p>
+        <p>Upload a photo/PDF and get instant analysis and potential diagnosis suggestions.</p>
       </div>
       <div class="col-md-3">
         <i class="fas fa-notes-medical fa-2x mb-3 text-success"></i>
@@ -109,8 +109,8 @@
 
     .popup {
       position: fixed;
-      left: 1575px;
-      right: 30px; 
+      /* left: 1575px; */
+      right: 150px; 
       top: 80px;
       width: 300px;
       background: #f0f8ff;
