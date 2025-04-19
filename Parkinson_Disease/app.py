@@ -23,24 +23,15 @@ required_features = [
     'spread2'
 ]
 
-# Load and preprocess data
-df = pd.read_csv(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'parkinsson.csv'))
-X = df[required_features]
-y = df['status']
+# Load pre-trained model and scaler
+model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model1.pkl')
+scaler_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scaler.pkl')
 
-# Train new scaler and model
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
+with open(model_path, 'rb') as file:
+    model = pickle.load(file)
 
-model = RandomForestClassifier(n_estimators=100, random_state=42)
-model.fit(X_scaled, y)
-
-# Save the new model and scaler
-with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model1.pkl'), 'wb') as file:
-    pickle.dump(model, file)
-
-with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scaler.pkl'), 'wb') as file:
-    pickle.dump(scaler, file)
+with open(scaler_path, 'rb') as file:
+    scaler = pickle.load(file)
 
 @parkinsons_bp.route('/', methods=['GET', 'POST'])
 def index():
