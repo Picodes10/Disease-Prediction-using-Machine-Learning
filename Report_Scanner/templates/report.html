@@ -45,6 +45,41 @@
     ul li {
       margin-bottom: 0.5rem;
     }
+    .alert-box {
+      background-color: #fff3cd;
+      border-left: 5px solid #ffc107;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 0.25rem;
+    }
+    .metric-card {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .metric-card:hover {
+      transform: translateY(-5px);
+    }
+    .metric-title {
+      color: #2c3e50;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .metric-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #3498db;
+    }
+    .recommendation-box {
+      background: #e8f4f8;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
   </style>
 </head>
 
@@ -67,13 +102,15 @@
     {% if analysis %}
     <div class="row justify-content-center">
       <div class="col-md-8">
-        <div class="card mt-4 p-4">
-          <h4 class="section-title text-center">📝 Detailed Analysis</h4>
-          <ul>
+        <div class="card mt-4">
+          <div class="card-body">
+            <h4 class="section-title text-center mb-4">📊 Comprehensive Analysis</h4>
             {% for item in analysis %}
-              <li>{{ item }}</li>
+              <div class="metric-card">
+                {{ item|safe }}
+              </div>
             {% endfor %}
-          </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -82,13 +119,24 @@
     {% if diagnosis %}
     <div class="row justify-content-center">
       <div class="col-md-8">
-        <div class="card mt-4 p-4">
-          <h4 class="section-title text-center">🔎 Possible Diagnosis</h4>
-          <ul>
+        <div class="card mt-4">
+          <div class="card-body">
+            <h4 class="section-title text-center mb-4">🔍 Clinical Assessment</h4>
             {% for item in diagnosis %}
-              <li><strong>{{ item }}</strong></li>
+              <div class="alert-box">
+                <strong>{{ item }}</strong>
+              </div>
             {% endfor %}
-          </ul>
+            <div class="recommendation-box mt-4">
+              <h5>📋 General Recommendations</h5>
+              <ul>
+                <li>Always consult with healthcare providers before making any medical decisions</li>
+                <li>Keep track of your vital signs and symptoms</li>
+                <li>Follow prescribed medication schedules</li>
+                <li>Maintain a healthy lifestyle with proper diet and exercise</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>

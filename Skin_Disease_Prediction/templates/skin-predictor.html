@@ -54,7 +54,7 @@
       <div class="col-md-8 col-lg-6 text-center">
         <h2 class="title mb-4">🩺 AI-Powered Skin Disease Detector</h2>
         <!-- Update the url_for with blueprint prefix -->
-        <form method="POST" action="{{ url_for('skin.skin-predictor') }}" enctype="multipart/form-data" class="p-4 bg-white rounded-4 shadow-sm">
+        <form method="POST" action="{{ url_for('skin.skin_predictor') }}" enctype="multipart/form-data" class="p-4 bg-white rounded-4 shadow-sm">
           <div class="mb-3">
             <input type="file" name="image" id="imageUpload" accept="image/*" class="form-control" required>
           </div>

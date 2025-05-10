@@ -7,10 +7,7 @@ import numpy as np
 import os
 import json
 
-# Initialize Flask app
-app = Flask(__name__)
-
-# Define the blueprint
+# Initialize Blueprint instead of Flask app
 skin_bp = Blueprint('skin', __name__,
                     template_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates'),
                     static_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static'))
@@ -99,7 +96,7 @@ friendly_names = {
 }
 
 
-@app.route('/skin-predictor', methods=['GET', 'POST'])
+@skin_bp.route('/', methods=['GET', 'POST'])  # Changed from @app.route('/skin-predictor')
 def skin_predictor():
     prediction = None
     confidence = None
@@ -132,3 +129,7 @@ def skin_predictor():
                            confidence=confidence,
                            filename=filename,
                            details=details)
+
+
+
+
